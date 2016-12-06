@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="12" height="8" tilewidth="8" tileheight="8" nextobjectid="1">
+ <tileset firstgid="1" name="clouds" tilewidth="8" tileheight="8" tilecount="96" columns="12">
+  <image source="clouds.png" trans="ff00e4" width="96" height="64"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="12" height="8">
+  <data encoding="csv">
+1,2,3,0,0,0,0,0,0,0,0,0,
+13,14,15,0,0,0,0,0,0,0,0,0,
+25,26,27,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+</map>
