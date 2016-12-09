@@ -1,3 +1,6 @@
+#include <BGLib.h>
+#include <BGLibConfig.h>
+
 #include <SPI.h>
 #include <TimeLib.h> //include the Arduino Time library
 #include "lib_RenderBuffer.h"
@@ -5,6 +8,12 @@
 
 TinyScreen display = TinyScreen(TinyScreenPlus);
 RenderBuffer<uint8_t,20> buffer;
+
+#define BLE_DEBUG false
+uint8_t ble_rx_buffer[21];
+uint8_t ble_rx_buffer_len = 0;
+uint8_t ble_connection_state = false;
+uint8_t ble_connection_displayed_state = true;
 
 void setup() {
     display.begin();
@@ -17,7 +26,7 @@ void setup() {
 
 void loop(void) {
   unsigned int n = millis() >> 4;
-  
+
   renderTime(n);
   renderDate(n);
 
