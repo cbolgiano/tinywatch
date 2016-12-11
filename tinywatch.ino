@@ -1,6 +1,3 @@
-#include <BGLib.h>
-#include <BGLibConfig.h>
-
 #include <SPI.h>
 #include <TimeLib.h> //include the Arduino Time library
 #include "lib_RenderBuffer.h"
