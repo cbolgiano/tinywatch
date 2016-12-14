@@ -3,7 +3,7 @@
 ...Insert Build Status...
 
 # tinywatch
-A project to create an open sourced watch that is powered by TinyCircuits TinyScreen+, TinyShield NRF8001 BLE, td2play, etc.
+A project to create an open source watch that is powered by TinyCircuits TinyScreen+, TinyShield NRF8001 BLE, td2play, etc.
 
 ## Compatible Hardware
 
