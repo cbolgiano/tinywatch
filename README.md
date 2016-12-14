@@ -20,7 +20,7 @@ A project to create an open source watch that is powered by TinyCircuits TinyScr
 ## Usage
 
 1. Clone Project
-2. Open in ```tinywatch.io``` in Arduino IDE
+2. Open ```tinywatch.io``` in Arduino IDE
 3. Choose ```Sketch``` -> ```Include Library``` -> ```Add .ZIP Libraries...```
 4. Open All .ZIP in ```/tinywatch/libs/```
 5. Attach Tinyscreen+ and BLE Nordic Tinyshield Together
