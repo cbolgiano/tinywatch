@@ -1,4 +1,4 @@
-<img src="https://olivermak.es/resources/icons/favicon32.svg"/>
+<img src="https://github.com/cbolgiano/tinywatch/blob/TW-29/img/Tiny-Watch.svg"/>
 
 ...Insert Build Status...
 
