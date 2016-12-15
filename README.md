@@ -1,4 +1,4 @@
-<img src="https://github.com/cbolgiano/tinywatch/blob/TW-29/img/Tiny-Watch.svg"/>
+<p align="center"><img src="https://github.com/cbolgiano/tinywatch/blob/TW-29/img/tinywatch.png" /> </p>
 
 ...Insert Build Status...
 
