@@ -1,5 +1,4 @@
 #include <SPI.h>
-#include <TimeLib.h> //include the Arduino Time library
 #include <BLEPeripheral.h>
 #include "lib_RenderBuffer.h"
 #include "lib_StringBuffer.h"
@@ -23,8 +22,6 @@ void setup() {
   display.setFlip(true);
   display.setBrightness(8);
   display.setBitDepth(buffer.is16bit());
-
-  setTime(13,19,55,6,3,2016); //values in the order hr,min,sec,day,month,year
 }
 
 void loop(void) {
@@ -61,13 +58,15 @@ void blePeripheralDisconnectHandler(BLECentral& central) {
   }
 }
 
-void renderTime(unsigned int n){
+//TODO: Method to render time.
+/*void renderTime(unsigned int n){
   buffer.drawText(stringBuffer.start().putDec(hour()).put(":").putDec(minute()).put(":").putDec(second()).get(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
-}
+}*/
 
-void renderDate(unsigned int n){
+//TODO: Method to render date.
+/*void renderDate(unsigned int n){
   buffer.drawText(stringBuffer.start().putDec(month()).put("-").putDec(day()).put("-").putDec(year()).get(),15,16,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
-}
+}*/
 
 
 //TODO: Method to render background.
