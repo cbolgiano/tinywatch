@@ -5,7 +5,7 @@ A project to create an open source watch that is powered by TinyCircuits TinyScr
 
 ## Compatible Hardware
 
-*[Tinyscreen+](https://tinycircuits.com/collections/all/products/tinyscreenplus)*
+*[TinyScreen+](https://tinycircuits.com/collections/all/products/tinyscreenplus)*
 
 *[BLE Nordic Tinyshield](https://tinycircuits.com/collections/all/products/bluetooth-low-energy-nordic-tinyshield)*
 
