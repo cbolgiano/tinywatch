@@ -37,7 +37,7 @@
     },
     "installed_plugins": {
         "cordova-plugin-ble": {
-            "PACKAGE_NAME": "io.cordova.hellocordova"
+            "PACKAGE_NAME": "cbolgiano.tinywatch"
         }
     },
     "dependent_plugins": {},

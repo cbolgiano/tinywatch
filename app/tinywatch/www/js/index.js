@@ -1,26 +1,46 @@
 ;(function(){
   const defaultTime = 1500;
+  let tinywatch = null;
 
   function initialize(){
-    findTinywatch();
+    if(tinywatch){
+      showMessage('Connected to tinywatch.', '', 'event received');
+    } else{
+      findTinywatch();
+    }
+  }
+
+  function reinitialize(){
+    tinywatch = null;
+    initialize();
+  }
+
+  function onClose(){
+    evothings.ble.stopScan();
+    if(tinywatch){
+      evothings.ble.close(tinywatch);  
+    }
+    navigator.app.exitApp();
   }
 
   /**
    * Find tinywatch device.
    */
   function findTinywatch(){
-    showMessage('Finding tinywatch...', 'blink', 'event listening');
-    evothings.ble.startScan(
+    if(!tinywatch){
+      showMessage('Finding tinywatch...', 'blink', 'event listening');
+      evothings.ble.startScan(
       ['CCC0'],
-      function(device){
-        showMessage("Found tinywatch!", '', 'event received');
-        evothings.ble.stopScan();
-        setTimeout(function(){connectToTinywatch(device);}, defaultTime);
-      },
-      function(error){
-        findTinywatch();
-      }
-    );
+        function(device){
+          showMessage("Found tinywatch!", '', 'event received');
+          evothings.ble.stopScan();
+          setTimeout(function(){connectToTinywatch(device);}, defaultTime);
+        },
+        function(error){
+          reinitialize();
+        }
+      );
+    }
   }
 
   /**
@@ -28,20 +48,19 @@
    * @param {Object} device device to connect to.
    */
   function connectToTinywatch(device){
-    showMessage('Connecting to tinywatch...', 'blink', 'event received');
-    setTimeout(function(){
+    setTimeout(showMessage('Connecting to tinywatch...', 'blink', 'event received'), defaultTime);
       evothings.ble.connectToDevice(device,
       function(device){
         showMessage('Connected to tinywatch.', '', 'event received');
-        //TODO: Do something when connected.
+        tinywatch = device;
       },
       function(device){
-        findTinywatch();
+        reinitialize();
       },
       function(error){
-        findTinywatch();
+        reinitialize();
       }
-    );}, defaultTime);
+    );
   }
 
   /**
@@ -61,4 +80,5 @@
   }
 
   document.addEventListener('deviceready', initialize, false);
+  document.addEventListener('backButton', onClose, false);
 })();
