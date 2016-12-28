@@ -21,7 +21,7 @@ BLEService service = BLEService("CCC0");
 //Defines behavior of BLE peripheral.
 BLECharCharacteristic characteristic = BLECharCharacteristic("CCC1", BLERead | BLENotify);
 //Description of content sent via BLE peripheral.
-BLEDescriptor desc = BLEDescriptor("2901", "value");
+BLEDescriptor desc = BLEDescriptor("CCC2", "value");
 
 void setup() {
   BLESetup();
