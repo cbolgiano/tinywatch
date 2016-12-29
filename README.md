@@ -15,16 +15,30 @@ A project to create an open source watch that is powered by TinyCircuits TinyScr
 
 *[arduino-BLEPeripheral](https://github.com/sandeepmistry/arduino-BLEPeripheral)*
 
+## Frameworks
+
+*[Apache Cordova](https://cordova.apache.org/)*
+
 ## Usage
 
-1. Clone Project
-2. Open ```tinywatch.io``` in Arduino IDE
-3. Choose ```Sketch``` -> ```Include Library``` -> ```Add .ZIP Libraries...```
-4. Open All .ZIP in ```/tinywatch/libs/```
-5. Attach Tinyscreen+ and BLE Nordic Tinyshield Together
-6. Connect Tinyscreen+ and BLE Nordic Tinyshield to Computer
-7. To Compile Choose ```Verify``` in Arduino IDE
-8. To Upload Choose ```Upload``` in Arduino IDE
+### General 
+1. Clone Project.
+
+### Android App
+1. Install *[Node.js](https://nodejs.org/en/)*. It is needed for Cordova.
+2. Open terminal or cmd and execute ```npm install -g cordova``` to install Cordova.
+3. Follow Apache's documentation on *[Installing the Requirements](https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html#installing-the-requirements)* to setup development environment for android.
+4. Go to /tinywatch/app/tinywatch.
+5. Execute ```cordova run android```. This will build and deploy the tinywatch android application to an emulator or device.
+
+### Arduino Sketch
+1. Open ```tinywatch.io``` in Arduino IDE
+2. Choose ```Sketch``` -> ```Include Library``` -> ```Add .ZIP Libraries...```
+3. Open All .ZIP in ```/tinywatch/libs/```
+4. Attach Tinyscreen+ and BLE Nordic Tinyshield Together
+5. Connect Tinyscreen+ and BLE Nordic Tinyshield to Computer
+6. To Compile Choose ```Verify``` in Arduino IDE
+7. To Upload Choose ```Upload``` in Arduino IDE
 
 ## License
 
