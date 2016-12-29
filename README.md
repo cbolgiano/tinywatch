@@ -32,7 +32,7 @@ A project to create an open source watch that is powered by TinyCircuits TinyScr
 5. Execute ```cordova run android```. This will build and deploy the tinywatch android application to an emulator or device.
 
 ### Arduino Sketch
-1. Open ```tinywatch.io``` in Arduino IDE
+1. Open ```tinywatch.ino``` in Arduino IDE
 2. Choose ```Sketch``` -> ```Include Library``` -> ```Add .ZIP Libraries...```
 3. Open All .ZIP in ```/tinywatch/libs/```
 4. Attach Tinyscreen+ and BLE Nordic Tinyshield Together
