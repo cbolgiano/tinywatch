@@ -7,6 +7,9 @@ before_install:
   - tar xf arduino-1.6.13-linux64.tar.xz
   - sudo mv arduino-1.6.13 /usr/local/share/arduino
   - sudo ln -s /usr/local/share/arduino/arduino /usr/local/bin/arduino
+  - curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+  - sudo apt-get install -y nodejs
+  - npm install -g cordova
 install:
   - arduino --pref "boardsmanager.additional.urls=http://files.tinycircuits.com/ArduinoBoards/package_tinycircuits_index.json" --save-prefs
   - arduino --pref "custom_BuildOption=tinyscreen_normal" --save-prefs
@@ -20,3 +23,4 @@ install:
   - unzip $PWD/libs/arduino-BLEPeripheral-master.zip -d /usr/local/share/arduino/libraries
 script:
   - arduino --verify --board TinyCircuits:samd:tinyscreen $PWD/tinywatch.ino
+  - cd $PWD/app/tinywatch | cordova run android
