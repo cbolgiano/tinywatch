@@ -1,4 +1,6 @@
 language: c
+node_js:
+  - "6"
 before_install:
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_1.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :1 -ac -screen 0 1280x1024x16"
   - sleep 3
@@ -7,8 +9,6 @@ before_install:
   - tar xf arduino-1.6.13-linux64.tar.xz
   - sudo mv arduino-1.6.13 /usr/local/share/arduino
   - sudo ln -s /usr/local/share/arduino/arduino /usr/local/bin/arduino
-  - curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-  - sudo apt-get install -y nodejs
   - npm install -g cordova
 install:
   - arduino --pref "boardsmanager.additional.urls=http://files.tinycircuits.com/ArduinoBoards/package_tinycircuits_index.json" --save-prefs
