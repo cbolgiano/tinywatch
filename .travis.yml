@@ -15,7 +15,6 @@ before_install:
   - sudo apt-get install libc6:i386 libstdc++6:i386
   - sudo apt-get install zlib1g:i386
   - npm install -g cordova
-  - cd ~
 install:
   - arduino --pref "boardsmanager.additional.urls=http://files.tinycircuits.com/ArduinoBoards/package_tinycircuits_index.json" --save-prefs
   - arduino --pref "custom_BuildOption=tinyscreen_normal" --save-prefs
