@@ -16,7 +16,7 @@ before_install:
   - sudo apt-get install zlib1g:i386
   - npm cache clean -f
   - npm install -g n
-  - no stable
+  - n stable
   - npm install -g cordova
 install:
   - arduino --pref "boardsmanager.additional.urls=http://files.tinycircuits.com/ArduinoBoards/package_tinycircuits_index.json" --save-prefs
