@@ -1,4 +1,4 @@
-language: c
+language: java
 jdk:
   - oraclejdk8
 before_install:
