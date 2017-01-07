@@ -9,6 +9,7 @@ before_install:
   - sudo ln -s /usr/local/share/arduino/arduino /usr/local/bin/arduino
   - wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
   - unzip tools_r25.2.3-linux.zip -d ~/android-sdk-linux
+install:
   - printf 'y' | ~/android-sdk-linux/tools/android update sdk --no-ui
   - echo "export PATH=${PATH}:~/android-sdk-linux/platform-tools:~/android-sdk-linux/tools:~/android-sdk-linux/build-tools/25.0.0/" >> ~/.bashrc
   - source ~/.bashrc
@@ -18,7 +19,6 @@ before_install:
   - nvm install stable
   - nvm use stable
   - npm install -g cordova
-install:
   - arduino --pref "boardsmanager.additional.urls=http://files.tinycircuits.com/ArduinoBoards/package_tinycircuits_index.json" --save-prefs
   - arduino --pref "custom_BuildOption=tinyscreen_normal" --save-prefs
   - arduino --install-boards arduino:samd --save-prefs
