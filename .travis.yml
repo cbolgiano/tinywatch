@@ -9,8 +9,7 @@ before_install:
   - sudo ln -s /usr/local/share/arduino/arduino /usr/local/bin/arduino
   - wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
   - unzip tools_r25.2.3-linux.zip -d android-sdk-linux
-  - cd android-sdk-linux/tools
-  - yes | ./android update sdk --no-ui
+  - printf 'y' | android-sdk-linux/tools/android update sdk --no-ui
   - echo "export PATH=${PATH}:$HOME/sdk/android-sdk-linux/platform-tools:$HOME/sdk/android-sdk-linux/tools:$HOME/sdk/android-sdk-linux/build-tools/25.0.0/" >> ~/.bashrc
   - source ~/.bashrc
   - sudo apt-get install libc6:i386 libstdc++6:i386
