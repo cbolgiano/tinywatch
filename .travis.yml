@@ -10,7 +10,7 @@ before_install:
   - wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
   - unzip tools_r25.2.3-linux.zip -d ~/android-sdk-linux
 install:
-  - printf 'y\ny\n' | ~/android-sdk-linux/tools/android update sdk --no-ui
+  - printf 'y' | printf 'y' | ~/android-sdk-linux/tools/android update sdk --no-ui
   - echo "export PATH=${PATH}:~/android-sdk-linux/platform-tools:~/android-sdk-linux/tools:~/android-sdk-linux/build-tools/25.0.0/" >> ~/.bashrc
   - source ~/.bashrc
   - sudo apt-get install libc6:i386 libstdc++6:i386
