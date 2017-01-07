@@ -1,4 +1,6 @@
-language: c
+language: java
+jdk:
+  - oraclejdk8
 before_install:
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_1.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :1 -ac -screen 0 1280x1024x16"
   - sleep 3
@@ -7,7 +9,21 @@ before_install:
   - tar xf arduino-1.6.13-linux64.tar.xz
   - sudo mv arduino-1.6.13 /usr/local/share/arduino
   - sudo ln -s /usr/local/share/arduino/arduino /usr/local/bin/arduino
+  - wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
+  - unzip tools_r25.2.3-linux.zip -d ~/android-sdk-linux
 install:
+  - ~/android-sdk-linux/tools/android list sdk -a
+  - printf 'y' | ~/android-sdk-linux/tools/android update sdk -a -u -t 2
+  - printf 'y' | ~/android-sdk-linux/tools/android update sdk -a -u -t 3
+  - printf 'y' | ~/android-sdk-linux/tools/bin/sdkmanager "platforms;android-24"
+  - export PATH=$PATH:~/android-sdk-linux/platform-tools:~/android-sdk-linux/tools:~/android-sdk-linux/build-tools/25.0.0/
+  - source ~/.bashrc
+  - sudo apt-get install libc6:i386 libstdc++6:i386
+  - sudo apt-get install zlib1g:i386
+  - . ~/.nvm/nvm.sh
+  - nvm install stable
+  - nvm use stable
+  - npm install -g cordova
   - arduino --pref "boardsmanager.additional.urls=http://files.tinycircuits.com/ArduinoBoards/package_tinycircuits_index.json" --save-prefs
   - arduino --pref "custom_BuildOption=tinyscreen_normal" --save-prefs
   - arduino --install-boards arduino:samd --save-prefs
@@ -20,3 +36,4 @@ install:
   - unzip $PWD/libs/arduino-BLEPeripheral-master.zip -d /usr/local/share/arduino/libraries
 script:
   - arduino --verify --board TinyCircuits:samd:tinyscreen $PWD/tinywatch.ino
+  - cd $PWD/app/tinywatch && cordova build android
