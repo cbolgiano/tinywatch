@@ -22,10 +22,10 @@ BLEService service = BLEService("CCC0");
 //Description of content sent via BLE peripheral.
 BLEDescriptor desc = BLEDescriptor("CCC1", "One Watch to Rule Them All!");
 //Defines behavior of BLE peripheral.
-BLELongCharacteristic time = BLECharCharacteristic("CCC2", BLERead);
+BLELongCharacteristic time = BLELongCharacteristic("CCC2", BLEWrite);
 
 void setup() {
-  BLESetup();
+  bleSetup();
   //TinyScreen display setup.
   display.begin();
   display.setFlip(true);
@@ -35,10 +35,11 @@ void setup() {
 
 void loop(void) {
   blePeripheral.poll();
-  renderTime();
+  buffer.flush(display);
+  stringBuffer.reset();
 }
 
-void BLESetup(){
+void bleSetup(){
   //Name of BLE peripheral when connecting to master.
   blePeripheral.setLocalName("tinywatch");
 
@@ -59,18 +60,18 @@ void BLESetup(){
 
 void blePeripheralConnectHandler(BLECentral& central) {
   buffer.drawText(stringBuffer.start().put("connected...").get(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
-  buffer.flush(display);
-  stringBuffer.reset();
-  if(time.written()){
-    //Central wrote new time.
-    setTime(time.getValue());
+  //Get time from central.
+  setTime(time.value());
+  if(central){
+    while(central.connected()){
+      renderTime();
+    }
   }
 }
 
 void blePeripheralDisconnectHandler(BLECentral& central) {
   buffer.drawText(stringBuffer.start().put("disconnected...").get(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
-  buffer.flush(display);
-  stringBuffer.reset();
+
 }
 
 void renderTime(){
