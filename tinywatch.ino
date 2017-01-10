@@ -1,4 +1,5 @@
 #include <SPI.h>
+#include <TimeLib.h>
 #include <BLEPeripheral.h>
 #include "lib_RenderBuffer.h"
 #include "lib_StringBuffer.h"
@@ -18,10 +19,10 @@ BLEPeripheral blePeripheral = BLEPeripheral(BLE_REQ, BLE_RDY, BLE_RST);
 
 //Uniquely identifies BLE peripheral, used for advertising.
 BLEService service = BLEService("CCC0");
-//Defines behavior of BLE peripheral.
-BLECharCharacteristic characteristic = BLECharCharacteristic("CCC1", BLERead | BLENotify);
 //Description of content sent via BLE peripheral.
-BLEDescriptor desc = BLEDescriptor("CCC2", "value");
+BLEDescriptor desc = BLEDescriptor("CCC1", "One Watch to Rule Them All!");
+//Defines behavior of BLE peripheral.
+BLELongCharacteristic time = BLECharCharacteristic("CCC2", BLERead);
 
 void setup() {
   BLESetup();
@@ -34,6 +35,7 @@ void setup() {
 
 void loop(void) {
   blePeripheral.poll();
+  renderTime();
 }
 
 void BLESetup(){
@@ -44,8 +46,8 @@ void BLESetup(){
   blePeripheral.setAdvertisedServiceUuid(service.uuid());
   //Adding attributes for BLE peripheral.
   blePeripheral.addAttribute(service);
-  blePeripheral.addAttribute(characteristic);
   blePeripheral.addAttribute(desc);
+  blePeripheral.addAttribute(time);
 
   //Bind events for connects and disconnects.
   blePeripheral.setEventHandler(BLEConnected, blePeripheralConnectHandler);
@@ -56,25 +58,24 @@ void BLESetup(){
 }
 
 void blePeripheralConnectHandler(BLECentral& central) {
-  if (central){
-    buffer.drawText(stringBuffer.start().put("connected...").get(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
-    buffer.flush(display);
-    stringBuffer.reset();
+  buffer.drawText(stringBuffer.start().put("connected...").get(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
+  buffer.flush(display);
+  stringBuffer.reset();
+  if(time.written()){
+    //Central wrote new time.
+    setTime(time.getValue());
   }
 }
 
 void blePeripheralDisconnectHandler(BLECentral& central) {
-  if (central){
-    buffer.drawText(stringBuffer.start().put("disconnected...").get(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
-    buffer.flush(display);
-    stringBuffer.reset();
-  }
+  buffer.drawText(stringBuffer.start().put("disconnected...").get(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
+  buffer.flush(display);
+  stringBuffer.reset();
 }
 
-//TODO: Method to render time.
-/*void renderTime(unsigned int n){
+void renderTime(){
   buffer.drawText(stringBuffer.start().putDec(hour()).put(":").putDec(minute()).put(":").putDec(second()).get(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
-}*/
+}
 
 //TODO: Method to render date.
 /*void renderDate(unsigned int n){
