@@ -22,24 +22,25 @@ BLEService service = BLEService("CCC0");
 //Description of content sent via BLE peripheral.
 BLEDescriptor desc = BLEDescriptor("CCC1", "One Watch to Rule Them All!");
 //Time Characteristic
-BLELongCharacteristic time = BLELongCharacteristic("CCC2", BLEWrite);
+BLELongCharacteristic time = BLELongCharacteristic("CCC2", BLERead | BLEWrite);
 
 void setup() {
-  bleSetup();
   //TinyScreen display setup.
   display.begin();
   display.setFlip(true);
   display.setBrightness(8);
   display.setBitDepth(buffer.is16bit());
+  bleSetup();
 }
 
 void loop(void) {
   blePeripheral.poll();
   renderTime();
-  refreshScreen();
 }
 
 void bleSetup(){
+  messageWithSecondDelay("searching...");
+  
   //Name of BLE peripheral when connecting to master.
   blePeripheral.setLocalName("tinywatch");
 
@@ -59,31 +60,39 @@ void bleSetup(){
 }
 
 void blePeripheralConnectHandler(BLECentral& central) {
-  buffer.drawText(stringBuffer.start().put("connected...").get(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
+  messageWithSecondDelay("connected...");
   //Get initial time from central.
   setTime(time.value());
 }
 
 void blePeripheralDisconnectHandler(BLECentral& central) {
-  buffer.drawText(stringBuffer.start().put("disconnected...").get(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
+  messageWithSecondDelay("disconnected...");
+  messageWithSecondDelay("searching...");
 }
 
 void renderTime(){
-  if(time.written()){
-    buffer.drawText(stringBuffer.start().putDec(hour()).put(":").putDec(minute()).put(":").putDec(second()).get(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);    
+  if(time.value()){
+    buffer.drawText(stringBuffer.start().put(time.value()).get(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
+    //buffer.drawText(stringBuffer.start().putDec(hour()).put(":").putDec(minute()).put(":").putDec(second()).get(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
+    refreshScreen();
   }
 }
 
 void refreshScreen(){
   buffer.flush(display);
-  stringBuffer.reset();  
+  stringBuffer.reset();
+}
+
+void messageWithSecondDelay(const char* msg){
+  buffer.drawText(stringBuffer.start().put(msg).get(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
+  refreshScreen();
+  delay(1000);
 }
 
 //TODO: Method to render date.
 /*void renderDate(unsigned int n){
   buffer.drawText(stringBuffer.start().putDec(month()).put("-").putDec(day()).put("-").putDec(year()).get(),15,16,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
 }*/
-
 
 //TODO: Method to render background.
 
