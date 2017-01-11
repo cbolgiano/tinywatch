@@ -5,6 +5,7 @@
   function initialize(){
     if(tinywatch){
       showMessage('Connected to tinywatch.', '', 'event received');
+      sendTime();
     } else{
       findTinywatch();
     }
@@ -18,7 +19,7 @@
   function onClose(){
     evothings.ble.stopScan();
     if(tinywatch){
-      evothings.ble.close(tinywatch);  
+      evothings.ble.close(tinywatch);
     }
     navigator.app.exitApp();
   }
@@ -77,6 +78,19 @@
       document.querySelector('#message').className = className;
     }
     document.querySelector('#message').innerHTML = text;
+  }
+
+  function sendTime(){
+    if(tinywatch){
+      var service = evothings.ble.getService(tinywatch, "CCC0");
+      var characteristic = evothings.ble.getCharacteristic(service, "CCC2");
+      evothings.ble.writeCharacterisitic(
+        tinywatch
+      , characteristic
+      , (new Date()).getTime()
+      , null
+      , null);
+    }
   }
 
   document.addEventListener('deviceready', initialize, false);
