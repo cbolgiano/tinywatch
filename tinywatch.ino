@@ -1,6 +1,7 @@
-#include <SPI.h>
 #include <TimeLib.h>
+#include <SPI.h>
 #include <BLEPeripheral.h>
+#include "BLESerial.h"
 #include "lib_RenderBuffer.h"
 #include "lib_StringBuffer.h"
 
@@ -14,68 +15,98 @@ RenderBuffer<uint8_t,20> buffer;
 #define BLE_RDY 2
 #define BLE_RST 9
 
-//Instantiate BLE peripheral.
-BLEPeripheral blePeripheral = BLEPeripheral(BLE_REQ, BLE_RDY, BLE_RST);
-
-//Uniquely identifies BLE peripheral, used for advertising.
-BLEService service = BLEService("CCC0");
-//Description of content sent via BLE peripheral.
-BLEDescriptor desc = BLEDescriptor("CCC1", "One Watch to Rule Them All!");
-//Time Characteristic
-BLELongCharacteristic time = BLELongCharacteristic("CCC2", BLERead | BLEWrite);
-
+BLESerial BLESerial(BLE_REQ, BLE_RDY, BLE_RST);
+String value = "";
+int hours = 0;
+int minutes = 0;
+int seconds = 0;
+int isTimeSet = 0;
+  
 void setup() {
   //TinyScreen display setup.
   display.begin();
   display.setFlip(true);
-  display.setBrightness(8);
+  display.setBrightness(10);
   display.setBitDepth(buffer.is16bit());
+    
   bleSetup();
 }
 
-void loop(void) {
-  blePeripheral.poll();
-  renderTime();
-}
-
 void bleSetup(){
-  messageWithSecondDelay("searching...");
-  
   //Name of BLE peripheral when connecting to master.
-  blePeripheral.setLocalName("tinywatch");
-
-  //Setting advertising id from service.
-  blePeripheral.setAdvertisedServiceUuid(service.uuid());
-  //Adding attributes for BLE peripheral.
-  blePeripheral.addAttribute(service);
-  blePeripheral.addAttribute(desc);
-  blePeripheral.addAttribute(time);
-
-  //Bind events for connects and disconnects.
-  blePeripheral.setEventHandler(BLEConnected, blePeripheralConnectHandler);
-  blePeripheral.setEventHandler(BLEDisconnected, blePeripheralDisconnectHandler);
-
+  BLESerial.setLocalName("tinywatch");
+  
   //Start BLE service.
-  blePeripheral.begin();
+  BLESerial.begin();
 }
 
-void blePeripheralConnectHandler(BLECentral& central) {
-  messageWithSecondDelay("connected...");
-  //Get initial time from central.
-  setTime(time.value());
+void loop() {
+  BLECentral central = BLESerial.central();
+  if(central){
+    messageWithSecondDelay("connected...");
+    while(central.connected()){
+      read();
+      renderTime();
+    }
+    messageWithSecondDelay("disconnected...");
+  } else{    
+    messageWithSecondDelay("searching...");
+  }
 }
 
-void blePeripheralDisconnectHandler(BLECentral& central) {
-  messageWithSecondDelay("disconnected...");
-  messageWithSecondDelay("searching...");
+void read() {
+  if (BLESerial) {
+    String receivedValue = "";
+    int byte;
+    while ((byte = BLESerial.read()) > 0){
+      receivedValue += (char)byte;
+    }
+
+    if(receivedValue.length() > 0){
+      if(receivedValue.substring(0, 2) == "T:"){
+        parseRXForTime(receivedValue);
+      } else{
+        value = receivedValue;
+      }
+    }
+    BLESerial.flush();
+  }
+
+  if(value.length() > 0){
+    messageWithSecondDelay(value);
+  }
+}
+
+void parseRXForTime(String receivedValue){
+  for(int i = 0; i < receivedValue.length(); i++){
+    if(receivedValue.substring(i, i+2) == "H:"){
+      hours = receivedValue.substring(i+2, i+4).toInt();
+    } else if(receivedValue.substring(i, i+2) == "m:"){
+      minutes = receivedValue.substring(i+2, i+4).toInt();
+    } else if(receivedValue.substring(i, i+2) == "S:"){
+      seconds = receivedValue.substring(i+2, i+4).toInt();
+    }
+  }
+
+  if(!isTimeSet){
+    if(hours && minutes && seconds){
+      setTime(hours, minutes, seconds, 0, 0, 0);
+      isTimeSet = 1;
+    }
+  }
 }
 
 void renderTime(){
-  if(time.value()){
-    buffer.drawText(stringBuffer.start().put(time.value()).get(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
-    //buffer.drawText(stringBuffer.start().putDec(hour()).put(":").putDec(minute()).put(":").putDec(second()).get(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
+  if(isTimeSet){
+    buffer.drawText(stringBuffer.start().putDec(hour()).put(":").putDec(minute()).put(":").putDec(second()).get(),96/2,96/2,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
     refreshScreen();
   }
+}
+
+void messageWithSecondDelay(String msg){
+  buffer.drawText(msg.c_str(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
+  refreshScreen();
+  delay(1000);
 }
 
 void refreshScreen(){
@@ -83,14 +114,8 @@ void refreshScreen(){
   stringBuffer.reset();
 }
 
-void messageWithSecondDelay(const char* msg){
-  buffer.drawText(stringBuffer.start().put(msg).get(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
-  refreshScreen();
-  delay(1000);
-}
-
 //TODO: Method to render date.
-/*void renderDate(unsigned int n){
+/*void renderDate(){
   buffer.drawText(stringBuffer.start().putDec(month()).put("-").putDec(day()).put("-").putDec(year()).get(),15,16,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
 }*/
 

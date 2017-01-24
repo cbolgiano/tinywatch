@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="cbolgiano.tinywatch" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <feature name="BLE">
-        <param name="android-package" value="com.evothings.BLE" />
+        <param name="android-package" value="com.megster.cordova.ble.central.BLECentralPlugin" />
     </feature>
     <name>tinywatch</name>
     <description>

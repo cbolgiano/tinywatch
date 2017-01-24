@@ -1,98 +1,94 @@
-;(function(){
-  const defaultTime = 1500;
-  let tinywatch = null;
+/**
+ * Show message.
+ * @param {String} text Text to show.
+ * @param {String} containerClassName CSS classes for message container.
+ * @param {String} className CSS classes for message.
+ */
+function showMessage(text, containerClassName, className){
+  if(containerClassName !== null || containerClassName !== undefined){
+    document.querySelector('#messageContainer').className = containerClassName;
+  }
+  if(className){
+    document.querySelector('#message').className = className;
+  }
+  document.querySelector('#message').innerHTML = text;
+}
 
-  function initialize(){
-    if(tinywatch){
-      showMessage('Connected to tinywatch.', '', 'event received');
-      sendTime();
-    } else{
-      findTinywatch();
+var defaultTime = 1500;
+
+var tinywatch = {
+  uuid: 'CCC0',
+  characteristics: {
+    time: {
+      uuid: 'CCC2'
     }
-  }
+  },
+  id: null
+};
 
-  function reinitialize(){
-    tinywatch = null;
-    initialize();
-  }
+var app = {
+  initialize: function(){
+    this.bindEvents();
+  },
+  bindEvents: function(){
+    document.addEventListener('deviceready', this.onDeviceReady, false);
+  },
+  onDeviceReady: function() {
+    app.scan();
+  },
+  scan: function() {
+    showMessage('Finding tinywatch...', 'blink', 'event listening');
 
-  function onClose(){
-    evothings.ble.stopScan();
-    if(tinywatch){
-      evothings.ble.close(tinywatch);
+    var foundTinywatch = false;
+
+    function onScan(peripheral) {
+      showMessage('Found tinywatch!', 'blink', 'event listening');
+  
+      foundTinywatch = true;
+
+      ble.connect(peripheral.id, app.onConnect, app.onDisconnect);
     }
-    navigator.app.exitApp();
-  }
 
-  /**
-   * Find tinywatch device.
-   */
-  function findTinywatch(){
-    if(!tinywatch){
-      showMessage('Finding tinywatch...', 'blink', 'event listening');
-      evothings.ble.startScan(
-      ['CCC0'],
-        function(device){
-          showMessage("Found tinywatch!", '', 'event received');
-          evothings.ble.stopScan();
-          setTimeout(function(){connectToTinywatch(device);}, defaultTime);
-        },
-        function(error){
-          reinitialize();
-        }
-      );
+    function scanFailure(reason) {
+      app.scan();
     }
-  }
+    
+    ble.scan([tinywatch.uuid], 5, onScan, scanFailure);
 
-  /**
-   * Connect to tinywatch device.
-   * @param {Object} device device to connect to.
-   */
-  function connectToTinywatch(device){
-    setTimeout(showMessage('Connecting to tinywatch...', 'blink', 'event received'), defaultTime);
-      evothings.ble.connectToDevice(device,
-      function(device){
-        showMessage('Connected to tinywatch.', '', 'event received');
-        tinywatch = device;
-      },
-      function(device){
-        reinitialize();
-      },
-      function(error){
-        reinitialize();
-      }
-    );
-  }
-
-  /**
-   * Show message.
-   * @param {String} text Text to show.
-   * @param {String} containerClassName CSS classes for message container.
-   * @param {String} className CSS classes for message.
-   */
-  function showMessage(text, containerClassName, className){
-    if(containerClassName !== null || containerClassName !== undefined){
-      document.querySelector('#messageContainer').className = containerClassName;
+     setTimeout(function() {
+       if (!foundTinywatch) {
+         app.scan();
+       }
+     }, 5000);
+  },
+  onConnect: function(peripheral) {
+    tinywatch.id = peripheral.id;
+    showMessage('Connected to tinywatch.', '', 'event received');
+    app.writeTime(peripheral);
+  },
+  onDisconnect: function(reason) {
+    app.scan();
+  },
+  writeTime: function(p){
+    function success(){
+      showMessage('Successfully wrote time.', '', 'event received');
     }
-    if(className){
-      document.querySelector('#message').className = className;
-    }
-    document.querySelector('#message').innerHTML = text;
-  }
 
-  function sendTime(){
-    if(tinywatch){
-      var service = evothings.ble.getService(tinywatch, "CCC0");
-      var characteristic = evothings.ble.getCharacteristic(service, "CCC2");
-      evothings.ble.writeCharacterisitic(
-        tinywatch
-      , characteristic
-      , (new Date()).getTime()
-      , null
-      , null);
+    function failure(reason){
+      showMessage('Failed to write time.', '', 'event received');
     }
+    var date = new Date();
+    var hours = "H:" + date.getHours();
+    var minutes = "m:" + date.getMinutes();
+    var seconds = "S:" + date.getSeconds();
+    var timeString = "T:" + hours + minutes + seconds;
+          
+    var data = new Uint8Array(timeString.length);
+    for(var i = 0; i < timeString.length; i++){
+      data[i] = timeString.charCodeAt(i);
+    }
+    ble.writeWithoutResponse(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.time.uuid, data.buffer, success, failure);
   }
+};
 
-  document.addEventListener('deviceready', initialize, false);
-  document.addEventListener('backButton', onClose, false);
-})();
+app.initialize();
