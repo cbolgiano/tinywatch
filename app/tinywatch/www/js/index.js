@@ -14,6 +14,19 @@ function showMessage(text, containerClassName, className){
   document.querySelector('#message').innerHTML = text;
 }
 
+/**
+ * Number to 4 byte ArrayBuffer.
+ * @param {Number} num Number to convert to 4 byte ArrayBuffer.
+ * @return ArrayBuffer
+ */
+function toUint32ArrayBuffer (num) {
+  var ab = new ArrayBuffer(4); // an Int32 takes 4 bytes
+  var view = new DataView(ab);
+  view.setUint32(0, num, false); // byteOffset = 0; litteEndian = false
+      
+  return ab;
+}
+
 var defaultTime = 1500;
 
 var tinywatch = {
@@ -64,12 +77,12 @@ var app = {
   onConnect: function(peripheral) {
     tinywatch.id = peripheral.id;
     showMessage('Connected to tinywatch.', '', 'event received');
-    app.writeTime(peripheral);
+    app.writeTime();
   },
   onDisconnect: function(reason) {
     app.scan();
   },
-  writeTime: function(p){
+  writeTime: function(){
     function success(){
 //      showMessage('Successfully wrote time.' + JSON.stringify(p), '', 'event received');
     }
@@ -78,21 +91,13 @@ var app = {
 //      showMessage('Failed to write time.' + JSON.stringify(p), '', 'event received');
     }
     
-    function toArrayBuffer (num) {
-      var ab = new ArrayBuffer(4); // an Int32 takes 4 bytes
-      var view = new DataView(ab);
-      view.setUint32(0, num, false); // byteOffset = 0; litteEndian = false
-      
-      return view.buffer;
-    }
-
+    //Get local date to send to tinywatch.
     navigator.globalization.dateToString(new Date(), function(date){
       var timezoneOffset = new Date(date.value).getTimezoneOffset() * 60000;
-      showMessage(timezoneOffset, '', 'event received');
       var now = (Date.now() - timezoneOffset) / 1000;
-      var dataToSend = toArrayBuffer(now);
+      var dataToSend = toUint32ArrayBuffer(now);
       ble.writeWithoutResponse(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.time.uuid, dataToSend, success, failure);
-    }, function(){showMessage('Failed to get local time', '', 'event received');});
+    }, function(){app.writeTime()});
   }
 };
 
