@@ -1,7 +1,6 @@
 #include <TimeLib.h>
 #include <SPI.h>
 #include <BLEPeripheral.h>
-#include "BLESerial.h"
 #include "lib_RenderBuffer.h"
 #include "lib_StringBuffer.h"
 
@@ -15,12 +14,13 @@ RenderBuffer<uint8_t,20> buffer;
 #define BLE_RDY 2
 #define BLE_RST 9
 
-BLESerial BLESerial(BLE_REQ, BLE_RDY, BLE_RST);
-String value = "";
-int hours = 0;
-int minutes = 0;
-int seconds = 0;
-int isTimeSet = 0;
+//Instantiate BLE peripheral.
+BLEPeripheral blePeripheral = BLEPeripheral(BLE_REQ, BLE_RDY, BLE_RST);
+
+//Uniquely identifies BLE peripheral, used for advertising.
+BLEService service = BLEService("CCC0");
+//Time Characteristic
+BLELongCharacteristic timeCharacteristic = BLELongCharacteristic("CCC2", BLEWriteWithoutResponse);
   
 void setup() {
   //TinyScreen display setup.
@@ -34,73 +34,45 @@ void setup() {
 
 void bleSetup(){
   //Name of BLE peripheral when connecting to master.
-  BLESerial.setLocalName("tinywatch");
+  blePeripheral.setDeviceName("tinywatch");
+  blePeripheral.setAppearance(0xC0);
+
+  //Setting advertising id from service.
+  blePeripheral.setAdvertisedServiceUuid(service.uuid());
+  //Adding attributes for BLE peripheral.
+  blePeripheral.addAttribute(service);
+  blePeripheral.addAttribute(timeCharacteristic);
+
+  //Bind events for connects and disconnects.
+  blePeripheral.setEventHandler(BLEConnected, blePeripheralConnectHandler);
+  blePeripheral.setEventHandler(BLEDisconnected, blePeripheralDisconnectHandler);
+  
+  timeCharacteristic.setEventHandler(BLEWritten, setTimeHandler);
   
   //Start BLE service.
-  BLESerial.begin();
+  blePeripheral.begin();
+  messageWithSecondDelay("searching...");
 }
 
 void loop() {
-  BLECentral central = BLESerial.central();
-  if(central){
-    messageWithSecondDelay("connected...");
-    while(central.connected()){
-      read();
-      renderTime();
-    }
-    messageWithSecondDelay("disconnected...");
-  } else{    
-    messageWithSecondDelay("searching...");
-  }
+  blePeripheral.poll();
+  renderTime();
+  refreshScreen();
 }
 
-void read() {
-  if (BLESerial) {
-    String receivedValue = "";
-    int byte;
-    while ((byte = BLESerial.read()) > 0){
-      receivedValue += (char)byte;
-    }
-
-    if(receivedValue.length() > 0){
-      if(receivedValue.substring(0, 2) == "T:"){
-        parseRXForTime(receivedValue);
-      } else{
-        value = receivedValue;
-      }
-    }
-    BLESerial.flush();
-  }
-
-  if(value.length() > 0){
-    messageWithSecondDelay(value);
-  }
+void blePeripheralConnectHandler(BLECentral& central) {
+  messageWithSecondDelay("connected...");
 }
 
-void parseRXForTime(String receivedValue){
-  for(int i = 0; i < receivedValue.length(); i++){
-    if(receivedValue.substring(i, i+2) == "H:"){
-      hours = receivedValue.substring(i+2, i+4).toInt();
-    } else if(receivedValue.substring(i, i+2) == "m:"){
-      minutes = receivedValue.substring(i+2, i+4).toInt();
-    } else if(receivedValue.substring(i, i+2) == "S:"){
-      seconds = receivedValue.substring(i+2, i+4).toInt();
-    }
-  }
-
-  if(!isTimeSet){
-    if(hours && minutes && seconds){
-      setTime(hours, minutes, seconds, 0, 0, 0);
-      isTimeSet = 1;
-    }
-  }
+void blePeripheralDisconnectHandler(BLECentral& central) {
+  messageWithSecondDelay("disconnected...");
+  messageWithSecondDelay("searching...");
 }
 
-void renderTime(){
-  if(isTimeSet){
-    buffer.drawText(stringBuffer.start().putDec(hour()).put(":").putDec(minute()).put(":").putDec(second()).get(),96/2,96/2,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
-    refreshScreen();
-  }
+void setTimeHandler(BLECentral& central, BLECharacteristic& characteristic){
+  messageWithSecondDelay("written...");
+  setTime(timeCharacteristic.valueBE());
+  messageWithSecondDelay("time written...");
 }
 
 void messageWithSecondDelay(String msg){
@@ -112,6 +84,11 @@ void messageWithSecondDelay(String msg){
 void refreshScreen(){
   buffer.flush(display);
   stringBuffer.reset();
+}
+
+//TODO: Method to render date.
+void renderTime(){
+  buffer.drawText(((String)hour() + ":" + (String)minute() + ":" + (String)second()).c_str(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
 }
 
 //TODO: Method to render date.

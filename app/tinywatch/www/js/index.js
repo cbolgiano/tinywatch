@@ -71,23 +71,24 @@ var app = {
   },
   writeTime: function(p){
     function success(){
-      showMessage('Successfully wrote time.', '', 'event received');
+      showMessage('Successfully wrote time.' + JSON.stringify(p), '', 'event received');
     }
 
     function failure(reason){
-      showMessage('Failed to write time.', '', 'event received');
+      showMessage('Failed to write time.' + JSON.stringify(p), '', 'event received');
     }
-    var date = new Date();
-    var hours = "H:" + date.getHours();
-    var minutes = "m:" + date.getMinutes();
-    var seconds = "S:" + date.getSeconds();
-    var timeString = "T:" + hours + minutes + seconds;
-          
-    var data = new Uint8Array(timeString.length);
-    for(var i = 0; i < timeString.length; i++){
-      data[i] = timeString.charCodeAt(i);
+    
+    function toArrayBuffer (num) {
+      var ab = new ArrayBuffer(4); // an Int32 takes 4 bytes
+      var view = new DataView(ab);
+      view.setUint32(0, num, false); // byteOffset = 0; litteEndian = false
+      
+      return view.buffer;
     }
-    ble.writeWithoutResponse(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.time.uuid, data.buffer, success, failure);
+
+    var now = Date.now() / 1000;
+    var dataToSend = toArrayBuffer(now);
+    ble.writeWithoutResponse(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.time.uuid, dataToSend, success, failure);
   }
 };
 
