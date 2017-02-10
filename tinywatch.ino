@@ -20,8 +20,8 @@ BLEPeripheral blePeripheral = BLEPeripheral(BLE_REQ, BLE_RDY, BLE_RST);
 //Uniquely identifies BLE peripheral, used for advertising.
 BLEService service = BLEService("CCC0");
 //Time Characteristic
-BLELongCharacteristic timeCharacteristic = BLELongCharacteristic("CCC2", BLEWriteWithoutResponse);
-  
+BLELongCharacteristic timeCharacteristic = BLELongCharacteristic("CCC2", BLEWrite);
+
 void setup() {
   //TinyScreen display setup.
   display.begin();

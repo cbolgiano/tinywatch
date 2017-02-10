@@ -1,3 +1,18 @@
+var defaultTime = 1500;
+var tenMinutes = 600000;
+var thirtySeconds = 30000;
+var fiveSeconds = 5000;
+
+var tinywatch = {
+  uuid: 'CCC0',
+  characteristics: {
+    time: {
+      uuid: 'CCC2'
+    }
+  },
+  id: null
+};
+
 /**
  * Show message.
  * @param {String} text Text to show.
@@ -26,18 +41,6 @@ function toUint32ArrayBuffer (num) {
       
   return ab;
 }
-
-var defaultTime = 1500;
-
-var tinywatch = {
-  uuid: 'CCC0',
-  characteristics: {
-    time: {
-      uuid: 'CCC2'
-    }
-  },
-  id: null
-};
 
 var app = {
   initialize: function(){
@@ -72,7 +75,7 @@ var app = {
        if (!foundTinywatch) {
          app.scan();
        }
-     }, 5000);
+     }, fiveSeconds);
   },
   onConnect: function(peripheral) {
     tinywatch.id = peripheral.id;
@@ -84,19 +87,28 @@ var app = {
   },
   writeTime: function(){
     function success(){
-//      showMessage('Successfully wrote time.' + JSON.stringify(p), '', 'event received');
+      setTimeout(function() {
+        app.writeTime();
+      }, tenMinutes);
     }
 
     function failure(reason){
-//      showMessage('Failed to write time.' + JSON.stringify(p), '', 'event received');
+      setTimeout(function() {
+        app.writeTime();
+      }, thirtySeconds);
     }
-    
+
+    //Get local date to send to tinywatch.
     navigator.globalization.dateToString(new Date(), function(date){
       var timezoneOffset = new Date(date.value).getTimezoneOffset() * 60000;
       var now = (Date.now() - timezoneOffset) / 1000;
       var dataToSend = toUint32ArrayBuffer(now);
-      ble.writeWithoutResponse(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.time.uuid, dataToSend, success, failure);
-    }, function(){app.writeTime()});
+      ble.write(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.time.uuid, dataToSend, success, failure);
+    }, function(){      
+      setTimeout(function() {
+        app.writeTime();
+      }, thirtySeconds);
+    });
   }
 };
 
