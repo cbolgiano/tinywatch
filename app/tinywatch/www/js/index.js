@@ -71,11 +71,11 @@ var app = {
   },
   writeTime: function(p){
     function success(){
-      showMessage('Successfully wrote time.' + JSON.stringify(p), '', 'event received');
+//      showMessage('Successfully wrote time.' + JSON.stringify(p), '', 'event received');
     }
 
     function failure(reason){
-      showMessage('Failed to write time.' + JSON.stringify(p), '', 'event received');
+//      showMessage('Failed to write time.' + JSON.stringify(p), '', 'event received');
     }
     
     function toArrayBuffer (num) {
@@ -86,9 +86,13 @@ var app = {
       return view.buffer;
     }
 
-    var now = Date.now() / 1000;
-    var dataToSend = toArrayBuffer(now);
-    ble.writeWithoutResponse(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.time.uuid, dataToSend, success, failure);
+    navigator.globalization.dateToString(new Date(), function(date){
+      var timezoneOffset = new Date(date.value).getTimezoneOffset() * 60000;
+      showMessage(timezoneOffset, '', 'event received');
+      var now = (Date.now() - timezoneOffset) / 1000;
+      var dataToSend = toArrayBuffer(now);
+      ble.writeWithoutResponse(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.time.uuid, dataToSend, success, failure);
+    }, function(){showMessage('Failed to get local time', '', 'event received');});
   }
 };
 

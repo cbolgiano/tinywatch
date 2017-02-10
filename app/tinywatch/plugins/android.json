@@ -9,6 +9,9 @@
     "installed_plugins": {
         "cordova-plugin-ble-central": {
             "PACKAGE_NAME": "cbolgiano.tinywatch"
+        },
+        "cordova-plugin-globalization": {
+            "PACKAGE_NAME": "cbolgiano.tinywatch"
         }
     },
     "dependent_plugins": {
