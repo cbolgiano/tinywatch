@@ -8,6 +8,7 @@
 TinyScreen display = TinyScreen(TinyScreenPlus);
 //Buffer used for drawing.
 RenderBuffer<uint8_t,20> buffer;
+char isTimeSet = 0;
 
 //Pinouts for TinyShield BLE.
 #define BLE_REQ 10
@@ -34,7 +35,7 @@ void setup() {
 
 void bleSetup(){
   //Name of BLE peripheral when connecting to master.
-  blePeripheral.setDeviceName("tinywatch");
+  blePeripheral.setLocalName("tinywatch");
   blePeripheral.setAppearance(0xC0);
 
   //Setting advertising id from service.
@@ -51,12 +52,19 @@ void bleSetup(){
   
   //Start BLE service.
   blePeripheral.begin();
-  messageWithSecondDelay("searching...");
 }
 
 void loop() {
   blePeripheral.poll();
-  renderTime();
+  BLECentral central = blePeripheral.central();
+  if(central){
+    while(central.connected()){
+      blePeripheral.poll();
+      renderTime();
+      refreshScreen();
+    }
+  }
+  buffer.drawText("searching...",15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
   refreshScreen();
 }
 
@@ -66,13 +74,11 @@ void blePeripheralConnectHandler(BLECentral& central) {
 
 void blePeripheralDisconnectHandler(BLECentral& central) {
   messageWithSecondDelay("disconnected...");
-  messageWithSecondDelay("searching...");
 }
 
 void setTimeHandler(BLECentral& central, BLECharacteristic& characteristic){
-  messageWithSecondDelay("written...");
   setTime(timeCharacteristic.valueBE());
-  messageWithSecondDelay("time written...");
+  isTimeSet = 1;
 }
 
 void messageWithSecondDelay(String msg){
@@ -86,9 +92,10 @@ void refreshScreen(){
   stringBuffer.reset();
 }
 
-//TODO: Method to render date.
 void renderTime(){
-  buffer.drawText(((String)hour() + ":" + (String)minute() + ":" + (String)second()).c_str(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
+  if(isTimeSet){
+    buffer.drawText(((String)hour() + ":" + (String)minute() + ":" + (String)second()).c_str(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);    
+  }
 }
 
 //TODO: Method to render date.
