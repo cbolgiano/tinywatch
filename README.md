@@ -23,7 +23,7 @@ A project to create an open source watch that is powered by TinyCircuits TinyScr
 
 ## Plugins
 
-*[cordova-ble](https://github.com/evothings/cordova-ble)*
+*[cordova-plugin-ble-central](https://github.com/don/cordova-plugin-ble-central)*
 
 ## Usage
 
