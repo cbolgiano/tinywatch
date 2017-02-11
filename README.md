@@ -9,15 +9,21 @@ A project to create an open source watch that is powered by TinyCircuits TinyScr
 
 *[BLE Nordic Tinyshield](https://tinycircuits.com/collections/all/products/bluetooth-low-energy-nordic-tinyshield)*
 
-## External Libs
+## External Libraries
 
 *[td2play](https://github.com/zet23t/td2play)*
 
 *[arduino-BLEPeripheral](https://github.com/sandeepmistry/arduino-BLEPeripheral)*
 
+*[Time](https://github.com/PaulStoffregen/Time)*
+
 ## Frameworks
 
 *[Apache Cordova](https://cordova.apache.org/)*
+
+## Plugins
+
+*[cordova-plugin-ble-central](https://github.com/don/cordova-plugin-ble-central)*
 
 ## Usage
 

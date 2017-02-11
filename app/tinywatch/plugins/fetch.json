@@ -7,10 +7,26 @@
         "is_top_level": true,
         "variables": {}
     },
-    "cordova-plugin-ble": {
+    "cordova-plugin-ble-central": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-ble"
+            "id": "cordova-plugin-ble-central"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-compat": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-compat"
+        },
+        "is_top_level": false,
+        "variables": {}
+    },
+    "cordova-plugin-globalization": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-globalization"
         },
         "is_top_level": true,
         "variables": {}

@@ -9,7 +9,13 @@
                 "parents": {
                     "/*": [
                         {
-                            "xml": "<feature name=\"BLE\"><param name=\"android-package\" value=\"com.evothings.BLE\" /></feature>",
+                            "xml": "<feature name=\"Globalization\"><param name=\"android-package\" value=\"org.apache.cordova.globalization.Globalization\" /></feature>",
+                            "count": 1
+                        }
+                    ],
+                    "/widget": [
+                        {
+                            "xml": "<feature name=\"BLE\"><param name=\"android-package\" value=\"com.megster.cordova.ble.central.BLECentralPlugin\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -19,15 +25,15 @@
                 "parents": {
                     "/manifest": [
                         {
+                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
+                            "count": 1
+                        },
+                        {
                             "xml": "<uses-permission android:name=\"android.permission.BLUETOOTH\" />",
                             "count": 1
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.BLUETOOTH_ADMIN\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
                             "count": 1
                         }
                     ]
@@ -36,22 +42,46 @@
         }
     },
     "installed_plugins": {
-        "cordova-plugin-ble": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "cbolgiano.tinywatch"
+        },
+        "cordova-plugin-ble-central": {
+            "PACKAGE_NAME": "cbolgiano.tinywatch"
+        },
+        "cordova-plugin-globalization": {
             "PACKAGE_NAME": "cbolgiano.tinywatch"
         }
     },
     "dependent_plugins": {},
     "modules": [
         {
-            "id": "cordova-plugin-ble.BLE",
-            "file": "plugins/cordova-plugin-ble/ble.js",
-            "pluginId": "cordova-plugin-ble",
+            "id": "cordova-plugin-ble-central.ble",
+            "file": "plugins/cordova-plugin-ble-central/www/ble.js",
+            "pluginId": "cordova-plugin-ble-central",
             "clobbers": [
-                "evothings.ble"
+                "ble"
+            ]
+        },
+        {
+            "id": "cordova-plugin-globalization.GlobalizationError",
+            "file": "plugins/cordova-plugin-globalization/www/GlobalizationError.js",
+            "pluginId": "cordova-plugin-globalization",
+            "clobbers": [
+                "window.GlobalizationError"
+            ]
+        },
+        {
+            "id": "cordova-plugin-globalization.globalization",
+            "file": "plugins/cordova-plugin-globalization/www/globalization.js",
+            "pluginId": "cordova-plugin-globalization",
+            "clobbers": [
+                "navigator.globalization"
             ]
         }
     ],
     "plugin_metadata": {
-        "cordova-plugin-ble": "2.0.1"
+        "cordova-plugin-compat": "1.1.0",
+        "cordova-plugin-ble-central": "1.1.4",
+        "cordova-plugin-globalization": "1.0.5"
     }
 }

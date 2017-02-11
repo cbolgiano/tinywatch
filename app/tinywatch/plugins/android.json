@@ -7,9 +7,16 @@
         "files": {}
     },
     "installed_plugins": {
-        "cordova-plugin-ble": {
-            "PACKAGE_NAME": "io.cordova.hellocordova"
+        "cordova-plugin-ble-central": {
+            "PACKAGE_NAME": "cbolgiano.tinywatch"
+        },
+        "cordova-plugin-globalization": {
+            "PACKAGE_NAME": "cbolgiano.tinywatch"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "cbolgiano.tinywatch"
+        }
+    }
 }
