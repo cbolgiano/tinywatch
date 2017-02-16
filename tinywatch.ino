@@ -1,3 +1,4 @@
+#include <TinyScreen.h>
 #include <TimeLib.h>
 #include <SPI.h>
 #include <BLEPeripheral.h>
@@ -7,7 +8,7 @@
 //Determines which version of TinyScreen we are using.
 TinyScreen display = TinyScreen(TinyScreenPlus);
 //Buffer used for drawing.
-RenderBuffer<uint8_t,20> buffer;
+RenderBuffer<uint16_t,20> buffer;
 char isTimeSet = 0;
 
 //Pinouts for TinyShield BLE.
@@ -57,14 +58,14 @@ void bleSetup(){
 void loop() {
   blePeripheral.poll();
   BLECentral central = blePeripheral.central();
-  if(central){
-    while(central.connected()){
-      blePeripheral.poll();
+  if(central && central.connected()){
+    if(isTimeSet){
       renderTime();
-      refreshScreen();
+      renderDate();
     }
+  } else{
+    messageWithSecondDelay("searching...");
   }
-  buffer.drawText("searching...",15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
   refreshScreen();
 }
 
@@ -82,7 +83,7 @@ void setTimeHandler(BLECentral& central, BLECharacteristic& characteristic){
 }
 
 void messageWithSecondDelay(String msg){
-  buffer.drawText(msg.c_str(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
+  buffer.drawText(stringBuffer.start().put(msg.c_str()).get(),15,8,buffer.rgb(255,255,255), &liberationSans_8ptFontInfo);
   refreshScreen();
   delay(1000);
 }
@@ -93,15 +94,12 @@ void refreshScreen(){
 }
 
 void renderTime(){
-  if(isTimeSet){
-    buffer.drawText(((String)hour() + ":" + (String)minute() + ":" + (String)second()).c_str(),15,8,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);    
-  }
+  buffer.drawText(stringBuffer.start().put(hour() < 10 ? "0" : "").putDec(hour()).put(":").put(minute() < 10 ? "0" : "").putDec(minute()).put(":").put(second() < 10 ? "0" : "").putDec(second()).get(),20,16,buffer.rgb(255,255,255), &liberationSans_12ptFontInfo); 
 }
 
-//TODO: Method to render date.
-/*void renderDate(){
-  buffer.drawText(stringBuffer.start().putDec(month()).put("-").putDec(day()).put("-").putDec(year()).get(),15,16,buffer.rgb(255,0,0), &virtualDJ_5ptFontInfo);
-}*/
+void renderDate(){
+  buffer.drawText(stringBuffer.start().putDec(month()).put("-").putDec(day()).put("-").putDec(year()).get(),24,34,buffer.rgb(255,255,255), &liberationSans_8ptFontInfo);
+}
 
 //TODO: Method to render background.
 
