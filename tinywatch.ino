@@ -10,6 +10,9 @@ TinyScreen display = TinyScreen(TinyScreenPlus);
 //Buffer used for drawing.
 RenderBuffer<uint16_t,20> buffer;
 char isTimeSet = 0;
+//Temp sleep
+char isSleep = 1;
+
 
 //Pinouts for TinyShield BLE.
 #define BLE_REQ 10
@@ -60,21 +63,29 @@ void loop() {
   BLECentral central = blePeripheral.central();
   if(central && central.connected()){
     if(isTimeSet){
+      renderBackground();
       renderTime();
       renderDate();
+      refreshScreen();
     }
   } else{
-    messageWithSecondDelay("searching...");
+    messageWithSecondDelay("Searching...");
   }
-  refreshScreen();
+
+  //temp sleep
+  isSleep ? display.on() : display.off();
+  if(display.getButtons(TSButtonUpperLeft)){
+    isSleep = isSleep ? 0 : 1;
+    delay(250);
+  }
 }
 
 void blePeripheralConnectHandler(BLECentral& central) {
-  messageWithSecondDelay("connected...");
+  messageWithSecondDelay("Connected...");
 }
 
 void blePeripheralDisconnectHandler(BLECentral& central) {
-  messageWithSecondDelay("disconnected...");
+  messageWithSecondDelay("Disconnected...");
 }
 
 void setTimeHandler(BLECentral& central, BLECharacteristic& characteristic){
@@ -101,7 +112,32 @@ void renderDate(){
   buffer.drawText(stringBuffer.start().putDec(month()).put("-").putDec(day()).put("-").putDec(year()).get(),24,34,buffer.rgb(255,255,255), &liberationSans_8ptFontInfo);
 }
 
-//TODO: Method to render background.
+void renderBackground(){
+  //Dawn
+  if (hour(), 7)
+    buffer.drawRect(0,0,96,64)->filledRect(buffer.rgb(98,90,70));
+  if (hour(),8)
+    buffer.drawRect(0,0,96,64)->filledRect(buffer.rgb(95,40,20));
+  if (hour(), 9)
+    buffer.drawRect(0,0,96,64)->filledRect(buffer.rgb(88, 57, 30));
+  if (hour(),10)
+    buffer.drawRect(0,0,96,64)->filledRect(buffer.rgb(100, 97, 100));
+  if (hour(),11)
+    buffer.drawRect(0,0,96,64)->filledRect(buffer.rgb(100, 100, 100));
+  //Sun
+  if (hour(),12)
+    buffer.drawRect(0,0,96,64)->filledRect(buffer.rgb(100, 100, 97));
+  if (hour(),13)
+    buffer.drawRect(0,0,96,64)->filledRect(buffer.rgb(100, 100, 100));
+  //Dusk
+  if (hour(),20)
+    buffer.drawRect(0,0,96,64)->filledRect(buffer.rgb(97,85,56));
+  //Night
+  if (hour(),21)
+    buffer.drawRect(0,0,96,64)->filledRect(buffer.rgb(0, 0, 0));
+  //Ocean
+  buffer.drawRect(0,48,94,16)->filledRect(buffer.rgb(28, 107, 160));
+}
 
 //TODO: Method to render orientation.
 
