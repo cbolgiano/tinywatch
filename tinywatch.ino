@@ -11,7 +11,7 @@ TinyScreen display = TinyScreen(TinyScreenPlus);
 RenderBuffer<uint16_t,20> buffer;
 char isTimeSet = 0;
 //Temp sleep
-char isSleep = 1;
+char isSleep = 0;
 
 
 //Pinouts for TinyShield BLE.
@@ -61,23 +61,22 @@ void bleSetup(){
 void loop() {
   blePeripheral.poll();
   BLECentral central = blePeripheral.central();
-  if(central && central.connected()){
-    if(isTimeSet){
-      renderBackground();
-      renderTime();
-      renderDate();
-      refreshScreen();
-    }
-  } else{
-    messageWithSecondDelay("Searching...");
+  
+  if(isTimeSet){
+    renderBackground();
+    renderTime();
+    renderDate();
+  } else if(!central || !central.connected()){
+    buffer.drawText("Searching...",15,8,buffer.rgb(255,255,255), &liberationSans_8ptFontInfo);
   }
 
   //temp sleep
-  isSleep ? display.on() : display.off();
+  isSleep ? display.off() : display.on();
   if(display.getButtons(TSButtonUpperLeft)){
     isSleep = isSleep ? 0 : 1;
     delay(250);
   }
+  refreshScreen();
 }
 
 void blePeripheralConnectHandler(BLECentral& central) {
@@ -105,35 +104,35 @@ void refreshScreen(){
 }
 
 void renderTime(){
-  buffer.drawText(stringBuffer.start().put(hour() < 10 ? "0" : "").putDec(hour()).put(":").put(minute() < 10 ? "0" : "").putDec(minute()).put(":").put(second() < 10 ? "0" : "").putDec(second()).get(),20,16,buffer.rgb(255,255,255), &liberationSans_12ptFontInfo); 
+  buffer.drawText(stringBuffer.start().put(hour() < 10 ? "0" : "").putDec(hour()).put(":").put(minute() < 10 ? "0" : "").putDec(minute()).put(":").put(second() < 10 ? "0" : "").putDec(second()).get(),22,16,buffer.rgb(255,255,255), &liberationSans_12ptFontInfo); 
 }
 
 void renderDate(){
-  buffer.drawText(stringBuffer.start().putDec(month()).put("-").putDec(day()).put("-").putDec(year()).get(),24,34,buffer.rgb(255,255,255), &liberationSans_8ptFontInfo);
+  buffer.drawText(stringBuffer.start().putDec(month()).put("-").putDec(day()).put("-").putDec(year()).get(),28,34,buffer.rgb(255,255,255), &liberationSans_8ptFontInfo);
 }
 
 void renderBackground(){
   //Dawn
-  if (hour(), 7)
+  if (hour() == 7)
     buffer.drawRect(0,0,96,64)->filledRect(buffer.rgb(98,90,70));
-  if (hour(),8)
+  if (hour() == 8)
     buffer.drawRect(0,0,96,64)->filledRect(buffer.rgb(95,40,20));
-  if (hour(), 9)
+  if (hour() == 9)
     buffer.drawRect(0,0,96,64)->filledRect(buffer.rgb(88, 57, 30));
-  if (hour(),10)
+  if (hour() == 10)
     buffer.drawRect(0,0,96,64)->filledRect(buffer.rgb(100, 97, 100));
-  if (hour(),11)
+  if (hour() == 11)
     buffer.drawRect(0,0,96,64)->filledRect(buffer.rgb(100, 100, 100));
   //Sun
-  if (hour(),12)
+  if (hour() == 12)
     buffer.drawRect(0,0,96,64)->filledRect(buffer.rgb(100, 100, 97));
-  if (hour(),13)
+  if (hour() >= 13 && hour() < 20)
     buffer.drawRect(0,0,96,64)->filledRect(buffer.rgb(100, 100, 100));
   //Dusk
-  if (hour(),20)
+  if (hour() == 20)
     buffer.drawRect(0,0,96,64)->filledRect(buffer.rgb(97,85,56));
   //Night
-  if (hour(),21)
+  if (hour() >= 21 || hour() < 7)
     buffer.drawRect(0,0,96,64)->filledRect(buffer.rgb(0, 0, 0));
   //Ocean
   buffer.drawRect(0,48,94,16)->filledRect(buffer.rgb(28, 107, 160));
