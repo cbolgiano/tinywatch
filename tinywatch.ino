@@ -10,15 +10,18 @@
 #define BLE_RDY 2
 #define BLE_RST 9
 
-const int SCREEN_WIDTH = 48;
-
+const int SCREEN_HEIGHT = 48;
+const int SCREEN_WIDTH = 96;
+const int MSG_X_START = -200;
 //Determines which version of TinyScreen we are using.
 TinyScreen display = TinyScreen(TinyScreenPlus);
 //Buffer used for drawing.
 RenderBuffer<uint16_t, 20> buffer;
+char* msg = "";
 int rBackground = 0;
 int gBackground = 0;
 int bBackground = 0;
+int msgX = -100;
 char isTimeSet = 0;
 //Temp sleep
 char isSleep = 0;
@@ -73,6 +76,7 @@ void loop() {
   } else if (!central || !central.connected()) {
     buffer.drawText("Searching...", 15, 8, buffer.rgb(255, 255, 255), &liberationSans_8ptFontInfo);
   }
+  renderMessage();
 
   //temp sleep
   isSleep ? display.off() : display.on();
@@ -86,11 +90,13 @@ void loop() {
 }
 
 void blePeripheralConnectHandler(BLECentral& central) {
-  messageWithSecondDelay("Connected...");
+  msg = "Connected...";
+  msgX = MSG_X_START;
 }
 
 void blePeripheralDisconnectHandler(BLECentral& central) {
-  messageWithSecondDelay("Disconnected...");
+  msg = "Disconnected...";
+  msgX = MSG_X_START;
 }
 
 void setTimeHandler(BLECentral& central, BLECharacteristic& characteristic) {
@@ -98,10 +104,8 @@ void setTimeHandler(BLECentral& central, BLECharacteristic& characteristic) {
   isTimeSet = 1;
 }
 
-void messageWithSecondDelay(String msg) {
-  buffer.drawText(stringBuffer.start().put(msg.c_str()).get(), 15, 8, buffer.rgb(255, 255, 255), &liberationSans_8ptFontInfo);
-  refreshScreen();
-  delay(1000);
+int centerX(){
+  return SCREEN_WIDTH/2;
 }
 
 void refreshScreen() {
@@ -111,16 +115,26 @@ void refreshScreen() {
 
 void renderTime() {
   char* timeString = stringBuffer.start().put(hour() < 10 ? "0" : "").putDec(hour()).put(":").put(minute() < 10 ? "0" : "").putDec(minute()).put(":").put(second() < 10 ? "0" : "").putDec(second()).get();
-  buffer.drawText(timeString, 22, 16, buffer.rgb(255, 255, 255), &liberationSans_12ptFontInfo);
+  buffer.drawText(timeString, centerX() - 36, 16, buffer.rgb(255, 255, 255), &liberationSans_16ptFontInfo);
 }
 
 void renderDate() {
   char* dateString = stringBuffer.start().putDec(month()).put("-").putDec(day()).put("-").putDec(year()).get();
-  buffer.drawText(dateString, 26, 34, buffer.rgb(255, 255, 255), &liberationSans_8ptFontInfo);
+  buffer.drawText(dateString, centerX() - 24, 34, buffer.rgb(255, 255, 255), &liberationSans_10ptFontInfo);
 }
 
 void renderBackground() {
   buffer.drawRect(0, 0, 96, 64)->filledRect(buffer.rgb(rBackground, gBackground, bBackground));
+}
+
+void renderMessage(){
+  if(msg != "" && msgX < (SCREEN_WIDTH + abs(MSG_X_START))){
+    buffer.drawText(msg, msgX, 48, buffer.rgb(255, 255, 255), &liberationSans_8ptFontInfo);
+    msgX++;
+  } else{
+    msg = "";
+    msgX = MSG_X_START;
+  }
 }
 
 //TODO: Method to render orientation.
