@@ -12,7 +12,7 @@
 
 const int SCREEN_HEIGHT = 48;
 const int SCREEN_WIDTH = 96;
-const int MSG_X_START = -200;
+const int MSG_X_START = SCREEN_WIDTH + 1;
 //Determines which version of TinyScreen we are using.
 TinyScreen display = TinyScreen(TinyScreenPlus);
 //Buffer used for drawing.
@@ -21,7 +21,7 @@ char* msg = "";
 int rBackground = 0;
 int gBackground = 0;
 int bBackground = 0;
-int msgX = -100;
+int msgX = MSG_X_START;
 char isTimeSet = 0;
 //Temp sleep
 char isSleep = 0;
@@ -128,9 +128,10 @@ void renderBackground() {
 }
 
 void renderMessage(){
-  if(msg != "" && msgX < (SCREEN_WIDTH + abs(MSG_X_START))){
+  int msgLength = strlen(msg) * 5;
+  if(msg != "" && msgX > -msgLength){
     buffer.drawText(msg, msgX, 48, buffer.rgb(255, 255, 255), &liberationSans_8ptFontInfo);
-    msgX++;
+    msgX--;
   } else{
     msg = "";
     msgX = MSG_X_START;
