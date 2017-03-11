@@ -13,6 +13,7 @@
 const int SCREEN_HEIGHT = 48;
 const int SCREEN_WIDTH = 96;
 const int MSG_X_START = SCREEN_WIDTH + 1;
+const int FONT_SIZE_OFFSET = 5;
 //Determines which version of TinyScreen we are using.
 TinyScreen display = TinyScreen(TinyScreenPlus);
 //Buffer used for drawing.
@@ -119,8 +120,8 @@ void renderTime() {
 }
 
 void renderDate() {
-  char* dateString = stringBuffer.start().putDec(month()).put("-").putDec(day()).put("-").putDec(year()).get();
-  buffer.drawText(dateString, centerX() - 24, 34, buffer.rgb(255, 255, 255), &liberationSans_10ptFontInfo);
+  char* dateString = stringBuffer.start().put(month() < 10 ? "0" : "").putDec(month()).put("-").put(day() < 10 ? "0" : "").putDec(day()).put("-").put(year() < 10 ? "0" : "").putDec(year()).get();
+  buffer.drawText(dateString, centerX() - 33, 34, buffer.rgb(255, 255, 255), &liberationSans_10ptFontInfo);
 }
 
 void renderBackground() {
@@ -128,7 +129,7 @@ void renderBackground() {
 }
 
 void renderMessage(){
-  int msgLength = strlen(msg) * 5;
+  int msgLength = strlen(msg) * FONT_SIZE_OFFSET;
   if(msg != "" && msgX > -msgLength){
     buffer.drawText(msg, msgX, 48, buffer.rgb(255, 255, 255), &liberationSans_8ptFontInfo);
     msgX--;
