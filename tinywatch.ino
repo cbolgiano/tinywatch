@@ -1,5 +1,6 @@
 #include <TinyScreen.h>
-#include <TimeLib.h>
+//#include <TimeLib.h>
+#include "tinywatch-time.h"
 #include <SPI.h>
 #include <BLEPeripheral.h>
 #include "lib_RenderBuffer.h"
@@ -73,7 +74,7 @@ void loop() {
   if (isTimeSet) {
     renderBackground();
     renderTime();
-    renderDate();
+//    renderDate();
   } else if (!central || !central.connected()) {
     buffer.drawText("Searching...", 15, 8, buffer.rgb(255, 255, 255), &liberationSans_8ptFontInfo);
   }
@@ -101,7 +102,7 @@ void blePeripheralDisconnectHandler(BLECentral& central) {
 }
 
 void setTimeHandler(BLECentral& central, BLECharacteristic& characteristic) {
-  setTime(timeCharacteristic.valueBE());
+  setTimeToRender(timeCharacteristic.valueBE());
   isTimeSet = 1;
 }
 
@@ -110,18 +111,22 @@ int centerX(){
 }
 
 void refreshScreen() {
-  buffer.flush(display);
-  stringBuffer.reset();
+//  buffer.flush(display);
+//  stringBuffer.reset();
 }
 
 void renderTime() {
-  char* timeString = stringBuffer.start().put(hour() < 10 ? "0" : "").putDec(hour()).put(":").put(minute() < 10 ? "0" : "").putDec(minute()).put(":").put(second() < 10 ? "0" : "").putDec(second()).get();
-  buffer.drawText(timeString, centerX() - 36, 16, buffer.rgb(255, 255, 255), &liberationSans_16ptFontInfo);
+  display.clearScreen();
+  display.setFont(liberationSans_16ptFontInfo);
+  char* timeText = (char*)getTimeToRender(); 
+  int width = display.getPrintWidth(timeText);
+  display.setCursor(centerX() - (width/2),16);
+  display.print(timeText);
 }
 
 void renderDate() {
-  char* dateString = stringBuffer.start().put(month() < 10 ? "0" : "").putDec(month()).put("-").put(day() < 10 ? "0" : "").putDec(day()).put("-").put(year() < 10 ? "0" : "").putDec(year()).get();
-  buffer.drawText(dateString, centerX() - 33, 34, buffer.rgb(255, 255, 255), &liberationSans_10ptFontInfo);
+//  char* dateString = stringBuffer.start().put(month() < 10 ? "0" : "").putDec(month()).put("-").put(day() < 10 ? "0" : "").putDec(day()).put("-").put(year() < 10 ? "0" : "").putDec(year()).get();
+//  buffer.drawText(dateString, centerX() - 33, 34, buffer.rgb(255, 255, 255), &liberationSans_10ptFontInfo);
 }
 
 void renderBackground() {
