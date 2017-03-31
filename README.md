@@ -11,8 +11,6 @@ A project to create an open source watch that is powered by TinyCircuits TinyScr
 
 ## External Libraries
 
-*[td2play](https://github.com/zet23t/td2play)*
-
 *[arduino-BLEPeripheral](https://github.com/sandeepmistry/arduino-BLEPeripheral)*
 
 *[Time](https://github.com/PaulStoffregen/Time)*
