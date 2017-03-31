@@ -17,27 +17,29 @@
 #include <BLEPeripheral.h>
 #endif
 
-//Set time in TimeLib when value is written to timeCharacteristic.
-void setTimeHandler(BLECentral& central, BLECharacteristic& characteristic);
+namespace TinyWatchTime{
+  //Set time in TimeLib when value is written to timeCharacteristic.
+  void setTimeHandler(BLECentral& central, BLECharacteristic& characteristic);
 
-//Returns a const char* that represents
-//the current time.
-const char* getTimeToRender(time_t t);
+  //Returns a const char* that represents
+  //the current time.
+  const char* getTimeToRender(time_t t);
 
-//Returns a const char* that represents
-//the current date.
-const char* getDateToRender(time_t t);
+  //Returns a const char* that represents
+  //the current date.
+  const char* getDateToRender(time_t t);
 
-//Setup for time plugin.
-void timeSetup();
+  //Setup for time plugin.
+  void twTimeSetup();
+    
+  //BLE poll for timeCharacteristic value change.
+  void pollTime();
 
-//BLE poll for timeCharacteristic value change.
-void pollTime();
+  //Render time using diplay.
+  void renderTime(TinyScreen display);
 
-//Render time using diplay.
-void renderTime(TinyScreen display);
-
-//Render date using diplay.
-void renderDate(TinyScreen display);
+  //Render date using diplay.
+  void renderDate(TinyScreen display);
+}
 
 #endif

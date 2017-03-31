@@ -1,6 +1,6 @@
 #include <TinyScreen.h>
 #include <SPI.h>
-#include "tinywatch-time.h"
+#include <tinywatch-time.h>
 
 const int SCREEN_HEIGHT = 48;
 const int SCREEN_WIDTH = 96;
@@ -10,7 +10,6 @@ const int FONT_SIZE_OFFSET = 5;
 
 //Determines which version of TinyScreen we are using.
 TinyScreen display = TinyScreen(TinyScreenPlus);
-
 char* msg = "";
 int msgX = MSG_X_START;
 //Temp sleep
@@ -23,15 +22,15 @@ void setup() {
   display.setBrightness(10);
 
   //START time plugin.
-  timeSetup();
+  TinyWatchTime::twTimeSetup();
   //END time plugin.
 }
 
 void loop() {
   //START time plugin.
-  pollTime();
-  renderTime(display);
-  renderDate(display);
+  TinyWatchTime::pollTime();
+  TinyWatchTime::renderTime(display);
+  TinyWatchTime::renderDate(display);
   //END time plugin.
   
   //TODO: Make plugin to render background.

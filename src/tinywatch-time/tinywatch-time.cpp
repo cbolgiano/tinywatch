@@ -15,10 +15,9 @@ BLEService timeService = BLEService("CCC0");
 BLELongCharacteristic timeCharacteristic = BLELongCharacteristic("CCC2", BLEWrite);
 
 //Setup for time plugin.
-void timeSetup(){
+void TinyWatchTime::twTimeSetup(){
   //Name of BLE peripheral when connecting to master.
   timeBLEPeripheral.setLocalName("tinywatch");
-  timeBLEPeripheral.setAppearance(0xC0);
 
   //Setting advertising id from service.
   timeBLEPeripheral.setAdvertisedServiceUuid(timeService.uuid());
@@ -33,18 +32,18 @@ void timeSetup(){
 }
 
 //Set time in TimeLib when value is written to timeCharacteristic.
-void setTimeHandler(BLECentral& central, BLECharacteristic& characteristic) {
+void TinyWatchTime::setTimeHandler(BLECentral& central, BLECharacteristic& characteristic) {
   setTime(timeCharacteristic.valueBE());
 }
 
 //BLE poll for timeCharacteristic value change.
-void pollTime(){
+void TinyWatchTime::pollTime(){
   timeBLEPeripheral.poll();
 }
 
 //Returns a const char* that represents
 //the current time.
-const char* getTimeToRender(time_t t){
+const char* TinyWatchTime::getTimeToRender(time_t t){
   if(t && timeStatus() != timeNotSet){
     return String((hour(t) < 10 ? "0" : "")
       + String(hour(t))
@@ -61,7 +60,7 @@ const char* getTimeToRender(time_t t){
 
 //Returns a const char* that represents
 //the current date.
-const char* getDateToRender(time_t t) {
+const char* TinyWatchTime::getDateToRender(time_t t) {
   if(t && timeStatus() != timeNotSet){
     return String((month(t) < 10 ? "0" : "")
       + String(month(t))
@@ -76,19 +75,19 @@ const char* getDateToRender(time_t t) {
 }
 
 //Render time using display.
-void renderTime(TinyScreen display) {
+void TinyWatchTime::renderTime(TinyScreen display) {
   display.setFont(liberationSans_16ptFontInfo);
   char* timeText = (char*)getTimeToRender(now());
   int width = display.getPrintWidth(timeText);
-  display.setCursor((96/2) - (width/2),16);
+  display.setCursor((96/2) - (width/2), 16);
   display.print(timeText);
 }
 
 //Render date using display.
-void renderDate(TinyScreen display) {
+void TinyWatchTime::renderDate(TinyScreen display) {
   display.setFont(liberationSans_10ptFontInfo);
   char* dateText = (char*)getDateToRender(now());
   int width = display.getPrintWidth(dateText);
-  display.setCursor((96/2) - (width/2),34);
+  display.setCursor((96/2) - (width/2), 34);
   display.print(dateText);
 }
