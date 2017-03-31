@@ -36,5 +36,5 @@ install:
   - unzip $PWD/libs/Time-master.zip -d /usr/local/share/arduino/libraries
   - unzip $PWD/libs/tinywatch-time.zip -d /usr/local/share/arduino/libraries
 script:
-  - arduino --verify --board TinyCircuits:samd:tinyscreen $PWD/tinywatch.ino
+  - arduino --verify --board TinyCircuits:samd:tinyscreen $PWD/src/tinywatch/tinywatch.ino
   - cd $PWD/app/tinywatch && cordova build android
