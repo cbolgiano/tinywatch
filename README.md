@@ -1,7 +1,7 @@
 <p align="center"><img src="https://github.com/cbolgiano/tinywatch/blob/develop/img/tinywatch.png" /> </p>
 
 # tinywatch [![Build Status](https://travis-ci.org/cbolgiano/tinywatch.svg?branch=develop)](https://travis-ci.org/cbolgiano/tinywatch)
-A project to create an open source watch that is powered by TinyCircuits TinyScreen+, TinyShield NRF8001 BLE, td2play, etc.
+A project to create an open source watch that is powered by TinyCircuits TinyScreen+, TinyShield NRF8001 BLE, etc.
 
 ## Compatible Hardware
 
@@ -10,8 +10,6 @@ A project to create an open source watch that is powered by TinyCircuits TinyScr
 *[BLE Nordic Tinyshield](https://tinycircuits.com/collections/all/products/bluetooth-low-energy-nordic-tinyshield)*
 
 ## External Libraries
-
-*[td2play](https://github.com/zet23t/td2play)*
 
 *[arduino-BLEPeripheral](https://github.com/sandeepmistry/arduino-BLEPeripheral)*
 

@@ -14,7 +14,7 @@ before_install:
 install:
   - ~/android-sdk-linux/tools/android list sdk -a
   - printf 'y' | ~/android-sdk-linux/tools/android update sdk -a -u -t 2
-  - printf 'y' | ~/android-sdk-linux/tools/android update sdk -a -u -t 3
+  - printf 'y' | ~/android-sdk-linux/tools/android update sdk -a -u -t 7
   - printf 'y' | ~/android-sdk-linux/tools/bin/sdkmanager "platforms;android-24"
   - export PATH=$PATH:~/android-sdk-linux/platform-tools:~/android-sdk-linux/tools:~/android-sdk-linux/build-tools/25.0.0/
   - source ~/.bashrc
@@ -32,9 +32,9 @@ install:
   - wget https://github.com/cbolgiano/tinywatch/archive/develop.zip
   - unzip develop.zip -d ~/tinywatch
   - ln -s $PWD ~/tinywatch
-  - unzip $PWD/libs/td2play.zip -d /usr/local/share/arduino/libraries
   - unzip $PWD/libs/arduino-BLEPeripheral-master.zip -d /usr/local/share/arduino/libraries
   - unzip $PWD/libs/Time-master.zip -d /usr/local/share/arduino/libraries
+  - unzip $PWD/libs/tinywatch-time.zip -d /usr/local/share/arduino/libraries
 script:
-  - arduino --verify --board TinyCircuits:samd:tinyscreen $PWD/tinywatch.ino
+  - arduino --verify --board TinyCircuits:samd:tinyscreen $PWD/src/tinywatch/tinywatch.ino
   - cd $PWD/app/tinywatch && cordova build android
