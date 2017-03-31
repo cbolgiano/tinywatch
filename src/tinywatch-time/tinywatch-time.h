@@ -30,16 +30,22 @@ namespace TinyWatchTime{
   const char* getDateToRender(time_t t);
 
   //Setup for time plugin.
-  void twTimeSetup();
+  void setup();
     
   //BLE poll for timeCharacteristic value change.
-  void pollTime();
+  void poll();
 
   //Render time using diplay.
-  void renderTime(TinyScreen display);
+  void drawTime(TinyScreen display);
 
   //Render date using diplay.
-  void renderDate(TinyScreen display);
+  void drawDate(TinyScreen display);
+
+  //Render time using diplay.
+  void drawTime(TinyScreen display, int x, int y, FONT_INFO fontDescriptor);
+
+  //Render date using diplay.
+  void drawDate(TinyScreen display, int x, int y, FONT_INFO fontDescriptor);
 }
 
 #endif

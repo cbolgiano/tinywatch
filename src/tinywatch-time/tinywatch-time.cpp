@@ -15,7 +15,7 @@ BLEService timeService = BLEService("CCC0");
 BLELongCharacteristic timeCharacteristic = BLELongCharacteristic("CCC2", BLEWrite);
 
 //Setup for time plugin.
-void TinyWatchTime::twTimeSetup(){
+void TinyWatchTime::setup(){
   //Name of BLE peripheral when connecting to master.
   timeBLEPeripheral.setLocalName("tinywatch");
 
@@ -37,7 +37,7 @@ void TinyWatchTime::setTimeHandler(BLECentral& central, BLECharacteristic& chara
 }
 
 //BLE poll for timeCharacteristic value change.
-void TinyWatchTime::pollTime(){
+void TinyWatchTime::poll(){
   timeBLEPeripheral.poll();
 }
 
@@ -75,7 +75,7 @@ const char* TinyWatchTime::getDateToRender(time_t t) {
 }
 
 //Render time using display.
-void TinyWatchTime::renderTime(TinyScreen display) {
+void TinyWatchTime::drawTime(TinyScreen display) {
   display.setFont(liberationSans_16ptFontInfo);
   char* timeText = (char*)getTimeToRender(now());
   int width = display.getPrintWidth(timeText);
@@ -84,10 +84,28 @@ void TinyWatchTime::renderTime(TinyScreen display) {
 }
 
 //Render date using display.
-void TinyWatchTime::renderDate(TinyScreen display) {
+void TinyWatchTime::drawDate(TinyScreen display) {
   display.setFont(liberationSans_10ptFontInfo);
   char* dateText = (char*)getDateToRender(now());
   int width = display.getPrintWidth(dateText);
   display.setCursor((96/2) - (width/2), 34);
+  display.print(dateText);
+}
+
+//Render time using display, x, y, and font.
+void TinyWatchTime::drawTime(TinyScreen display, int x, int y, FONT_INFO fontDescriptor) {
+  display.setFont(fontDescriptor);
+  char* timeText = (char*)getTimeToRender(now());
+  int width = display.getPrintWidth(timeText);
+  display.setCursor(x, y);
+  display.print(timeText);
+}
+
+//Render date using display, x, y, and font.
+void TinyWatchTime::drawDate(TinyScreen display, int x, int y, FONT_INFO fontDescriptor) {
+  display.setFont(fontDescriptor);
+  char* dateText = (char*)getDateToRender(now());
+  int width = display.getPrintWidth(dateText);
+  display.setCursor(x, y);
   display.print(dateText);
 }

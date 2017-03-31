@@ -22,15 +22,15 @@ void setup() {
   display.setBrightness(10);
 
   //START time plugin.
-  TinyWatchTime::twTimeSetup();
+  TinyWatchTime::setup();
   //END time plugin.
 }
 
 void loop() {
   //START time plugin.
-  TinyWatchTime::pollTime();
-  TinyWatchTime::renderTime(display);
-  TinyWatchTime::renderDate(display);
+  TinyWatchTime::poll();
+  TinyWatchTime::drawTime(display);
+  TinyWatchTime::drawDate(display);
   //END time plugin.
   
   //TODO: Make plugin to render background.
