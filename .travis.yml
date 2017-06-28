@@ -13,12 +13,12 @@ before_install:
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_1.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :1 -ac -screen 0 1280x1024x16"
   - sleep 3
   - export DISPLAY=:1.0
-
-  - sudo apt-get -y install openjdk-7-jre
   
   - wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
   - unzip tools_r25.2.3-linux.zip -d ~/android-sdk-linux
 install:
+
+  - sudo apt-get -y install openjdk-7-jre
   - ~/android-sdk-linux/tools/android list sdk -a
   - printf 'y' | ~/android-sdk-linux/tools/android update sdk -a -u -t "platform-tool,android-25,build-tools-25.0.0"
   - printf 'y' | ~/android-sdk-linux/tools/bin/sdkmanager "platforms;android-24"
