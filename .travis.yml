@@ -14,7 +14,7 @@ before_install:
   - sleep 3
   - export DISPLAY=:1.0
 
-  - sudo apt-get -y install oracle-java8-installer
+  - sudo apt-get -y install default-jre
   
   - wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
   - unzip tools_r25.2.3-linux.zip -d ~/android-sdk-linux
