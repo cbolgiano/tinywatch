@@ -18,7 +18,11 @@ before_install:
   - unzip tools_r25.2.3-linux.zip -d ~/android-sdk-linux
 install:
 
-  - sudo apt-get -y install openjdk-7-jre
+  - apt-get install -y software-properties-common
+  - apt-add-repository -y ppa:webupd8team/java
+  - apt-get update
+  - apt-get install -y oracle-java8-installer
+
   - ~/android-sdk-linux/tools/android list sdk -a
   - printf 'y' | ~/android-sdk-linux/tools/android update sdk -a -u -t "platform-tool,android-25,build-tools-25.0.0"
   - printf 'y' | ~/android-sdk-linux/tools/bin/sdkmanager "platforms;android-24"
