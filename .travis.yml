@@ -65,7 +65,7 @@ install:
 
 script:
 
-  - platformio ci --lib="/tinywatch-libs" --board="atmelavr"
+  - platformio ci --lib="/tinywatch-libs" --board="tinyduino"
 
   - arduino --verify --board TinyCircuits:samd:tinyscreen $PWD/src/tinywatch/tinywatch.ino
 
