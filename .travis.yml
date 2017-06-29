@@ -59,9 +59,9 @@ install:
   - sudo pip install -U platformio
   # Install project dependencies for platformio build.
   - platformio lib install "TinyScreen"
-  - unzip $PWD/libs/arduino-BLEPeripheral-master.zip -d /tinywatch-libs
-  - unzip $PWD/libs/Time-master.zip -d /tinywatch-libs
-  - unzip $PWD/libs/tinywatch-time.zip -d /tinywatch-libs
+  - sudo unzip $PWD/libs/arduino-BLEPeripheral-master.zip -d /tinywatch-libs
+  - sudo unzip $PWD/libs/Time-master.zip -d /tinywatch-libs
+  - sudo unzip $PWD/libs/tinywatch-time.zip -d /tinywatch-libs
 
 script:
 
