@@ -4,7 +4,7 @@ jdk:
 
 env:
 
-  - PLATFORMIO_CI_SRC=~/tinywatch/src/tinywatch/tinywatch.ino
+  - PLATFORMIO_CI_SRC=$PWD/src/tinywatch/tinywatch.ino
 
 before_install:
 
