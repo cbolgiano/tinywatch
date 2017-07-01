@@ -59,9 +59,9 @@ install:
   # Install platformio.
   - sudo pip install -U platformio
   # Install project dependencies for platformio build.
-  - sudo unzip $PWD/libs/arduino-BLEPeripheral-master.zip -d /tinywatch-libs
-  - sudo unzip $PWD/libs/Time-master.zip -d /tinywatch-libs
-  - sudo unzip $PWD/libs/tinywatch-time.zip -d /tinywatch-libs
+  - sudo unzip $PWD/libs/arduino-BLEPeripheral-master.zip -d /tw-external-libs
+  - sudo unzip $PWD/libs/Time-master.zip -d /tw-external-libs
+  - sudo unzip $PWD/libs/tinywatch-time.zip -d /tw-libs
 
 script:
 
