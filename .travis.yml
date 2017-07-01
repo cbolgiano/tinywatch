@@ -20,10 +20,10 @@ before_install:
   - wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
   - unzip tools_r25.2.3-linux.zip -d ~/android-sdk-linux
 
-  - sudo python -c "$(curl -fsSL https://raw.githubusercontent.com/platformio/platformio/master/scripts/get-platformio.py)"
-
 install:
-
+  
+  - sudo python -c "$(curl -fsSL https://raw.githubusercontent.com/platformio/platformio/master/scripts/get-platformio.py)"
+  
   - ~/android-sdk-linux/tools/android list sdk -a
   - printf 'y' | ~/android-sdk-linux/tools/android update sdk -a -u -t "platform-tool,android-25,build-tools-25.0.0"
   - printf 'y' | ~/android-sdk-linux/tools/bin/sdkmanager "platforms;android-24"
@@ -58,7 +58,6 @@ install:
   # Install platformio.
   - sudo pip install -U platformio
   # Install project dependencies for platformio build.
-  - platformio lib install "TinyScreen"
   - sudo unzip $PWD/libs/arduino-BLEPeripheral-master.zip -d /tinywatch-libs
   - sudo unzip $PWD/libs/Time-master.zip -d /tinywatch-libs
   - sudo unzip $PWD/libs/tinywatch-time.zip -d /tinywatch-libs
