@@ -21,7 +21,7 @@ before_install:
   - unzip tools_r25.2.3-linux.zip -d ~/android-sdk-linux
 
 install:
-  
+  - sudo apt-get install python2.7
   - sudo python -c "$(curl -fsSL https://raw.githubusercontent.com/platformio/platformio/master/scripts/get-platformio.py)"
   
   - ~/android-sdk-linux/tools/android list sdk -a
@@ -56,7 +56,7 @@ install:
   - unzip $PWD/libs/tinywatch-time.zip -d /usr/local/share/arduino/libraries
 
   # Install platformio.
-  - sudo pip install -U platformio
+#  - sudo pip install -U platformio
   # Install project dependencies for platformio build.
   - sudo unzip $PWD/libs/arduino-BLEPeripheral-master.zip -d /tinywatch-libs
   - sudo unzip $PWD/libs/Time-master.zip -d /tinywatch-libs
