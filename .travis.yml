@@ -55,13 +55,9 @@ install:
 
   # Install python 2.7
   - sudo apt-get install python2.7
-#  - sudo python -c "$(curl -fsSL https://raw.githubusercontent.com/platformio/platformio/master/scripts/get-platformio.py)"
+  - sudo apt-get install python-pip
   # Install platformio.
   - sudo pip install -U platformio
-  # Install project dependencies for platformio build.
-  - sudo unzip $PWD/libs/arduino-BLEPeripheral-master.zip -d /tw-external-libs
-  - sudo unzip $PWD/libs/Time-master.zip -d /tw-external-libs
-  - sudo unzip $PWD/libs/tinywatch-time.zip -d /tw-libs
 
 script:
 
