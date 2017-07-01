@@ -21,8 +21,6 @@ before_install:
   - unzip tools_r25.2.3-linux.zip -d ~/android-sdk-linux
 
 install:
-  - sudo apt-get install python2.7
-  - sudo python -c "$(curl -fsSL https://raw.githubusercontent.com/platformio/platformio/master/scripts/get-platformio.py)"
   
   - ~/android-sdk-linux/tools/android list sdk -a
   - printf 'y' | ~/android-sdk-linux/tools/android update sdk -a -u -t "platform-tool,android-25,build-tools-25.0.0"
@@ -31,8 +29,8 @@ install:
   - export PATH=$PATH:~/android-sdk-linux/platform-tools:~/android-sdk-linux/tools:~/android-sdk-linux/build-tools/25.0.0/
   - source ~/.bashrc
 
-  - sudo apt-get install libc6:i386 libstdc++6:i386
-  - sudo apt-get install zlib1g:i386
+  - sudo apt-get install -y libc6:i386 libstdc++6:i386
+  - sudo apt-get install -y zlib1g:i386
   - . ~/.nvm/nvm.sh
   - nvm install stable
   - nvm use stable
@@ -55,8 +53,11 @@ install:
   - unzip $PWD/libs/Time-master.zip -d /usr/local/share/arduino/libraries
   - unzip $PWD/libs/tinywatch-time.zip -d /usr/local/share/arduino/libraries
 
+  # Install python 2.7
+  - sudo apt-get install -y python2.7
+#  - sudo python -c "$(curl -fsSL https://raw.githubusercontent.com/platformio/platformio/master/scripts/get-platformio.py)"
   # Install platformio.
-#  - sudo pip install -U platformio
+  - sudo pip install -U platformio
   # Install project dependencies for platformio build.
   - sudo unzip $PWD/libs/arduino-BLEPeripheral-master.zip -d /tinywatch-libs
   - sudo unzip $PWD/libs/Time-master.zip -d /tinywatch-libs
