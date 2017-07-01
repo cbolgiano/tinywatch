@@ -44,6 +44,13 @@ A project to create an open source watch that is powered by TinyCircuits TinyScr
 6. To Compile Choose ```Verify``` in Arduino IDE
 7. To Upload Choose ```Upload``` in Arduino IDE
 
+### Platformio
+1. Install ```python2.7```
+2. Install ```pip```
+3. Install ```platformio```
+4. Change directories to where the ```platformio.ini``` is located
+5. To build and upload execute ```platformio run --target upload```
+
 ## License
 
 This project is [licensed](LICENSE) under the [MIT Licence](http://en.wikipedia.org/wiki/MIT_License).
