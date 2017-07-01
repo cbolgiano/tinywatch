@@ -5,7 +5,7 @@
 #include <Arduino.h>
 #endif
 
-#ifndef _TIMELIB_H
+#ifndef _TIMELIB_H_
 #include <TimeLib.h>
 #endif
 
