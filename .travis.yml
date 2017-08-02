@@ -1,0 +1,68 @@
+language: java
+jdk:
+  - oraclejdk8
+
+env:
+
+  - PLATFORMIO_CI_SRC=$PWD/src/tinywatch/tinywatch.ino
+
+before_install:
+
+  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_1.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :1 -ac -screen 0 1280x1024x16"
+  - sleep 3
+  - export DISPLAY=:1.0
+
+  - wget http://downloads.arduino.cc/arduino-1.6.13-linux64.tar.xz
+  - tar xf arduino-1.6.13-linux64.tar.xz
+  - sudo mv arduino-1.6.13 /usr/local/share/arduino
+  - sudo ln -s /usr/local/share/arduino/arduino /usr/local/bin/arduino
+
+  - wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
+  - unzip tools_r25.2.3-linux.zip -d ~/android-sdk-linux
+
+install:
+  
+  - ~/android-sdk-linux/tools/android list sdk -a
+  - printf 'y' | ~/android-sdk-linux/tools/android update sdk -a -u -t "platform-tool,android-25,build-tools-25.0.0"
+  - printf 'y' | ~/android-sdk-linux/tools/bin/sdkmanager "platforms;android-24"
+
+  - export PATH=$PATH:~/android-sdk-linux/platform-tools:~/android-sdk-linux/tools:~/android-sdk-linux/build-tools/25.0.0/
+  - source ~/.bashrc
+
+  - sudo apt-get install libc6:i386 libstdc++6:i386
+  - sudo apt-get install zlib1g:i386
+  - . ~/.nvm/nvm.sh
+  - nvm install stable
+  - nvm use stable
+  - npm install -g cordova
+
+  # Install tinyscreen+ board for arduino.
+  - arduino --pref "boardsmanager.additional.urls=http://files.tinycircuits.com/ArduinoBoards/package_tinycircuits_index.json" --save-prefs
+  - arduino --pref "custom_BuildOption=tinyscreen_normal" --save-prefs
+  - arduino --install-boards arduino:samd --save-prefs
+  - arduino --install-boards TinyCircuits:samd --save-prefs
+  - arduino --install-library "TinyScreen" --save-prefs
+
+  # Clone project.
+  - wget https://github.com/cbolgiano/tinywatch/archive/develop.zip
+  - unzip develop.zip -d ~/tinywatch
+  - ln -s $PWD ~/tinywatch
+
+  # Install project dependencies for arduino build.
+  - unzip $PWD/libs/arduino-BLEPeripheral-master.zip -d /usr/local/share/arduino/libraries
+  - unzip $PWD/libs/Time-master.zip -d /usr/local/share/arduino/libraries
+  - unzip $PWD/libs/tinywatch-time.zip -d /usr/local/share/arduino/libraries
+
+  # Install python 2.7
+  - sudo apt-get install python2.7
+  - sudo apt-get install python-pip
+  # Install platformio.
+  - sudo pip install -U platformio
+
+script:
+
+  - platformio ci --project-conf=$PWD/platformio.ini
+
+  - arduino --verify --board TinyCircuits:samd:tinyscreen $PWD/src/tinywatch/tinywatch.ino
+
+  - cd $PWD/app/tinywatch && cordova build android

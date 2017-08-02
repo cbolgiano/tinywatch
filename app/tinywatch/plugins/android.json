@@ -1,0 +1,22 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-ble-central": {
+            "PACKAGE_NAME": "cbolgiano.tinywatch"
+        },
+        "cordova-plugin-globalization": {
+            "PACKAGE_NAME": "cbolgiano.tinywatch"
+        }
+    },
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "cbolgiano.tinywatch"
+        }
+    }
+}
