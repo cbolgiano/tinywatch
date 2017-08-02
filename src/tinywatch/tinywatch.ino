@@ -1,6 +1,7 @@
 #include <TinyScreen.h>
 #include <SPI.h>
 #include <tinywatch-time.h>
+#include <tinywatch-sleep.h>
 
 const int SCREEN_HEIGHT = 48;
 const int SCREEN_WIDTH = 96;
@@ -12,8 +13,6 @@ const int FONT_SIZE_OFFSET = 5;
 TinyScreen display = TinyScreen(TinyScreenPlus);
 char* msg = "";
 int msgX = MSG_X_START;
-//Temp sleep
-char isSleep = 0;
 
 void setup() {
   //TinyScreen display setup.
@@ -32,6 +31,10 @@ void loop() {
   TinyWatchTime::drawTime(display);
   TinyWatchTime::drawDate(display);
   //END time plugin.
+
+  //START sleep plugin
+  TinyWatchSleep::sleep(display);
+  //END sleep plugin
   
   //TODO: Make plugin to render background.
 
@@ -49,14 +52,6 @@ void loop() {
 
   //TODO: Make notification plugin and remove this.
   renderMessage();
-
-  //TODO: Make sleep plugin and remove this.
-  isSleep ? display.off() : display.on();
-  if (display.getButtons(TSButtonUpperLeft)
-    && display.getButtons(TSButtonUpperRight)) {
-    isSleep = isSleep ? 0 : 1;
-    delay(250);
-  }
 }
 
 //TODO: Make notification plugin and remove this.
