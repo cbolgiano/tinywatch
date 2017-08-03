@@ -1,21 +1,28 @@
 #include "tinywatch-sleep.h"
 
-char isSleep = 0;
+//TIME_UNTIL_SLEEP is in seconds.
+const int TIME_UNTIL_SLEEP = 5;
+
+//sleepyTime is in seconds.
+int sleepyTime = 0;
 
 void TinyWatchSleep::sleep(TinyScreen display){
-  isSleep ? display.off() : display.on();
+  now() >= sleepyTime ? display.off() : display.on();
   if (display.getButtons(TSButtonUpperLeft)
-    && display.getButtons(TSButtonUpperRight)) {
-    isSleep = isSleep ? 0 : 1;
-    delay(250);
+       || display.getButtons(TSButtonUpperRight)
+       || display.getButtons(TSButtonLowerLeft)
+       || display.getButtons(TSButtonLowerRight)) {
+    sleepyTime = now() + TIME_UNTIL_SLEEP;
   }
 }
 
+//timeToSleep is in seconds.
 void TinyWatchSleep::sleep(TinyScreen display, int timeToSleep){
-  isSleep ? display.off() : display.on();
+  now() >= sleepyTime ? display.off() : display.on();
   if (display.getButtons(TSButtonUpperLeft)
-    && display.getButtons(TSButtonUpperRight)) {
-    isSleep = isSleep ? 0 : 1;
-    delay(timeToSleep);
+       || display.getButtons(TSButtonUpperRight)
+       || display.getButtons(TSButtonLowerLeft)
+       || display.getButtons(TSButtonLowerRight)) {
+    sleepyTime = now() + timeToSleep;
   }
 }
