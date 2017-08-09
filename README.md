@@ -23,6 +23,12 @@ A project to create an open source watch that is powered by TinyCircuits TinyScr
 
 *[cordova-plugin-ble-central](https://github.com/don/cordova-plugin-ble-central)*
 
+## Documentation
+
+*[Home](https://github.com/cbolgiano/tinywatch/wiki)*
+
+*[tinywatch-sleep](https://github.com/cbolgiano/tinywatch/wiki/tinywatch-sleep)*
+
 ## Usage
 
 ### General 
