@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="cbolgiano.tinywatch" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>tinywatch</name>
+    <description>
+        A mobile application that will expose data using BLE for the tinywatch to consume.
+    </description>
+    <author email="cbolgiano625@gmail.com " href=""/>
+    <content src="index.html" />
+    <plugin name="cordova-plugin-whitelist" spec="1" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+        <icon src="res/mipmap-ldpi/ldpi.png" density="ldpi" />
+        <icon src="/res/mipmap-mdpi/mdpi.png" density="mdpi" />
+        <icon src="/res/mipmap-hdpi/hdpi.png" density="hdpi" />
+        <icon src="/res/mipmap-xhdpi/xhdpi.png" density="xhdpi" />
+        <icon src="/res/mipmap-xxhdpi/xxhdpi.png" density="xxhdpi" />
+        <icon src="/res/mipmap-xxxhdpi/xxxhdpi.png" density="xxxhdpi" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+    </platform>
+</widget>
