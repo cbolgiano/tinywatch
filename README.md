@@ -29,6 +29,8 @@ A project to create an open source watch that is powered by TinyCircuits TinyScr
 
 *[tinywatch-sleep](https://github.com/cbolgiano/tinywatch/wiki/tinywatch-sleep)*
 
+*[tinywatch-time](https://github.com/cbolgiano/tinywatch/wiki/tinywatch-time)*
+
 ## Usage
 
 ### General 
