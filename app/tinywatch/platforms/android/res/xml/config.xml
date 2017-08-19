@@ -27,4 +27,7 @@
     <icon density="xxhdpi" src="/res/mipmap-xxhdpi/xxhdpi.png" />
     <icon density="xxxhdpi" src="/res/mipmap-xxxhdpi/xxxhdpi.png" />
     <preference name="loglevel" value="DEBUG" />
+    <feature name="NotificationListener">
+        <param name="android-package" value="net.coconauts.notificationListener.NotificationCommands" />
+    </feature>
 </widget>
