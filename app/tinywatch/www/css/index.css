@@ -28,6 +28,11 @@
     display:block;
 }
 
+.event.failed {
+    background-color:#ff0000;
+    display:block;
+}
+
 @keyframes fade {
     from { opacity: 1.0; }
     50% { opacity: 0.4; }

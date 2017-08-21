@@ -51,6 +51,15 @@ var app = {
   },
   onDeviceReady: function() {
     app.scan();
+    notificationListener.listen(onNotification, onNotificationFailure)
+  },
+  onNotification: function(notification) {
+    showMessage('Sending Notification...', 'blink', 'event listening');
+    //TODO: stuff to send notification to watch.
+    showMessage('Notification Sent!', '', 'event received');
+  },
+  onNotificationFailure: function(reason) {
+    showMessage('Notification error!', '', 'event failed');
   },
   scan: function() {
     showMessage('Finding tinywatch...', 'blink', 'event listening');
@@ -74,6 +83,8 @@ var app = {
      setTimeout(function() {
        if (!foundTinywatch) {
          app.scan();
+       } else {
+         showMessage('Connected to tinywatch.', '', 'event received');
        }
      }, fiveSeconds);
   },
@@ -107,7 +118,7 @@ var app = {
     }, function(){      
       setTimeout(function() {
         app.writeTime();
-      }, thirtySeconds);
+      }, tenMinutes);
     });
   }
 };
