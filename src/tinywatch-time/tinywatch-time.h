@@ -30,11 +30,8 @@ namespace TinyWatchTime{
   const char* getDateToRender(time_t t);
 
   //Setup for time plugin.
-  void setup();
+  void setup(BLEPeripheral existingPeripheral);
     
-  //BLE poll for timeCharacteristic value change.
-  void poll();
-
   //Render time using diplay.
   void drawTime(TinyScreen display);
 

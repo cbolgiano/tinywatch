@@ -4,10 +4,13 @@ var thirtySeconds = 30000;
 var fiveSeconds = 5000;
 
 var tinywatch = {
-  uuid: 'CCC0',
+  uuid: 'tinywatch',
   characteristics: {
     time: {
-      uuid: 'CCC2'
+      uuid: 'tw-time-char'
+    },
+    notification: {
+      uuid: 'tw-notify-char'
     }
   },
   id: null
@@ -47,16 +50,22 @@ var app = {
     this.bindEvents();
   },
   bindEvents: function(){
-    document.addEventListener('deviceready', this.onDeviceReady, false);
+    document.addEventListener('deviceready', app.onDeviceReady, false);
   },
   onDeviceReady: function() {
     app.scan();
-    notificationListener.listen(onNotification, onNotificationFailure)
+    notificationListener.listen(app.onNotification, app.onNotificationFailure);
   },
   onNotification: function(notification) {
     showMessage('Sending Notification...', 'blink', 'event listening');
-    //TODO: stuff to send notification to watch.
-    showMessage('Notification Sent!', '', 'event received');
+
+    function success(){
+      setTimeout(function() {
+        showMessage('Notification Sent!', '', 'event received');
+      }, fiveSeconds);
+    }
+
+    ble.write(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.notification.uuid, JSON.stringify(notification), this.success, app.onNotificationFailure);
   },
   onNotificationFailure: function(reason) {
     showMessage('Notification error!', '', 'event failed');
@@ -114,7 +123,7 @@ var app = {
       var timezoneOffset = new Date(date.value).getTimezoneOffset() * 60000;
       var now = (Date.now() - timezoneOffset) / 1000;
       var dataToSend = toUint32ArrayBuffer(now);
-      ble.write(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.time.uuid, dataToSend, success, failure);
+      ble.write(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.time.uuid, dataToSend, this.success, this.failure);
     }, function(){      
       setTimeout(function() {
         app.writeTime();

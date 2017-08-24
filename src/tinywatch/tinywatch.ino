@@ -1,7 +1,18 @@
 #include <TinyScreen.h>
 #include <SPI.h>
 #include <tinywatch-time.h>
+#include <tinywatch-notification.h>
 #include <tinywatch-sleep.h>
+
+#if defined(_TINYWATCH_TIME_H_) || defined(_TINYWATCH_NOTIFICATION_H_)
+#define _BLE_ENABLED_
+unsigned char BLE_REQ = 10;
+unsigned char BLE_RDY = 2;
+unsigned char BLE_RST = 9;
+                                                                                                                                                
+//Instantiate BLE peripheral.                                                                                                                   
+BLEPeripheral bLEPeripheral = BLEPeripheral(BLE_REQ, BLE_RDY, BLE_RST);
+#endif
 
 const int SCREEN_HEIGHT = 48;
 const int SCREEN_WIDTH = 96;
@@ -20,14 +31,32 @@ void setup() {
   display.setFlip(true);
   display.setBrightness(10);
 
+#ifdef _BLE_ENABLED_
   //START time plugin.
-  TinyWatchTime::setup();
+  TinyWatchTime::setup(bLEPeripheral);
   //END time plugin.
+#endif
+
+#ifdef _BLE_ENABLED_
+  //START notification plugin.
+  TinyWatchNotification::setup(bLEPeripheral);
+  //END notification plugin.
+#endif
+
+#ifdef _BLE_ENABLED_
+  bLEPeripheral.setLocalName("tinywatch");
+  //Start BLE service.                                                                                                                          
+  bLEPeripheral.begin();
+#endif
 }
 
 void loop() {
+  
+#ifdef _BLE_ENABLED_
+  bLEPeripheral.poll();
+#endif
+
   //START time plugin.
-  TinyWatchTime::poll();
   TinyWatchTime::drawTime(display);
   TinyWatchTime::drawDate(display);
   //END time plugin.
