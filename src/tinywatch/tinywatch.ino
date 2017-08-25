@@ -12,6 +12,7 @@ unsigned char BLE_RST = 9;
                                                                                                                                                 
 //Instantiate BLE peripheral.                                                                                                                   
 BLEPeripheral bLEPeripheral = BLEPeripheral(BLE_REQ, BLE_RDY, BLE_RST);
+BLEService tinywatchService = BLEService("CCC0");
 #endif
 
 const int SCREEN_HEIGHT = 48;
@@ -44,6 +45,10 @@ void setup() {
 #endif
 
 #ifdef _BLE_ENABLED_
+  //Setting advertising id from service.                                                                                                        
+  bLEPeripheral.setAdvertisedServiceUuid(tinywatchService.uuid());
+  //Adding attributes for BLE peripheral.                                                                                                       
+  bLEPeripheral.addAttribute(tinywatchService);
   bLEPeripheral.setLocalName("tinywatch");
   //Start BLE service.                                                                                                                          
   bLEPeripheral.begin();
@@ -56,10 +61,12 @@ void loop() {
   bLEPeripheral.poll();
 #endif
 
+#ifdef _BLE_ENABLED_
   //START time plugin.
   TinyWatchTime::drawTime(display);
   TinyWatchTime::drawDate(display);
   //END time plugin.
+#endif
 
   //START sleep plugin
   TinyWatchSleep::sleep(display);
@@ -80,7 +87,7 @@ void loop() {
   //TODO: whateva whatev we do what we want...
 
   //TODO: Make notification plugin and remove this.
-  renderMessage();
+//  renderMessage();
 }
 
 //TODO: Make notification plugin and remove this.

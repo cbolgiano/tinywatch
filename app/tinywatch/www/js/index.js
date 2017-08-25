@@ -4,13 +4,13 @@ var thirtySeconds = 30000;
 var fiveSeconds = 5000;
 
 var tinywatch = {
-  uuid: 'tinywatch',
+  uuid: 'CCC0',
   characteristics: {
     time: {
-      uuid: 'tw-time-char'
+      uuid: 'CCC1'
     },
     notification: {
-      uuid: 'tw-notify-char'
+      uuid: 'CCC2'
     }
   },
   id: null

@@ -1,17 +1,10 @@
 #include "tinywatch-time.h"
 
-//Uniquely identifies BLE peripheral, used for advertising.
-BLEService timeService = BLEService("tw-time");
-
 //Time Characteristic
-BLELongCharacteristic timeCharacteristic = BLELongCharacteristic("tw-time-char", BLEWrite);
+BLELongCharacteristic timeCharacteristic = BLELongCharacteristic("CCC1", BLEWrite);
 
 //Setup for time plugin.
 void TinyWatchTime::setup(BLEPeripheral existingPeripheral){
-  //Setting advertising id from service.
-  existingPeripheral.setAdvertisedServiceUuid(timeService.uuid());
-  //Adding attributes for BLE peripheral.
-  existingPeripheral.addAttribute(timeService);
   existingPeripheral.addAttribute(timeCharacteristic);
 
   timeCharacteristic.setEventHandler(BLEWritten, setTimeHandler);

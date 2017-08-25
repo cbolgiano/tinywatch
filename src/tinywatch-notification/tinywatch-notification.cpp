@@ -1,17 +1,10 @@
 #include "tinywatch-notification.h"
 
-//Uniquely identifies BLE peripheral, used for advertising.
-BLEService notificationService = BLEService("tw-notify");
-
 //Notification Characteristic
-BLECharCharacteristic notificationCharacteristic = BLECharCharacteristic("tw-notify-char", BLEWrite);
+BLECharCharacteristic notificationCharacteristic = BLECharCharacteristic("CCC2", BLEWrite);
 
 //Setup for notification plugin.
 void TinyWatchNotification::setup(BLEPeripheral existingPeripheral){
-  //Setting advertising id from service.
-  existingPeripheral.setAdvertisedServiceUuid(notificationService.uuid());
-  //Adding attributes for BLE peripheral.
-  existingPeripheral.addAttribute(notificationService);
   existingPeripheral.addAttribute(notificationCharacteristic);
 
   notificationCharacteristic.setEventHandler(BLEWritten, setNotificationHandler);
