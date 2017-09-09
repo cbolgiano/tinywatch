@@ -65,7 +65,7 @@ var app = {
       }, fiveSeconds);
     }
 
-    ble.write(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.notification.uuid, JSON.stringify(notification), this.success, app.onNotificationFailure);
+    ble.write(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.notification.uuid, "!", this.success, app.onNotificationFailure);
   },
   onNotificationFailure: function(reason) {
     showMessage('Notification error!', '', 'event failed');
@@ -123,7 +123,7 @@ var app = {
       var timezoneOffset = new Date(date.value).getTimezoneOffset() * 60000;
       var now = (Date.now() - timezoneOffset) / 1000;
       var dataToSend = toUint32ArrayBuffer(now);
-      ble.write(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.time.uuid, dataToSend, this.success, this.failure);
+      ble.write(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.time.uuid, dataToSend, success, failure);
     }, function(){      
       setTimeout(function() {
         app.writeTime();

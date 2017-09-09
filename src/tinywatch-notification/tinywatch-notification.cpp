@@ -4,7 +4,7 @@
 BLECharCharacteristic notificationCharacteristic = BLECharCharacteristic("CCC2", BLEWrite);
 
 //Setup for notification plugin.
-void TinyWatchNotification::setup(BLEPeripheral existingPeripheral){
+void TinyWatchNotification::setup(BLEPeripheral& existingPeripheral){
   existingPeripheral.addAttribute(notificationCharacteristic);
 
   notificationCharacteristic.setEventHandler(BLEWritten, setNotificationHandler);

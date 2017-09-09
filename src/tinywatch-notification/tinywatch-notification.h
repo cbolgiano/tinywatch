@@ -15,7 +15,7 @@
 
 namespace TinyWatchNotification{  
   //Setup for notifications plugin.
-  void setup(BLEPeripheral existingPeripheral);
+  void setup(BLEPeripheral& existingPeripheral);
 
   //Capture notification.
   void setNotificationHandler(BLECentral& central, BLECharacteristic& characteristic);

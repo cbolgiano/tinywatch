@@ -9,15 +9,15 @@
 unsigned char BLE_REQ = 10;
 unsigned char BLE_RDY = 2;
 unsigned char BLE_RST = 9;
-                                                                                                                                                
-//Instantiate BLE peripheral.                                                                                                                   
+
+//Instantiate BLE peripheral.
 BLEPeripheral bLEPeripheral = BLEPeripheral(BLE_REQ, BLE_RDY, BLE_RST);
 BLEService tinywatchService = BLEService("CCC0");
 #endif
 
 const int SCREEN_HEIGHT = 48;
 const int SCREEN_WIDTH = 96;
-const int SCREEN_CENTER = SCREEN_WIDTH/2;
+const int SCREEN_CENTER = SCREEN_WIDTH / 2;
 const int MSG_X_START = SCREEN_WIDTH + 1;
 const int FONT_SIZE_OFFSET = 5;
 
@@ -33,45 +33,44 @@ void setup() {
   display.setBrightness(10);
 
 #ifdef _BLE_ENABLED_
+  bLEPeripheral.setLocalName("tinywatch");
+  //Setting advertising id from service.
+  bLEPeripheral.setAdvertisedServiceUuid(tinywatchService.uuid());
+  //Adding attributes for BLE peripheral.
+  bLEPeripheral.addAttribute(tinywatchService);
+  //Start BLE service.
+
   //START time plugin.
   TinyWatchTime::setup(bLEPeripheral);
   //END time plugin.
-#endif
 
-#ifdef _BLE_ENABLED_
   //START notification plugin.
   TinyWatchNotification::setup(bLEPeripheral);
   //END notification plugin.
-#endif
 
-#ifdef _BLE_ENABLED_
-  //Setting advertising id from service.                                                                                                        
-  bLEPeripheral.setAdvertisedServiceUuid(tinywatchService.uuid());
-  //Adding attributes for BLE peripheral.                                                                                                       
-  bLEPeripheral.addAttribute(tinywatchService);
-  bLEPeripheral.setLocalName("tinywatch");
-  //Start BLE service.                                                                                                                          
   bLEPeripheral.begin();
 #endif
 }
 
 void loop() {
-  
-#ifdef _BLE_ENABLED_
-  bLEPeripheral.poll();
-#endif
 
 #ifdef _BLE_ENABLED_
+  bLEPeripheral.poll();
+
   //START time plugin.
   TinyWatchTime::drawTime(display);
   TinyWatchTime::drawDate(display);
+  //END time plugin.
+
+  //START time plugin.
+  TinyWatchNotification::drawNotification(display);
   //END time plugin.
 #endif
 
   //START sleep plugin
   TinyWatchSleep::sleep(display);
   //END sleep plugin
-  
+
   //TODO: Make plugin to render background.
 
   //TODO: Make plugin to to render orientation.
@@ -87,18 +86,18 @@ void loop() {
   //TODO: whateva whatev we do what we want...
 
   //TODO: Make notification plugin and remove this.
-//  renderMessage();
+  renderMessage();
 }
 
 //TODO: Make notification plugin and remove this.
-void renderMessage(){
+void renderMessage() {
   int width = display.getPrintWidth(msg);
-  if(msg != "" && msgX > -width){
+  if (msg != "" && msgX > -width) {
     display.setFont(liberationSans_8ptFontInfo);
-    display.setCursor(msgX,48);
+    display.setCursor(msgX, 48);
     display.print(msg);
     msgX--;
-  } else{
+  } else {
     msg = "";
     msgX = MSG_X_START;
   }

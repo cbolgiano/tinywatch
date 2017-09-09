@@ -4,7 +4,7 @@
 BLELongCharacteristic timeCharacteristic = BLELongCharacteristic("CCC1", BLEWrite);
 
 //Setup for time plugin.
-void TinyWatchTime::setup(BLEPeripheral existingPeripheral){
+void TinyWatchTime::setup(BLEPeripheral& existingPeripheral){
   existingPeripheral.addAttribute(timeCharacteristic);
 
   timeCharacteristic.setEventHandler(BLEWritten, setTimeHandler);
