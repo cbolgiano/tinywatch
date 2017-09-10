@@ -15,16 +15,8 @@ BLEPeripheral bLEPeripheral = BLEPeripheral(BLE_REQ, BLE_RDY, BLE_RST);
 BLEService tinywatchService = BLEService("CCC0");
 #endif
 
-const int SCREEN_HEIGHT = 48;
-const int SCREEN_WIDTH = 96;
-const int SCREEN_CENTER = SCREEN_WIDTH / 2;
-const int MSG_X_START = SCREEN_WIDTH + 1;
-const int FONT_SIZE_OFFSET = 5;
-
 //Determines which version of TinyScreen we are using.
 TinyScreen display = TinyScreen(TinyScreenPlus);
-char* msg = "";
-int msgX = MSG_X_START;
 
 void setup() {
   //TinyScreen display setup.
@@ -85,20 +77,4 @@ void loop() {
 
   //TODO: whateva whatev we do what we want...
 
-  //TODO: Make notification plugin and remove this.
-  renderMessage();
-}
-
-//TODO: Make notification plugin and remove this.
-void renderMessage() {
-  int width = display.getPrintWidth(msg);
-  if (msg != "" && msgX > -width) {
-    display.setFont(liberationSans_8ptFontInfo);
-    display.setCursor(msgX, 48);
-    display.print(msg);
-    msgX--;
-  } else {
-    msg = "";
-    msgX = MSG_X_START;
-  }
 }

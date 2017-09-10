@@ -57,19 +57,20 @@ var app = {
     notificationListener.listen(app.onNotification, app.onNotificationFailure);
   },
   onNotification: function(notification) {
-    showMessage('Sending Notification...', 'blink', 'event listening');
+    /*showMessage('Sending Notification...', 'blink', 'event listening');
 
-    function success(){
+      function success(){
+      showMessage('Notification Sent!', '', 'event received');
       setTimeout(function() {
-        showMessage('Notification Sent!', '', 'event received');
+	 
       }, fiveSeconds);
-    }
+    }*/
 
-    ble.write(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.notification.uuid, "!", this.success, app.onNotificationFailure);
+    ble.write(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.notification.uuid,new ArrayBuffer(), null, null);
   },
-  onNotificationFailure: function(reason) {
-    showMessage('Notification error!', '', 'event failed');
-  },
+  /*onNotificationFailure: function(reason) {
+    showMessage('Notification error!: ' + reason, '', 'event failed');
+  },*/
   scan: function() {
     showMessage('Finding tinywatch...', 'blink', 'event listening');
 
@@ -123,7 +124,7 @@ var app = {
       var timezoneOffset = new Date(date.value).getTimezoneOffset() * 60000;
       var now = (Date.now() - timezoneOffset) / 1000;
       var dataToSend = toUint32ArrayBuffer(now);
-      ble.write(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.time.uuid, dataToSend, success, failure);
+      ble.write(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.time.uuid, dataToSend, this.success, this.failure);
     }, function(){      
       setTimeout(function() {
         app.writeTime();
