@@ -1,8 +1,9 @@
-#include <TinyScreen.h>
-#include <SPI.h>
 #include <tinywatch-time.h>
+#include <tinywatch-display.h>
 #include <tinywatch-notification.h>
 #include <tinywatch-sleep.h>
+
+extern int isNotification;
 
 #if defined(_TINYWATCH_TIME_H_) || defined(_TINYWATCH_NOTIFICATION_H_)
 #define _BLE_ENABLED_
@@ -15,14 +16,10 @@ BLEPeripheral bLEPeripheral = BLEPeripheral(BLE_REQ, BLE_RDY, BLE_RST);
 BLEService tinywatchService = BLEService("CCC0");
 #endif
 
-//Determines which version of TinyScreen we are using.
-TinyScreen display = TinyScreen(TinyScreenPlus);
-
 void setup() {
-  //TinyScreen display setup.
-  display.begin();
-  display.setFlip(true);
-  display.setBrightness(10);
+  //START display plugin.
+  TinyWatchDisplay::setup();
+  //END display plugin.
 
 #ifdef _BLE_ENABLED_
   bLEPeripheral.setLocalName("tinywatch");
@@ -49,19 +46,25 @@ void loop() {
 #ifdef _BLE_ENABLED_
   bLEPeripheral.poll();
 
+  if(!isNotification){
+    //START time plugin.
+    TinyWatchTime::drawTime(TinyWatchDisplay::getDisplay());
+    TinyWatchTime::drawDate(TinyWatchDisplay::getDisplay());
+    //END time plugin.
+  }
   //START time plugin.
-  TinyWatchTime::drawTime(display);
-  TinyWatchTime::drawDate(display);
-  //END time plugin.
-
-  //START time plugin.
-  TinyWatchNotification::drawNotification(display);
+  TinyWatchNotification::drawNotification(TinyWatchDisplay::getDisplay());
   //END time plugin.
 #endif
 
   //START sleep plugin
-  TinyWatchSleep::sleep(display);
+  TinyWatchSleep::sleep(TinyWatchDisplay::getDisplay());
   //END sleep plugin
+
+  //START display plugin.
+  TinyWatchDisplay::manageDisplay();
+  //END display plugin.
+
 
   //TODO: Make plugin to render background.
 

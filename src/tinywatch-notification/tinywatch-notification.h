@@ -9,6 +9,10 @@
 #include <TinyScreen.h>
 #endif
 
+#ifndef _TIMELIB_H_
+#include <TimeLib.h>
+#endif
+
 #ifndef _BLE_PERIPHERAL_H_
 #include <BLEPeripheral.h>
 #endif

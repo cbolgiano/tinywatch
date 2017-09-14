@@ -5,9 +5,10 @@ const int TIME_UNTIL_SLEEP = 5;
 
 //sleepyTime is in seconds.
 int sleepyTime = 0;
+int isSleeping = 1;
 
 void TinyWatchSleep::sleep(TinyScreen display){
-  now() >= sleepyTime ? display.off() : display.on();
+  isSleeping = now() >= sleepyTime ? 1 : 0;
   if (display.getButtons(TSButtonUpperLeft)
        || display.getButtons(TSButtonUpperRight)
        || display.getButtons(TSButtonLowerLeft)
@@ -18,7 +19,7 @@ void TinyWatchSleep::sleep(TinyScreen display){
 
 //timeToSleep is in seconds.
 void TinyWatchSleep::sleep(TinyScreen display, int timeToSleep){
-  now() >= sleepyTime ? display.off() : display.on();
+  isSleeping = now() >= sleepyTime ? 1 : 0;
   if (display.getButtons(TSButtonUpperLeft)
        || display.getButtons(TSButtonUpperRight)
        || display.getButtons(TSButtonLowerLeft)

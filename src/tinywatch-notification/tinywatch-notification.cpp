@@ -4,9 +4,13 @@ const int SCREEN_HEIGHT = 48;
 const int SCREEN_WIDTH = 96;
 const int SCREEN_CENTER = SCREEN_WIDTH / 2;
 const int MSG_X_START = SCREEN_WIDTH + 1;
-const int FONT_SIZE_OFFSET = 5;
+const int TIME_UNTIL_SLEEP = 5;
 char* msg = "";
 int msgX = MSG_X_START;
+int isNotification;
+
+//notifySleepTime is in seconds.
+int notifySleepTime = 0;
 
 //Notification Characteristic
 BLECharCharacteristic notificationCharacteristic = BLECharCharacteristic("CCC2", BLEWrite);
@@ -20,19 +24,27 @@ void TinyWatchNotification::setup(BLEPeripheral& existingPeripheral){
 
 //TODO: Set Notification
 void TinyWatchNotification::setNotificationHandler(BLECentral& central, BLECharacteristic& characteristic) {
-  msg = notificationCharacteristic.value();
+  msg = "Alert!";
 }
 
 //Render notification using display.
 void TinyWatchNotification::drawNotification(TinyScreen display) {
   int width = display.getPrintWidth(msg);
-  if (msg != "" && msgX > -width) {
-    display.setFont(liberationSans_8ptFontInfo);
-    display.setCursor(msgX, 48);
+  if (isNotification && ((display.getButtons(TSButtonUpperLeft)
+    || display.getButtons(TSButtonUpperRight)
+    || display.getButtons(TSButtonLowerLeft)
+    || display.getButtons(TSButtonLowerRight))
+    || now() >= notifySleepTime)) {
+    isNotification = 0;
+    msg = "";    
+  }
+  
+  if (!isNotification && msg != "") {    
+    isNotification = 1;
+    notifySleepTime = now() + TIME_UNTIL_SLEEP;
+    display.clearScreen();
+    display.setFont(liberationSans_16ptFontInfo);
+    display.setCursor((SCREEN_CENTER/2) - width, 16);
     display.print(msg);
-    msgX--;
-  } else {
-    msg = "";
-    msgX = MSG_X_START;
   }
 }
