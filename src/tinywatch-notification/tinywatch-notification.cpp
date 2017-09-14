@@ -7,7 +7,7 @@ const int MSG_X_START = SCREEN_WIDTH + 1;
 const int TIME_UNTIL_SLEEP = 5;
 char* msg = "";
 int msgX = MSG_X_START;
-int isNotification;
+int isNotification = 0;
 
 //notifySleepTime is in seconds.
 int notifySleepTime = 0;
