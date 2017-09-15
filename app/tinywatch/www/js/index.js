@@ -7,6 +7,9 @@ var tinywatch = {
   uuid: 'CCC0',
   characteristics: {
     time: {
+      uuid: 'CCC1'
+    },
+    notification: {
       uuid: 'CCC2'
     }
   },
@@ -47,10 +50,14 @@ var app = {
     this.bindEvents();
   },
   bindEvents: function(){
-    document.addEventListener('deviceready', this.onDeviceReady, false);
+    document.addEventListener('deviceready', app.onDeviceReady, false);
   },
   onDeviceReady: function() {
     app.scan();
+    notificationListener.listen(app.onNotification, app.onNotificationFailure);
+  },
+  onNotification: function(notification) {
+    ble.write(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.notification.uuid,new ArrayBuffer(), null, null);
   },
   scan: function() {
     showMessage('Finding tinywatch...', 'blink', 'event listening');
@@ -74,6 +81,8 @@ var app = {
      setTimeout(function() {
        if (!foundTinywatch) {
          app.scan();
+       } else {
+         showMessage('Connected to tinywatch.', '', 'event received');
        }
      }, fiveSeconds);
   },
@@ -103,11 +112,11 @@ var app = {
       var timezoneOffset = new Date(date.value).getTimezoneOffset() * 60000;
       var now = (Date.now() - timezoneOffset) / 1000;
       var dataToSend = toUint32ArrayBuffer(now);
-      ble.write(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.time.uuid, dataToSend, success, failure);
+      ble.write(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.time.uuid, dataToSend, this.success, this.failure);
     }, function(){      
       setTimeout(function() {
         app.writeTime();
-      }, thirtySeconds);
+      }, tenMinutes);
     });
   }
 };

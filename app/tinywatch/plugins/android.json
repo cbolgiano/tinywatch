@@ -12,6 +12,9 @@
         },
         "cordova-plugin-globalization": {
             "PACKAGE_NAME": "cbolgiano.tinywatch"
+        },
+        "net.coconauts.notification-listener": {
+            "PACKAGE_NAME": "cbolgiano.tinywatch"
         }
     },
     "dependent_plugins": {

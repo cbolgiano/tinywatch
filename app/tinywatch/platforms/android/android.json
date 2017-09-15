@@ -11,6 +11,10 @@
                         {
                             "xml": "<feature name=\"Globalization\"><param name=\"android-package\" value=\"org.apache.cordova.globalization.Globalization\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"NotificationListener\"><param name=\"android-package\" value=\"net.coconauts.notificationListener.NotificationCommands\" /></feature>",
+                            "count": 1
                         }
                     ],
                     "/widget": [
@@ -36,6 +40,16 @@
                             "xml": "<uses-permission android:name=\"android.permission.BLUETOOTH_ADMIN\" />",
                             "count": 1
                         }
+                    ],
+                    "/manifest/application": [
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.BIND_NOTIFICATION_LISTENER_SERVICE\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<service android:name=\"net.coconauts.notificationListener.NotificationService\" android:permission=\"android.permission.BIND_NOTIFICATION_LISTENER_SERVICE\"><intent-filter><action android:name=\"android.service.notification.NotificationListenerService\" /></intent-filter></service>",
+                            "count": 1
+                        }
                     ]
                 }
             }
@@ -49,6 +63,9 @@
             "PACKAGE_NAME": "cbolgiano.tinywatch"
         },
         "cordova-plugin-globalization": {
+            "PACKAGE_NAME": "cbolgiano.tinywatch"
+        },
+        "net.coconauts.notification-listener": {
             "PACKAGE_NAME": "cbolgiano.tinywatch"
         }
     },
@@ -77,11 +94,20 @@
             "clobbers": [
                 "navigator.globalization"
             ]
+        },
+        {
+            "id": "net.coconauts.notification-listener.NotificationListener",
+            "file": "plugins/net.coconauts.notification-listener/www/notification-listener.js",
+            "pluginId": "net.coconauts.notification-listener",
+            "clobbers": [
+                "notificationListener"
+            ]
         }
     ],
     "plugin_metadata": {
         "cordova-plugin-compat": "1.1.0",
         "cordova-plugin-ble-central": "1.1.4",
-        "cordova-plugin-globalization": "1.0.5"
+        "cordova-plugin-globalization": "1.0.5",
+        "net.coconauts.notification-listener": "0.0.1"
     }
 }

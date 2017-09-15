@@ -1,41 +1,71 @@
-#include <TinyScreen.h>
-#include <SPI.h>
 #include <tinywatch-time.h>
+#include <tinywatch-display.h>
+#include <tinywatch-notification.h>
 #include <tinywatch-sleep.h>
 
-const int SCREEN_HEIGHT = 48;
-const int SCREEN_WIDTH = 96;
-const int SCREEN_CENTER = SCREEN_WIDTH/2;
-const int MSG_X_START = SCREEN_WIDTH + 1;
-const int FONT_SIZE_OFFSET = 5;
+extern int isNotification;
 
-//Determines which version of TinyScreen we are using.
-TinyScreen display = TinyScreen(TinyScreenPlus);
-char* msg = "";
-int msgX = MSG_X_START;
+#if defined(_TINYWATCH_TIME_H_) || defined(_TINYWATCH_NOTIFICATION_H_)
+#define _BLE_ENABLED_
+unsigned char BLE_REQ = 10;
+unsigned char BLE_RDY = 2;
+unsigned char BLE_RST = 9;
+
+//Instantiate BLE peripheral.
+BLEPeripheral bLEPeripheral = BLEPeripheral(BLE_REQ, BLE_RDY, BLE_RST);
+BLEService tinywatchService = BLEService("CCC0");
+#endif
 
 void setup() {
-  //TinyScreen display setup.
-  display.begin();
-  display.setFlip(true);
-  display.setBrightness(10);
+  //START display plugin.
+  TinyWatchDisplay::setup();
+  //END display plugin.
+
+#ifdef _BLE_ENABLED_
+  bLEPeripheral.setLocalName("tinywatch");
+  //Setting advertising id from service.
+  bLEPeripheral.setAdvertisedServiceUuid(tinywatchService.uuid());
+  //Adding attributes for BLE peripheral.
+  bLEPeripheral.addAttribute(tinywatchService);
+  //Start BLE service.
 
   //START time plugin.
-  TinyWatchTime::setup();
+  TinyWatchTime::setup(bLEPeripheral);
   //END time plugin.
+
+  //START notification plugin.
+  TinyWatchNotification::setup(bLEPeripheral);
+  //END notification plugin.
+
+  bLEPeripheral.begin();
+#endif
 }
 
 void loop() {
+
+#ifdef _BLE_ENABLED_
+  bLEPeripheral.poll();
+
+  if(!isNotification){
+    //START time plugin.
+    TinyWatchTime::drawTime(TinyWatchDisplay::getDisplay());
+    TinyWatchTime::drawDate(TinyWatchDisplay::getDisplay());
+    //END time plugin.
+  }
   //START time plugin.
-  TinyWatchTime::poll();
-  TinyWatchTime::drawTime(display);
-  TinyWatchTime::drawDate(display);
+  TinyWatchNotification::drawNotification(TinyWatchDisplay::getDisplay());
   //END time plugin.
+#endif
 
   //START sleep plugin
-  TinyWatchSleep::sleep(display);
+  TinyWatchSleep::sleep(TinyWatchDisplay::getDisplay());
   //END sleep plugin
-  
+
+  //START display plugin.
+  TinyWatchDisplay::manageDisplay();
+  //END display plugin.
+
+
   //TODO: Make plugin to render background.
 
   //TODO: Make plugin to to render orientation.
@@ -50,20 +80,4 @@ void loop() {
 
   //TODO: whateva whatev we do what we want...
 
-  //TODO: Make notification plugin and remove this.
-  renderMessage();
-}
-
-//TODO: Make notification plugin and remove this.
-void renderMessage(){
-  int width = display.getPrintWidth(msg);
-  if(msg != "" && msgX > -width){
-    display.setFont(liberationSans_8ptFontInfo);
-    display.setCursor(msgX,48);
-    display.print(msg);
-    msgX--;
-  } else{
-    msg = "";
-    msgX = MSG_X_START;
-  }
 }

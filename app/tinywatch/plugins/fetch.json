@@ -30,5 +30,30 @@
         },
         "is_top_level": true,
         "variables": {}
+    },
+    "cordova-plugin-device": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-device"
+        },
+        "is_top_level": false,
+        "variables": {}
+    },
+    "cordova-plugin-app-event": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-app-event"
+        },
+        "is_top_level": false,
+        "variables": {}
+    },
+    "net.coconauts.notification-listener": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/coconauts/NotificationListener-cordova",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }

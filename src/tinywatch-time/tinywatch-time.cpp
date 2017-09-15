@@ -1,44 +1,18 @@
 #include "tinywatch-time.h"
 
-//Pinouts for TinyShield BLE.
-unsigned char TIME_BLE_REQ = 10;
-unsigned char TIME_BLE_RDY = 2;
-unsigned char TIME_BLE_RST = 9;
-  
-//Instantiate BLE peripheral.
-BLEPeripheral timeBLEPeripheral = BLEPeripheral(TIME_BLE_REQ, TIME_BLE_RDY, TIME_BLE_RST);
-
-//Uniquely identifies BLE peripheral, used for advertising.
-BLEService timeService = BLEService("CCC0");
-
 //Time Characteristic
-BLELongCharacteristic timeCharacteristic = BLELongCharacteristic("CCC2", BLEWrite);
+BLELongCharacteristic timeCharacteristic = BLELongCharacteristic("CCC1", BLEWrite);
 
 //Setup for time plugin.
-void TinyWatchTime::setup(){
-  //Name of BLE peripheral when connecting to master.
-  timeBLEPeripheral.setLocalName("tinywatch");
-
-  //Setting advertising id from service.
-  timeBLEPeripheral.setAdvertisedServiceUuid(timeService.uuid());
-  //Adding attributes for BLE peripheral.
-  timeBLEPeripheral.addAttribute(timeService);
-  timeBLEPeripheral.addAttribute(timeCharacteristic);
+void TinyWatchTime::setup(BLEPeripheral& existingPeripheral){
+  existingPeripheral.addAttribute(timeCharacteristic);
 
   timeCharacteristic.setEventHandler(BLEWritten, setTimeHandler);
-
-  //Start BLE service.
-  timeBLEPeripheral.begin();
 }
 
 //Set time in TimeLib when value is written to timeCharacteristic.
 void TinyWatchTime::setTimeHandler(BLECentral& central, BLECharacteristic& characteristic) {
   setTime(timeCharacteristic.valueBE());
-}
-
-//BLE poll for timeCharacteristic value change.
-void TinyWatchTime::poll(){
-  timeBLEPeripheral.poll();
 }
 
 //Returns a const char* that represents
