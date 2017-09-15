@@ -57,20 +57,8 @@ var app = {
     notificationListener.listen(app.onNotification, app.onNotificationFailure);
   },
   onNotification: function(notification) {
-    /*showMessage('Sending Notification...', 'blink', 'event listening');
-
-      function success(){
-      showMessage('Notification Sent!', '', 'event received');
-      setTimeout(function() {
-	 
-      }, fiveSeconds);
-    }*/
-
     ble.write(tinywatch.id, tinywatch.uuid, tinywatch.characteristics.notification.uuid,new ArrayBuffer(), null, null);
   },
-  /*onNotificationFailure: function(reason) {
-    showMessage('Notification error!: ' + reason, '', 'event failed');
-  },*/
   scan: function() {
     showMessage('Finding tinywatch...', 'blink', 'event listening');
 
