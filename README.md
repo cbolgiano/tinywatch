@@ -19,7 +19,7 @@ A project to create an open source watch that is powered by TinyCircuits TinyScr
 
 *[Apache Cordova](https://cordova.apache.org/)*
 
-## Plugins
+## Cordova Plugins
 
 *[cordova-plugin-ble-central](https://github.com/don/cordova-plugin-ble-central)*
 
