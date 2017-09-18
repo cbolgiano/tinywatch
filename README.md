@@ -9,7 +9,7 @@ A project to create an open source watch that is powered by TinyCircuits TinyScr
 
 *[BLE Nordic Tinyshield](https://tinycircuits.com/collections/all/products/bluetooth-low-energy-nordic-tinyshield)*
 
-## External Libraries
+## External Arduino Libraries
 
 *[arduino-BLEPeripheral](https://github.com/sandeepmistry/arduino-BLEPeripheral)*
 
