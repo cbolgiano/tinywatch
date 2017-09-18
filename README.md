@@ -23,6 +23,8 @@ A project to create an open source watch that is powered by TinyCircuits TinyScr
 
 *[cordova-plugin-ble-central](https://github.com/don/cordova-plugin-ble-central)*
 
+*[NotificationListener-cordova](https://github.com/coconauts/NotificationListener-cordova)*
+
 ## Documentation
 
 *[Home](https://github.com/cbolgiano/tinywatch/wiki)*
@@ -30,6 +32,10 @@ A project to create an open source watch that is powered by TinyCircuits TinyScr
 *[tinywatch-sleep](https://github.com/cbolgiano/tinywatch/wiki/tinywatch-sleep)*
 
 *[tinywatch-time](https://github.com/cbolgiano/tinywatch/wiki/tinywatch-time)*
+
+*[tinywatch-notification](https://github.com/cbolgiano/tinywatch/wiki/tinywatch-notification)*
+
+*[tinywatch-display](https://github.com/cbolgiano/tinywatch/wiki/tinywatch-display)*
 
 ## Usage
 
