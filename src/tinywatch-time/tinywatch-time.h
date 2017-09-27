@@ -43,6 +43,16 @@ namespace TinyWatchTime{
 
   //Render date using diplay.
   void drawDate(TinyScreen display, int x, int y, FONT_INFO fontDescriptor);
+
+  //START - Helper functions
+  
+  //Add "0" to value of time or date that is between 0-9 if needed.
+  String addZeroPrefix(int time);
+  
+  //Determine if value for time is set.
+  int isTimeSet();
+
+  //END - Helper functions
 }
 
 #endif
