@@ -1,5 +1,7 @@
 #include "tinywatch-time.h"
 
+extern const int SCREEN_CENTER;
+
 //Time Characteristic
 BLELongCharacteristic timeCharacteristic = BLELongCharacteristic("CCC1", BLEWrite);
 
@@ -55,7 +57,7 @@ void TinyWatchTime::drawTime(TinyScreen display) {
   display.setFont(liberationSans_16ptFontInfo);
   char* timeText = (char*)getTimeToRender(now());
   int width = display.getPrintWidth(timeText);
-  display.setCursor((96/2) - (width/2), 16);
+  display.setCursor(SCREEN_CENTER - (width/2), 16);
   display.print(timeText);
 }
 
@@ -64,7 +66,7 @@ void TinyWatchTime::drawDate(TinyScreen display) {
   display.setFont(liberationSans_10ptFontInfo);
   char* dateText = (char*)getDateToRender(now());
   int width = display.getPrintWidth(dateText);
-  display.setCursor((96/2) - (width/2), 34);
+  display.setCursor(SCREEN_CENTER - (width/2), 34);
   display.print(dateText);
 }
 
@@ -86,6 +88,8 @@ void TinyWatchTime::drawDate(TinyScreen display, int x, int y, FONT_INFO fontDes
   display.print(dateText);
 }
 
+//START - Helper functions
+ 
 //Add "0" if needed to time.
 String TinyWatchTime::addZeroPrefix(int time){
   return String(time < 10 ? "0" : "");
@@ -95,3 +99,5 @@ String TinyWatchTime::addZeroPrefix(int time){
 int TinyWatchTime::isTimeSet(){
   return t && timeStatus() != timeNotSet;
 }
+
+//END - Helper functions

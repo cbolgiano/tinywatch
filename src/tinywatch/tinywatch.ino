@@ -3,6 +3,10 @@
 #include <tinywatch-notification.h>
 #include <tinywatch-sleep.h>
 
+const int SCREEN_HEIGHT = 48;
+const int SCREEN_WIDTH = 96;
+const int SCREEN_CENTER = SCREEN_WIDTH / 2;
+
 extern int isNotification;
 
 #if defined(_TINYWATCH_TIME_H_) || defined(_TINYWATCH_NOTIFICATION_H_)
@@ -73,10 +77,6 @@ void loop() {
   //TODO: Make plugin to handle button presses.
 
   //TODO: Make plugin to render menu.
-
-  //TODO: Make plugin to handle sleep.
-
-  //TODO: Make plugin to render notifications.
 
   //TODO: whateva whatev we do what we want...
 

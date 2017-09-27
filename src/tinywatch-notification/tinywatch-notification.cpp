@@ -1,12 +1,10 @@
 #include "tinywatch-notification.h"
 
-const int SCREEN_HEIGHT = 48;
-const int SCREEN_WIDTH = 96;
-const int SCREEN_CENTER = SCREEN_WIDTH / 2;
-const int MSG_X_START = SCREEN_WIDTH + 1;
+extern const int SCREEN_CENTER;
+
 const int TIME_UNTIL_SLEEP = 5;
+
 char* msg = "";
-int msgX = MSG_X_START;
 int isNotification = 0;
 
 //notifySleepTime is in seconds.
