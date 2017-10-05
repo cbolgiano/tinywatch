@@ -5,7 +5,7 @@
 
 const int SCREEN_HEIGHT = 48;
 const int SCREEN_WIDTH = 96;
-const int SCREEN_CENTER = SCREEN_WIDTH / 2;
+int SCREEN_CENTER = SCREEN_WIDTH / 2;
 
 extern int isNotification;
 

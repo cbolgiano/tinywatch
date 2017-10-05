@@ -1,6 +1,6 @@
 #include "tinywatch-time.h"
 
-extern const int SCREEN_CENTER;
+extern int SCREEN_CENTER;
 
 //Time Characteristic
 BLELongCharacteristic timeCharacteristic = BLELongCharacteristic("CCC1", BLEWrite);
@@ -20,8 +20,7 @@ void TinyWatchTime::setTimeHandler(BLECentral& central, BLECharacteristic& chara
 //Returns a const char* that represents
 //the current time.
 const char* TinyWatchTime::getTimeToRender(time_t t){
-  //  if(t && timeStatus() != timeNotSet){
-  if(isTimeSet){
+  if(isTimeSet(t)){
     return String(addZeroPrefix(hour(t))
       + String(hour(t))
       + ":"
@@ -38,9 +37,8 @@ const char* TinyWatchTime::getTimeToRender(time_t t){
 //Returns a const char* that represents
 //the current date.
 const char* TinyWatchTime::getDateToRender(time_t t) {
-  //  if(t && timeStatus() != timeNotSet){
-  if(isTimeSet){
-    return String(addZeroPrefix((month(t))
+  if(isTimeSet(t)){
+    return String(addZeroPrefix(month(t))
       + String(month(t))
       + "-"
       + addZeroPrefix(day(t))
@@ -96,7 +94,7 @@ String TinyWatchTime::addZeroPrefix(int time){
 }
 
 //Determine if value for time is set.
-int TinyWatchTime::isTimeSet(){
+int TinyWatchTime::isTimeSet(time_t t){
   return t && timeStatus() != timeNotSet;
 }
 

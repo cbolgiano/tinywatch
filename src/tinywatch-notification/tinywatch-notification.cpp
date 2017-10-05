@@ -28,14 +28,15 @@ void TinyWatchNotification::setNotificationHandler(BLECentral& central, BLEChara
 //Render notification using display.
 void TinyWatchNotification::drawNotification(TinyScreen display) {
   int width = display.getPrintWidth(msg);
-  if (isNotification && ((display.getButtons(TSButtonUpperLeft)
+  /*if (isNotification && ((display.getButtons(TSButtonUpperLeft)
     || display.getButtons(TSButtonUpperRight)
     || display.getButtons(TSButtonLowerLeft)
     || display.getButtons(TSButtonLowerRight))
     || now() >= notifySleepTime)) {
     isNotification = 0;
     msg = "";    
-  }
+    }*/
+  resetNotification(display);
   
   if (!isNotification && msg != "") {
     isNotification = 1;
@@ -50,14 +51,15 @@ void TinyWatchNotification::drawNotification(TinyScreen display) {
 //Render notification using display.
 void TinyWatchNotification::drawNotification(TinyScreen display, int x, int y, FONT_INFO fontDescriptor, char* customMsg) {
   int width = display.getPrintWidth(msg);
-  if (isNotification && ((display.getButtons(TSButtonUpperLeft)
+  /*  if (isNotification && ((display.getButtons(TSButtonUpperLeft)
     || display.getButtons(TSButtonUpperRight)
     || display.getButtons(TSButtonLowerLeft)
     || display.getButtons(TSButtonLowerRight))
     || now() >= notifySleepTime)) {
     isNotification = 0;
     msg = "";    
-  }
+    }*/
+  resetNotification(display);
   
   if (!isNotification && msg != "") {
     isNotification = 1;
@@ -68,3 +70,18 @@ void TinyWatchNotification::drawNotification(TinyScreen display, int x, int y, F
     display.print(customMsg);
   }
 }
+
+//START - Helper functions
+
+void TinyWatchNotification::resetNotification(TinyScreen display) {
+  if (isNotification && ((display.getButtons(TSButtonUpperLeft)
+    || display.getButtons(TSButtonUpperRight)
+    || display.getButtons(TSButtonLowerLeft)
+    || display.getButtons(TSButtonLowerRight))
+    || now() >= notifySleepTime)) {
+    isNotification = 0;
+    msg = "";    
+  }
+}
+
+//END - Helper functions

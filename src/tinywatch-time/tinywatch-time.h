@@ -50,7 +50,7 @@ namespace TinyWatchTime{
   String addZeroPrefix(int time);
   
   //Determine if value for time is set.
-  int isTimeSet();
+  int isTimeSet(time_t t);
 
   //END - Helper functions
 }
