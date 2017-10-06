@@ -86,11 +86,12 @@ void TinyWatchTime::drawDate(TinyScreen display, int x, int y, FONT_INFO fontDes
   display.print(dateText);
 }
 
+
 //START - Helper functions
  
 //Add "0" if needed to time.
-String TinyWatchTime::addZeroPrefix(int time){
-  return String(time < 10 ? "0" : "");
+const char* TinyWatchTime::addZeroPrefix(int time){
+  return time < 10 ? "0" : "";
 }
 
 //Determine if value for time is set.

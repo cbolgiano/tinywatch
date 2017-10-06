@@ -47,7 +47,7 @@ namespace TinyWatchTime{
   //START - Helper functions
   
   //Add "0" to value of time or date that is between 0-9 if needed.
-  String addZeroPrefix(int time);
+  const char* addZeroPrefix(int time);
   
   //Determine if value for time is set.
   int isTimeSet(time_t t);

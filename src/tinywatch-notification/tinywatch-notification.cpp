@@ -1,6 +1,6 @@
 #include "tinywatch-notification.h"
 
-extern const int SCREEN_CENTER;
+extern int SCREEN_CENTER;
 
 const int TIME_UNTIL_SLEEP = 5;
 
