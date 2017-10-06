@@ -90,12 +90,12 @@ void TinyWatchTime::drawDate(TinyScreen display, int x, int y, FONT_INFO fontDes
 //START - Helper functions
  
 //Add "0" if needed to time.
-const char* TinyWatchTime::addZeroPrefix(int time){
+const char* TinyWatchTime::addZeroPrefix(int time) {
   return time < 10 ? "0" : "";
 }
 
 //Determine if value for time is set.
-int TinyWatchTime::isTimeSet(time_t t){
+int TinyWatchTime::isTimeSet(time_t t) {
   return t && timeStatus() != timeNotSet;
 }
 
