@@ -3,7 +3,6 @@
 #include <tinywatch-notification.h>
 #include <tinywatch-sleep.h>
 
-const int SCREEN_HEIGHT = 48;
 const int SCREEN_WIDTH = 96;
 int SCREEN_CENTER = SCREEN_WIDTH / 2;
 
@@ -69,7 +68,6 @@ void loop() {
   TinyWatchDisplay::manageDisplay();
   //END display plugin.
 
-
   //TODO: Make plugin to render background.
 
   //TODO: Make plugin to to render orientation.
@@ -78,6 +76,6 @@ void loop() {
 
   //TODO: Make plugin to render menu.
 
-  //TODO: whateva whatev we do what we want...
+  //TODO: whateva whateva we do what we want...
 
 }
