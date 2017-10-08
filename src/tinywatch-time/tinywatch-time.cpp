@@ -40,10 +40,10 @@ const char* TinyWatchTime::getDateToRender(time_t t) {
   if(isTimeSet(t)){
     return String(addZeroPrefix(month(t))
       + String(month(t))
-      + "-"
+      + "/"
       + addZeroPrefix(day(t))
       + String(day(t))
-      + "-"
+      + "/"
       + String(year(t))).c_str();
   } else{
     return "";
@@ -59,29 +59,27 @@ void TinyWatchTime::drawTime(TinyScreen display) {
   display.print(timeText);
 }
 
+//Render time using display, x, y, and font.
+void TinyWatchTime::drawTime(TinyScreen display, int x, int y, FONT_INFO fontDescriptor) {
+  display.setFont(fontDescriptor);
+  char* timeText = (char*)getTimeToRender(now());
+  display.setCursor(x, y);
+  display.print(timeText);
+}
+
 //Render date using display.
 void TinyWatchTime::drawDate(TinyScreen display) {
   display.setFont(liberationSans_10ptFontInfo);
   char* dateText = (char*)getDateToRender(now());
   int width = display.getPrintWidth(dateText);
-  display.setCursor(SCREEN_CENTER - (width/2), 34);
+  display.setCursor(SCREEN_CENTER - (width/2), 36);
   display.print(dateText);
-}
-
-//Render time using display, x, y, and font.
-void TinyWatchTime::drawTime(TinyScreen display, int x, int y, FONT_INFO fontDescriptor) {
-  display.setFont(fontDescriptor);
-  char* timeText = (char*)getTimeToRender(now());
-  int width = display.getPrintWidth(timeText);
-  display.setCursor(x, y);
-  display.print(timeText);
 }
 
 //Render date using display, x, y, and font.
 void TinyWatchTime::drawDate(TinyScreen display, int x, int y, FONT_INFO fontDescriptor) {
   display.setFont(fontDescriptor);
   char* dateText = (char*)getDateToRender(now());
-  int width = display.getPrintWidth(dateText);
   display.setCursor(x, y);
   display.print(dateText);
 }

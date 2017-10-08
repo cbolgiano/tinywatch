@@ -10,9 +10,9 @@ extern int isNotification;
 
 #if defined(_TINYWATCH_TIME_H_) || defined(_TINYWATCH_NOTIFICATION_H_)
 #define _BLE_ENABLED_
-unsigned char BLE_REQ = 10;
-unsigned char BLE_RDY = 2;
-unsigned char BLE_RST = 9;
+const unsigned char BLE_REQ = 10;
+const unsigned char BLE_RDY = 2;
+const unsigned char BLE_RST = 9;
 
 //Instantiate BLE peripheral.
 BLEPeripheral bLEPeripheral = BLEPeripheral(BLE_REQ, BLE_RDY, BLE_RST);
