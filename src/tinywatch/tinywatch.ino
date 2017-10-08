@@ -3,13 +3,16 @@
 #include <tinywatch-notification.h>
 #include <tinywatch-sleep.h>
 
+const int SCREEN_WIDTH = 96;
+int SCREEN_CENTER = SCREEN_WIDTH / 2;
+
 extern int isNotification;
 
 #if defined(_TINYWATCH_TIME_H_) || defined(_TINYWATCH_NOTIFICATION_H_)
 #define _BLE_ENABLED_
-unsigned char BLE_REQ = 10;
-unsigned char BLE_RDY = 2;
-unsigned char BLE_RST = 9;
+const unsigned char BLE_REQ = 10;
+const unsigned char BLE_RDY = 2;
+const unsigned char BLE_RST = 9;
 
 //Instantiate BLE peripheral.
 BLEPeripheral bLEPeripheral = BLEPeripheral(BLE_REQ, BLE_RDY, BLE_RST);
@@ -65,7 +68,6 @@ void loop() {
   TinyWatchDisplay::manageDisplay();
   //END display plugin.
 
-
   //TODO: Make plugin to render background.
 
   //TODO: Make plugin to to render orientation.
@@ -74,10 +76,6 @@ void loop() {
 
   //TODO: Make plugin to render menu.
 
-  //TODO: Make plugin to handle sleep.
-
-  //TODO: Make plugin to render notifications.
-
-  //TODO: whateva whatev we do what we want...
+  //TODO: whateva whateva we do what we want...
 
 }

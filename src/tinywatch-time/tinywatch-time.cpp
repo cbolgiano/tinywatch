@@ -1,5 +1,7 @@
 #include "tinywatch-time.h"
 
+extern int SCREEN_CENTER;
+
 //Time Characteristic
 BLELongCharacteristic timeCharacteristic = BLELongCharacteristic("CCC1", BLEWrite);
 
@@ -18,14 +20,14 @@ void TinyWatchTime::setTimeHandler(BLECentral& central, BLECharacteristic& chara
 //Returns a const char* that represents
 //the current time.
 const char* TinyWatchTime::getTimeToRender(time_t t){
-  if(t && timeStatus() != timeNotSet){
-    return String((hour(t) < 10 ? "0" : "")
+  if(isTimeSet(t)){
+    return String(addZeroPrefix(hour(t))
       + String(hour(t))
       + ":"
-      + (minute(t) < 10 ? "0" : "")
+      + addZeroPrefix(minute(t))
       + String(minute(t))
       + ":"
-      + (second(t) < 10 ? "0" : "")
+      + addZeroPrefix(second(t))
       + String(second(t))).c_str();
   } else{
     return "";
@@ -35,13 +37,13 @@ const char* TinyWatchTime::getTimeToRender(time_t t){
 //Returns a const char* that represents
 //the current date.
 const char* TinyWatchTime::getDateToRender(time_t t) {
-  if(t && timeStatus() != timeNotSet){
-    return String((month(t) < 10 ? "0" : "")
+  if(isTimeSet(t)){
+    return String(addZeroPrefix(month(t))
       + String(month(t))
-      + "-"
-      + (day(t) < 10 ? "0" : "")
+      + "/"
+      + addZeroPrefix(day(t))
       + String(day(t))
-      + "-"
+      + "/"
       + String(year(t))).c_str();
   } else{
     return "";
@@ -53,7 +55,15 @@ void TinyWatchTime::drawTime(TinyScreen display) {
   display.setFont(liberationSans_16ptFontInfo);
   char* timeText = (char*)getTimeToRender(now());
   int width = display.getPrintWidth(timeText);
-  display.setCursor((96/2) - (width/2), 16);
+  display.setCursor(SCREEN_CENTER - (width/2), 16);
+  display.print(timeText);
+}
+
+//Render time using display, x, y, and font.
+void TinyWatchTime::drawTime(TinyScreen display, int x, int y, FONT_INFO fontDescriptor) {
+  display.setFont(fontDescriptor);
+  char* timeText = (char*)getTimeToRender(now());
+  display.setCursor(x, y);
   display.print(timeText);
 }
 
@@ -62,24 +72,29 @@ void TinyWatchTime::drawDate(TinyScreen display) {
   display.setFont(liberationSans_10ptFontInfo);
   char* dateText = (char*)getDateToRender(now());
   int width = display.getPrintWidth(dateText);
-  display.setCursor((96/2) - (width/2), 34);
+  display.setCursor(SCREEN_CENTER - (width/2), 36);
   display.print(dateText);
-}
-
-//Render time using display, x, y, and font.
-void TinyWatchTime::drawTime(TinyScreen display, int x, int y, FONT_INFO fontDescriptor) {
-  display.setFont(fontDescriptor);
-  char* timeText = (char*)getTimeToRender(now());
-  int width = display.getPrintWidth(timeText);
-  display.setCursor(x, y);
-  display.print(timeText);
 }
 
 //Render date using display, x, y, and font.
 void TinyWatchTime::drawDate(TinyScreen display, int x, int y, FONT_INFO fontDescriptor) {
   display.setFont(fontDescriptor);
   char* dateText = (char*)getDateToRender(now());
-  int width = display.getPrintWidth(dateText);
   display.setCursor(x, y);
   display.print(dateText);
 }
+
+
+//START - Helper functions
+ 
+//Add "0" if needed to time.
+const char* TinyWatchTime::addZeroPrefix(int time) {
+  return time < 10 ? "0" : "";
+}
+
+//Determine if value for time is set.
+int TinyWatchTime::isTimeSet(time_t t) {
+  return t && timeStatus() != timeNotSet;
+}
+
+//END - Helper functions

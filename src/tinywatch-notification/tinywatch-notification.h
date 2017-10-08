@@ -29,6 +29,9 @@ namespace TinyWatchNotification{
 
   //Render notification using display with custom parameters.
   void drawNotification(TinyScreen display, int x, int y, FONT_INFO fontDescriptor, char* customMsg);
+
+  //Reset notification.
+  void resetNotification(TinyScreen display);
 }
 
 #endif
