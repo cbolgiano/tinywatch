@@ -1,6 +1,7 @@
 #include "tinywatch-notification.h"
 
 extern int SCREEN_CENTER;
+extern int piezoPin;
 
 const int TIME_UNTIL_SLEEP = 5;
 
@@ -42,6 +43,8 @@ void TinyWatchNotification::drawNotification(TinyScreen display, int x, int y, F
     display.setFont(fontDescriptor);
     display.setCursor(x, y);
     display.print(customMsg);
+    //Turn piezo on.
+    digitalWrite(piezoPin, HIGH);
   }
 }
 
@@ -54,7 +57,9 @@ void TinyWatchNotification::resetNotification(TinyScreen display) {
     || display.getButtons(TSButtonLowerRight))
     || now() >= notifySleepTime)) {
     isNotification = 0;
-    msg = "";    
+    msg = "";
+    //Turn piezo off.
+    digitalWrite(piezoPin, LOW);
   }
 }
 
