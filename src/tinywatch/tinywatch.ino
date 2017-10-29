@@ -5,7 +5,8 @@
 
 const int SCREEN_WIDTH = 96;
 int SCREEN_CENTER = SCREEN_WIDTH / 2;
-int piezoPin = A2;
+int piezoPin0 = 5;
+int piezoPin1 = 6;
 
 extern int isNotification;
 
@@ -21,8 +22,9 @@ BLEService tinywatchService = BLEService("CCC0");
 #endif
 
 void setup() {
-  //Set piezoPin to OUTPUT to send current to piezo.
-  pinMode(piezoPin, OUTPUT);
+  //Set piezoPin0 and piezoPin1 to OUTPUT to send current to piezo.
+  pinMode(piezoPin0, OUTPUT);
+  pinMode(piezoPin1, OUTPUT);
   //START display plugin.
   TinyWatchDisplay::setup();
   //END display plugin.
@@ -48,7 +50,6 @@ void setup() {
 }
 
 void loop() {
-  
 #ifdef _BLE_ENABLED_
   bLEPeripheral.poll();
 
@@ -58,9 +59,10 @@ void loop() {
     TinyWatchTime::drawDate(TinyWatchDisplay::getDisplay());
     //END time plugin.
   }
-  //START time plugin.
+  //START notification plugin.
   TinyWatchNotification::drawNotification(TinyWatchDisplay::getDisplay());
-  //END time plugin.
+  TinyWatchNotification::vibrate();
+  //END notification plugin.
 #endif
 
   //START sleep plugin
