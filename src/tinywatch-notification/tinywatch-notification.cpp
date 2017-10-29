@@ -4,7 +4,9 @@ extern int SCREEN_CENTER;
 extern int piezoPin0;
 extern int piezoPin1;
 
-const int TIME_UNTIL_SLEEP = 5;
+const int TIME_UNTIL_SLEEP = 3;
+
+long lastVibrateTime = 0;
 
 char* msg = "";
 int isNotification = 0;
@@ -47,15 +49,15 @@ void TinyWatchNotification::drawNotification(TinyScreen display, int x, int y, F
   }
 }
 
-void TinyWatchNotification::vibrate() {
-  if(isNotification && now() % 2){
-   //Turn piezo on.
-   digitalWrite(piezoPin0, HIGH);
-   digitalWrite(piezoPin1, HIGH);
-  } else{
-   //Turn piezo off.
-   digitalWrite(piezoPin0, LOW);
-   digitalWrite(piezoPin1, LOW);
+void TinyWatchNotification::vibrate() { 
+  if(isNotification){
+    //Turn piezo on.
+    digitalWrite(piezoPin0, HIGH);
+    digitalWrite(piezoPin1, HIGH);
+  } else {
+    //Turn piezo off.
+    digitalWrite(piezoPin0, LOW);
+    digitalWrite(piezoPin1, LOW);
   }
 }
 
@@ -69,9 +71,6 @@ void TinyWatchNotification::resetNotification(TinyScreen display) {
     || now() >= notifySleepTime)) {
     isNotification = 0;
     msg = "";
-    //Turn piezo off.
-    //    digitalWrite(piezoPin0, LOW);
-    //    digitalWrite(piezoPin1, LOW);
   }
 }
 
