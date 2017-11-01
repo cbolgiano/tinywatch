@@ -4,15 +4,16 @@ extern int SCREEN_CENTER;
 extern int piezoPin0;
 extern int piezoPin1;
 
-const int TIME_UNTIL_SLEEP = 3;
-
-long lastVibrateTime = 0;
+const int TIME_UNTIL_SLEEP = 5;
+const int TIME_TO_VIBRATE = 2;
 
 char* msg = "";
 int isNotification = 0;
 
 //notifySleepTime is in seconds.
 int notifySleepTime = 0;
+//vibrateSleepTime is in seconds.
+int vibrateSleepTime = 0;
 
 //Notification Characteristic
 BLECharCharacteristic notificationCharacteristic = BLECharCharacteristic("CCC2", BLEWrite);
@@ -50,10 +51,11 @@ void TinyWatchNotification::drawNotification(TinyScreen display, int x, int y, F
 }
 
 void TinyWatchNotification::vibrate() { 
-  if(isNotification){
+  if(isNotification && now() >= vibrateSleepTime){
     //Turn piezo on.
     digitalWrite(piezoPin0, HIGH);
     digitalWrite(piezoPin1, HIGH);
+    vibrateSleepTime = now() + TIME_TO_VIBRATE;
   } else {
     //Turn piezo off.
     digitalWrite(piezoPin0, LOW);
