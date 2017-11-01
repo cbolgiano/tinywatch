@@ -4,7 +4,7 @@ extern int SCREEN_CENTER;
 extern int piezoPin0;
 extern int piezoPin1;
 
-const int TIME_UNTIL_SLEEP = 3;
+const int TIME_UNTIL_SLEEP = 2;
 
 long lastVibrateTime = 0;
 
