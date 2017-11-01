@@ -43,6 +43,7 @@ void TinyWatchNotification::drawNotification(TinyScreen display, int x, int y, F
   if (!isNotification && msg != "") {
     isNotification = 1;
     notifySleepTime = now() + TIME_UNTIL_SLEEP;
+    vibrateSleepTime = now() + TIME_TO_VIBRATE;
     display.clearScreen();
     display.setFont(fontDescriptor);
     display.setCursor(x, y);
@@ -51,11 +52,10 @@ void TinyWatchNotification::drawNotification(TinyScreen display, int x, int y, F
 }
 
 void TinyWatchNotification::vibrate() { 
-  if(isNotification && now() >= vibrateSleepTime){
+  if(isNotification && now() <= vibrateSleepTime){
     //Turn piezo on.
     digitalWrite(piezoPin0, HIGH);
     digitalWrite(piezoPin1, HIGH);
-    vibrateSleepTime = now() + TIME_TO_VIBRATE;
   } else {
     //Turn piezo off.
     digitalWrite(piezoPin0, LOW);
