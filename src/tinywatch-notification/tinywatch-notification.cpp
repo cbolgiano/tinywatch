@@ -51,6 +51,7 @@ void TinyWatchNotification::drawNotification(TinyScreen display, int x, int y, F
   }
 }
 
+//Vibrate piezo element for vibrateSleepTime in seconds.
 void TinyWatchNotification::vibrate() { 
   if(isNotification && now() <= vibrateSleepTime){
     //Turn piezo on.
@@ -60,6 +61,8 @@ void TinyWatchNotification::vibrate() {
     //Turn piezo off.
     digitalWrite(piezoPin0, LOW);
     digitalWrite(piezoPin1, LOW);
+    //Reset vibrate time.
+    vibrateSleepTime = 0;
   }
 }
 
@@ -73,6 +76,8 @@ void TinyWatchNotification::resetNotification(TinyScreen display) {
     || now() >= notifySleepTime)) {
     isNotification = 0;
     msg = "";
+    //Reset sleep time.
+    notifySleepTime = 0;
   }
 }
 
