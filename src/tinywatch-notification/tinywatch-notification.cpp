@@ -1,14 +1,19 @@
 #include "tinywatch-notification.h"
 
 extern int SCREEN_CENTER;
+extern int piezoPin0;
+extern int piezoPin1;
 
 const int TIME_UNTIL_SLEEP = 5;
+const int TIME_TO_VIBRATE = 2;
 
 char* msg = "";
 int isNotification = 0;
 
 //notifySleepTime is in seconds.
 int notifySleepTime = 0;
+//vibrateSleepTime is in seconds.
+int vibrateSleepTime = 0;
 
 //Notification Characteristic
 BLECharCharacteristic notificationCharacteristic = BLECharCharacteristic("CCC2", BLEWrite);
@@ -38,10 +43,26 @@ void TinyWatchNotification::drawNotification(TinyScreen display, int x, int y, F
   if (!isNotification && msg != "") {
     isNotification = 1;
     notifySleepTime = now() + TIME_UNTIL_SLEEP;
+    vibrateSleepTime = now() + TIME_TO_VIBRATE;
     display.clearScreen();
     display.setFont(fontDescriptor);
     display.setCursor(x, y);
     display.print(customMsg);
+  }
+}
+
+//Vibrate piezo element for vibrateSleepTime in seconds.
+void TinyWatchNotification::vibrate() { 
+  if(isNotification && now() <= vibrateSleepTime){
+    //Turn piezo on.
+    digitalWrite(piezoPin0, HIGH);
+    digitalWrite(piezoPin1, HIGH);
+  } else {
+    //Turn piezo off.
+    digitalWrite(piezoPin0, LOW);
+    digitalWrite(piezoPin1, LOW);
+    //Reset vibrate time.
+    vibrateSleepTime = 0;
   }
 }
 
@@ -54,7 +75,9 @@ void TinyWatchNotification::resetNotification(TinyScreen display) {
     || display.getButtons(TSButtonLowerRight))
     || now() >= notifySleepTime)) {
     isNotification = 0;
-    msg = "";    
+    msg = "";
+    //Reset sleep time.
+    notifySleepTime = 0;
   }
 }
 
