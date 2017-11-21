@@ -1,7 +1,7 @@
 <p align="center"><img src="https://github.com/cbolgiano/tinywatch/blob/develop/assets/img/tinywatch.png" /> </p>
 
 # tinywatch [![Build Status](https://travis-ci.org/cbolgiano/tinywatch.svg?branch=develop)](https://travis-ci.org/cbolgiano/tinywatch)
-A project to create an open source watch that is powered by TinyCircuits TinyScreen+, TinyShield NRF8001 BLE, etc.
+A project to create an open source smart watch that is powered by TinyCircuits TinyScreen+, TinyShield NRF8001 BLE, etc.
 
 ## Compatible Hardware
 
