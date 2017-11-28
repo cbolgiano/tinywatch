@@ -19,6 +19,10 @@ namespace TinyWatchSleep{
 
   //Sleep for the value of timeToSleep.
   void sleep(TinyScreen display, int timeToSleep);
+
+  void setSleeping();
+
+  void setSleepyTime(TinyScreen display, int timeToSleep);
 }
 
 #endif

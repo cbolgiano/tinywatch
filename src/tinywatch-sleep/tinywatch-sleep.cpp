@@ -8,22 +8,29 @@ int sleepyTime = 0;
 int isSleeping = 1;
 
 void TinyWatchSleep::sleep(TinyScreen display){
-  isSleeping = now() >= sleepyTime ? 1 : 0;
-  if (display.getButtons(TSButtonUpperLeft)
-       || display.getButtons(TSButtonUpperRight)
-       || display.getButtons(TSButtonLowerLeft)
-       || display.getButtons(TSButtonLowerRight)) {
-    sleepyTime = now() + TIME_UNTIL_SLEEP;
-  }
+  setSleeping();
+  setSleepyTime(display, TIME_UNTIL_SLEEP);
 }
 
 //timeToSleep is in seconds.
 void TinyWatchSleep::sleep(TinyScreen display, int timeToSleep){
+  setSleeping();
+  setSleepyTime(display, timeToSleep);
+}
+
+//START - Helper functions
+
+void TinyWatchSleep::setSleeping() {
   isSleeping = now() >= sleepyTime ? 1 : 0;
+}
+
+void TinyWatchSleep::setSleepyTime(TinyScreen display, int timeToSleep) {
   if (display.getButtons(TSButtonUpperLeft)
-       || display.getButtons(TSButtonUpperRight)
-       || display.getButtons(TSButtonLowerLeft)
-       || display.getButtons(TSButtonLowerRight)) {
+    || display.getButtons(TSButtonUpperRight)
+    || display.getButtons(TSButtonLowerLeft)
+    || display.getButtons(TSButtonLowerRight)) {
     sleepyTime = now() + timeToSleep;
   }
 }
+
+//END - Helper functions

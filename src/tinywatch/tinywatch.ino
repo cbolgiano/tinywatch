@@ -3,13 +3,18 @@
 #include <tinywatch-notification.h>
 #include <tinywatch-sleep.h>
 
+const int SCREEN_WIDTH = 96;
+int SCREEN_CENTER = SCREEN_WIDTH / 2;
+int piezoPin0 = 5;
+int piezoPin1 = 6;
+
 extern int isNotification;
 
 #if defined(_TINYWATCH_TIME_H_) || defined(_TINYWATCH_NOTIFICATION_H_)
 #define _BLE_ENABLED_
-unsigned char BLE_REQ = 10;
-unsigned char BLE_RDY = 2;
-unsigned char BLE_RST = 9;
+const unsigned char BLE_REQ = 10;
+const unsigned char BLE_RDY = 2;
+const unsigned char BLE_RST = 9;
 
 //Instantiate BLE peripheral.
 BLEPeripheral bLEPeripheral = BLEPeripheral(BLE_REQ, BLE_RDY, BLE_RST);
@@ -17,6 +22,9 @@ BLEService tinywatchService = BLEService("CCC0");
 #endif
 
 void setup() {
+  //Set piezoPin0 and piezoPin1 to OUTPUT to send current to piezo.
+  pinMode(piezoPin0, OUTPUT);
+  pinMode(piezoPin1, OUTPUT);
   //START display plugin.
   TinyWatchDisplay::setup();
   //END display plugin.
@@ -42,7 +50,6 @@ void setup() {
 }
 
 void loop() {
-
 #ifdef _BLE_ENABLED_
   bLEPeripheral.poll();
 
@@ -52,9 +59,10 @@ void loop() {
     TinyWatchTime::drawDate(TinyWatchDisplay::getDisplay());
     //END time plugin.
   }
-  //START time plugin.
+  //START notification plugin.
   TinyWatchNotification::drawNotification(TinyWatchDisplay::getDisplay());
-  //END time plugin.
+  TinyWatchNotification::vibrate();
+  //END notification plugin.
 #endif
 
   //START sleep plugin
@@ -65,7 +73,6 @@ void loop() {
   TinyWatchDisplay::manageDisplay();
   //END display plugin.
 
-
   //TODO: Make plugin to render background.
 
   //TODO: Make plugin to to render orientation.
@@ -74,10 +81,6 @@ void loop() {
 
   //TODO: Make plugin to render menu.
 
-  //TODO: Make plugin to handle sleep.
-
-  //TODO: Make plugin to render notifications.
-
-  //TODO: whateva whatev we do what we want...
+  //TODO: whateva whateva we do what we want...
 
 }

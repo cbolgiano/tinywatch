@@ -1,7 +1,7 @@
 <p align="center"><img src="https://github.com/cbolgiano/tinywatch/blob/develop/assets/img/tinywatch.png" /> </p>
 
 # tinywatch [![Build Status](https://travis-ci.org/cbolgiano/tinywatch.svg?branch=develop)](https://travis-ci.org/cbolgiano/tinywatch)
-A project to create an open source watch that is powered by TinyCircuits TinyScreen+, TinyShield NRF8001 BLE, etc.
+A project to create an open source smart watch that is powered by TinyCircuits TinyScreen+, TinyShield NRF8001 BLE, etc.
 
 ## Compatible Hardware
 
@@ -9,7 +9,15 @@ A project to create an open source watch that is powered by TinyCircuits TinyScr
 
 *[BLE Nordic Tinyshield](https://tinycircuits.com/collections/all/products/bluetooth-low-energy-nordic-tinyshield)*
 
+[Proto Board TinyShield](https://tinycircuits.com/collections/proto-boards/products/proto-board-tinyshield)
+
+[Lithium Ion Polymer Battery - 3.7V 270mAh](https://tinycircuits.com/collections/accessories/products/lithium-ion-polymer-battery-3-7v-270mah)
+
+[DC3V/0.1A 1.5V/0.05A 10x2.7mm Coin Mobile Phone Vibration Motor](https://www.amazon.com/gp/product/B00PZYMCT8/ref=ox_sc_sfl_title_4?ie=UTF8&psc=1&smid=ATVPDKIKX0DER)
+
 ## External Arduino Libraries
+
+*[TinyCircuits-TinyScreen_Lib](https://github.com/TinyCircuits/TinyCircuits-TinyScreen_Lib)*
 
 *[arduino-BLEPeripheral](https://github.com/sandeepmistry/arduino-BLEPeripheral)*
 
