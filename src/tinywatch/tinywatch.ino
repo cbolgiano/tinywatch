@@ -4,7 +4,15 @@
   Controls TinyScreen+, BLE Nordic Tinyshield, Proto Board Tinyshield, Li-po Battery 3.7V 270mAh, and DC3V/0.1A 1.5V/0.05A 10x2.7mm Coin Mobile Phone Vibration Motor to work as a smart watch.
 
   The circuit:
-    * The Vibration Motor or Piezo Element is attached to output pins 5 and 6.
+    * The Proto Tinyshield uses pins:
+    ** 5 and 6 set to output
+    * The BLE Tinyshield uses pins:
+    ** 2-SPI_IRQ: Interupts output from nRF8001 to the tinyscreen+
+    ** 9-BLE_RST: Reset signal to the nRF8001
+    ** 10-SPI_CS: SPI chip select for the nRF8001
+    ** 11-MOSI: SPI data from tinyscreen+ to transceiver
+    ** 12-MISO: SPI data from transceiver to tinyscreen+
+    ** 13-SCLK: Serial SPI clock from tinyscreen+ to tranceiver 
 
 */
 
