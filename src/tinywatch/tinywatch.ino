@@ -21,7 +21,7 @@
 #include <tinywatch-notification.h>
 #include <tinywatch-sleep.h>
 
-//Width of tinyscreen+.
+//Width of tinyscreen+'s display in pixels.
 const int SCREEN_WIDTH = 96;
 //Center X coordinate of tinyscreen+.
 const int SCREEN_CENTER = SCREEN_WIDTH / 2;
