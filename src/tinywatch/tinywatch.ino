@@ -23,7 +23,7 @@ The circuit:
 // Width of tinyscreen+'s display in pixels.
 const int SCREEN_WIDTH = 96;
 // Center X coordinate of tinyscreen+.
-const int SCREEN_CENTER = SCREEN_WIDTH / 2;
+int SCREEN_CENTER = SCREEN_WIDTH / 2;
 int piezoPins[] = { 5, 6 };
 // Notification flag. True if notification is rendered.
 extern int isNotification;
@@ -71,7 +71,7 @@ void setup() {
   // END time plugin.
 
   // START notification plugin.
-  TinyWatchNotification::setup(bLEPeripheral);
+  TinyWatchNotification::setup(&bLEPeripheral);
   // END notification plugin.
 
   bLEPeripheral.begin();

@@ -43,8 +43,8 @@ SOFTWARE.
 
 namespace TinyWatchTime {
   // Set time in TimeLib when value is written to timeCharacteristic.
-  void setTimeHandler(const BLECentral& central
-    , const BLECharacteristic& characteristic);
+  void setTimeHandler(BLECentral& central
+    , BLECharacteristic& characteristic);  // NOLINT
 
   // Returns a const char* that represents
   // the current time.
@@ -55,7 +55,7 @@ namespace TinyWatchTime {
   const char* getDateToRender(time_t t);
 
   // Setup for time plugin.
-  void setup(const BLEPeripheral& existingPeripheral);
+  void setup(BLEPeripheral* existingPeripheral);
 
   // Render time using diplay.
   void drawTime(TinyScreen display);

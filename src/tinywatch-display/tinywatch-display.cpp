@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "tinywatch-display/tinywatch-display.h"
+#include "tinywatch-display.h"  // NOLINT
 
 extern int isNotification;
 extern int isSleeping;

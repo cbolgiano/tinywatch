@@ -43,11 +43,11 @@ SOFTWARE.
 
 namespace TinyWatchNotification {
   // Setup for notifications plugin.
-  void setup(const BLEPeripheral& existingPeripheral);
+  void setup(BLEPeripheral* existingPeripheral);
 
   // Capture notification.
   void setNotificationHandler(BLECentral& central
-    , const BLECharacteristic& characteristic);
+    , BLECharacteristic& characteristic);  // NOLINT
 
   // Render notification using display.
   void drawNotification(TinyScreen display);

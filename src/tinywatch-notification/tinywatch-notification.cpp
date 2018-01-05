@@ -22,11 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "tinywatch-notification/tinywatch-notification.h"
+#include "tinywatch-notification.h"  // NOLINT
 
 extern int SCREEN_CENTER;
-extern int piezoPin0;
-extern int piezoPin1;
+extern int piezoPins[];
 
 const int TIME_UNTIL_SLEEP = 5;
 const int TIME_TO_VIBRATE = 2;
@@ -44,8 +43,8 @@ BLECharCharacteristic notificationCharacteristic =
   BLECharCharacteristic("CCC2", BLEWrite);
 
 // Setup for notification plugin.
-void TinyWatchNotification::setup(BLEPeripheral& existingPeripheral) {
-  existingPeripheral.addAttribute(notificationCharacteristic);
+void TinyWatchNotification::setup(BLEPeripheral* existingPeripheral) {
+  existingPeripheral->addAttribute(notificationCharacteristic);
 
   notificationCharacteristic.setEventHandler(BLEWritten
     , setNotificationHandler);
@@ -84,12 +83,12 @@ void TinyWatchNotification::drawNotification(TinyScreen display
 void TinyWatchNotification::vibrate() {
   if (isNotification && now() <= vibrateSleepTime) {
     // Turn piezo on.
-    digitalWrite(piezoPin0, HIGH);
-    digitalWrite(piezoPin1, HIGH);
+    digitalWrite(piezoPins[0], HIGH);
+    digitalWrite(piezoPins[1], HIGH);
   } else {
     // Turn piezo off.
-    digitalWrite(piezoPin0, LOW);
-    digitalWrite(piezoPin1, LOW);
+    digitalWrite(piezoPins[0], LOW);
+    digitalWrite(piezoPins[1], LOW);
     // Reset vibrate time.
     vibrateSleepTime = 0;
   }

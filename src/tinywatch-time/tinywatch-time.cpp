@@ -31,8 +31,8 @@ BLELongCharacteristic timeCharacteristic
   = BLELongCharacteristic("CCC1", BLEWrite);
 
 // Setup for time plugin.
-void TinyWatchTime::setup(BLEPeripheral& existingPeripheral) {
-  existingPeripheral.addAttribute(timeCharacteristic);
+void TinyWatchTime::setup(BLEPeripheral* existingPeripheral) {
+  existingPeripheral->addAttribute(timeCharacteristic);
 
   timeCharacteristic.setEventHandler(BLEWritten, setTimeHandler);
 }
@@ -79,7 +79,7 @@ const char* TinyWatchTime::getDateToRender(time_t t) {
 // Render time using display.
 void TinyWatchTime::drawTime(TinyScreen display) {
   display.setFont(liberationSans_16ptFontInfo);
-  char* timeText = reinterpret_cast<char*>(getTimeToRender(now()));
+  char* timeText = const_cast<char*>(getTimeToRender(now()));
   int width = display.getPrintWidth(timeText);
   display.setCursor(SCREEN_CENTER - (width/2), 16);
   display.print(timeText);
@@ -89,7 +89,7 @@ void TinyWatchTime::drawTime(TinyScreen display) {
 void TinyWatchTime::drawTime(TinyScreen display
   , int x, int y, FONT_INFO fontDescriptor) {
   display.setFont(fontDescriptor);
-  char* timeText = reinterpret_cast<char*>(getTimeToRender(now()));
+  char* timeText = const_cast<char*>(getTimeToRender(now()));
   display.setCursor(x, y);
   display.print(timeText);
 }
@@ -97,7 +97,7 @@ void TinyWatchTime::drawTime(TinyScreen display
 // Render date using display.
 void TinyWatchTime::drawDate(TinyScreen display) {
   display.setFont(liberationSans_10ptFontInfo);
-  char* dateText = reinterpret_cast<char*>(getDateToRender(now()));
+  char* dateText = const_cast<char*>(getDateToRender(now()));
   int width = display.getPrintWidth(dateText);
   display.setCursor(SCREEN_CENTER - (width/2), 36);
   display.print(dateText);
@@ -107,7 +107,7 @@ void TinyWatchTime::drawDate(TinyScreen display) {
 void TinyWatchTime::drawDate(TinyScreen display
   , int x, int y, FONT_INFO fontDescriptor) {
   display.setFont(fontDescriptor);
-  char* dateText = reinterpret_cast<char*>(getDateToRender(now()));
+  char* dateText = const_cast<char*>(getDateToRender(now()));
   display.setCursor(x, y);
   display.print(dateText);
 }

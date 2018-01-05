@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "tinywatch-sleep/tinywatch-sleep.h"
+#include "tinywatch-sleep.h"  // NOLINT
 
 // Is in seconds.
 const int TIME_UNTIL_SLEEP = 5;
