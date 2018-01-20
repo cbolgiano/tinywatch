@@ -22,46 +22,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef _TINYWATCH_NOTIFICATION_H_ //NOLINT
-#define _TINYWATCH_NOTIFICATION_H_
+#ifndef _TINYWATCH_VIBRATE_H_ //NOLINT
+#define _TINYWATCH_VIBRATE_H_
 
 #ifndef _ARDUINO_H_
 #include <Arduino.h>
-#endif
-
-#ifndef _TINYSCREEN_H_
-#include <TinyScreen.h>
 #endif
 
 #ifndef _TIMELIB_H_
 #include <TimeLib.h>
 #endif
 
-#ifndef _BLE_PERIPHERAL_H_
-#include <BLEPeripheral.h>
-#endif
-
-#ifndef _TINYWATCH_VIBRATE_H_ 
-#include <tinywatch-vibrate.h>
-#endif
-
-namespace TinyWatchNotification {
-  // Setup for notifications plugin.
-  void setup(BLEPeripheral* existingPeripheral);
-
-  // Capture notification.
-  void setNotificationHandler(BLECentral& central
-    , BLECharacteristic& characteristic);  // NOLINT
-
-  // Render notification using display.
-  void drawNotification(TinyScreen display);
-
-  // Render notification using display with custom parameters.
-  void drawNotification(TinyScreen display
-    , int x, int y, FONT_INFO fontDescriptor, char* customMsg);
-
-  // Reset notification.
-  void resetNotification(TinyScreen display);
-}  // namespace TinyWatchNotification
+namespace TinyWatchVibrate {
+  void vibrate();
+  
+  void vibrateOff();
+}
 
 #endif  // _TINYWATCH_NOTIFICATION_H_ NOLINT

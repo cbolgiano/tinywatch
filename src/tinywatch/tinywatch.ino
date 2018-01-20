@@ -91,7 +91,6 @@ void loop() {
   }
   // START notification plugin.
   TinyWatchNotification::drawNotification(TinyWatchDisplay::getDisplay());
-  TinyWatchNotification::vibrate();
   // END notification plugin.
 #endif
 
