@@ -106,8 +106,6 @@ void loop() {
 
   // TODO: Make plugin to to render orientation.
 
-  // TODO: Make plugin to handle button presses.
-
   // TODO: Make plugin to render menu.
 
   // TODO: whateva whateva we do what we want...

@@ -37,6 +37,10 @@ SOFTWARE.
 #include <TinyScreen.h>
 #endif
 
+#ifndef _TINYWATCH_BUTTON_H_ 
+#include <tinywatch-button.h>
+#endif
+
 namespace TinyWatchSleep {
   // Render time using diplay.
   void sleep(TinyScreen display);

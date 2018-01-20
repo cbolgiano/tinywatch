@@ -22,50 +22,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef _TINYWATCH_NOTIFICATION_H_ //NOLINT
-#define _TINYWATCH_NOTIFICATION_H_
-
-#ifndef _ARDUINO_H_
-#include <Arduino.h>
-#endif
+#ifndef _TINYWATCH_BUTTON_H_ //NOLINT
+#define _TINYWATCH_BUTTON_H_
 
 #ifndef _TINYSCREEN_H_
 #include <TinyScreen.h>
 #endif
 
-#ifndef _TIMELIB_H_
-#include <TimeLib.h>
-#endif
+namespace TinyWatchButton {
+  // Returns 1 if upper left button is pressed.
+  int isUpperLeft(TinyScreen display);
 
-#ifndef _BLE_PERIPHERAL_H_
-#include <BLEPeripheral.h>
-#endif
+  // Returns 1 if upper right button is pressed.
+  int isUpperRight(TinyScreen display);
 
-#ifndef _TINYWATCH_VIBRATE_H_ 
-#include <tinywatch-vibrate.h>
-#endif
+  // Returns 1 if lower left button is pressed.
+  int isLowerLeft(TinyScreen display);
 
-#ifndef _TINYWATCH_BUTTON_H_ 
-#include <tinywatch-button.h>
-#endif
+  // Returns 1 if lower right button is pressed.
+  int isLowerRight(TinyScreen display);
 
-namespace TinyWatchNotification {
-  // Setup for notifications plugin.
-  void setup(BLEPeripheral* existingPeripheral);
+  // Returns 1 if any button is pressed.
+  int isAny(TinyScreen display);
+}
 
-  // Capture notification.
-  void setNotificationHandler(BLECentral& central
-    , BLECharacteristic& characteristic);  // NOLINT
-
-  // Render notification using display.
-  void drawNotification(TinyScreen display);
-
-  // Render notification using display with custom parameters.
-  void drawNotification(TinyScreen display
-    , int x, int y, FONT_INFO fontDescriptor, char* customMsg);
-
-  // Reset notification.
-  void resetNotification(TinyScreen display);
-}  // namespace TinyWatchNotification
-
-#endif  // _TINYWATCH_NOTIFICATION_H_ NOLINT
+#endif  // _TINYWATCH_BUTTON_H_ NOLINT

@@ -22,36 +22,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "tinywatch-sleep.h"  // NOLINT
+#include "tinywatch-button.h"  // NOLINT
 
-// Is in seconds.
-const int TIME_UNTIL_SLEEP = 5;
-
-// Is in seconds.
-int sleepyTime = 0;
-int isSleeping = 1;
-
-void TinyWatchSleep::sleep(TinyScreen display) {
-  setSleeping();
-  setSleepyTime(display, TIME_UNTIL_SLEEP);
+int TinyWatchButton::isUpperLeft(TinyScreen display) {
+  return display.getButtons(TSButtonUpperLeft);
 }
 
-// Is in seconds.
-void TinyWatchSleep::sleep(TinyScreen display, int timeToSleep) {
-  setSleeping();
-  setSleepyTime(display, timeToSleep);
+int TinyWatchButton::isLowerLeft(TinyScreen display) {
+  return display.getButtons(TSButtonLowerLeft);
 }
 
-// START - Helper functions
-
-void TinyWatchSleep::setSleeping() {
-  isSleeping = now() >= sleepyTime ? 1 : 0;
+int TinyWatchButton::isUpperRight(TinyScreen display) {
+  return display.getButtons(TSButtonUpperRight);
 }
 
-void TinyWatchSleep::setSleepyTime(TinyScreen display, int timeToSleep) {
-  if (TinyWatchButton::isAny(display)) {
-    sleepyTime = now() + timeToSleep;
-  }
+int TinyWatchButton::isLowerRight(TinyScreen display) {
+  return display.getButtons(TSButtonLowerRight);
 }
 
-// END - Helper functions
+int TinyWatchButton::isAny(TinyScreen display) {
+  return (isUpperLeft(display)
+    || isUpperRight(display)
+    || isLowerLeft(display)
+    || isLowerRight(display));
+}

@@ -78,10 +78,7 @@ void TinyWatchNotification::drawNotification(TinyScreen display
 // START - Helper functions
 
 void TinyWatchNotification::resetNotification(TinyScreen display) {
-  if (isNotification && ((display.getButtons(TSButtonUpperLeft)
-    || display.getButtons(TSButtonUpperRight)
-    || display.getButtons(TSButtonLowerLeft)
-    || display.getButtons(TSButtonLowerRight))
+  if (isNotification && (TinyWatchButton::isAny(display)
     || now() >= notifySleepTime)) {
     isNotification = 0;
     msg = "";
