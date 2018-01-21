@@ -35,7 +35,7 @@ SOFTWARE.
 
 namespace TinyWatchVibrate {
   void vibrate();
-  
+
   void vibrateOff();
 }
 
