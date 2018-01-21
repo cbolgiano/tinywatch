@@ -37,7 +37,7 @@ SOFTWARE.
 #include <TinyScreen.h>
 #endif
 
-#ifndef _TINYWATCH_BUTTON_H_ 
+#ifndef _TINYWATCH_BUTTON_H_
 #include <tinywatch-button.h>
 #endif
 

@@ -44,6 +44,6 @@ namespace TinyWatchButton {
 
   // Returns 1 if any button is pressed.
   int isAny(TinyScreen display);
-}
+}  // namespace TinyWatchButton
 
 #endif  // _TINYWATCH_BUTTON_H_ NOLINT

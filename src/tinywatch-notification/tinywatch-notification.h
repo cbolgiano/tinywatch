@@ -41,11 +41,11 @@ SOFTWARE.
 #include <BLEPeripheral.h>
 #endif
 
-#ifndef _TINYWATCH_VIBRATE_H_ 
+#ifndef _TINYWATCH_VIBRATE_H_
 #include <tinywatch-vibrate.h>
 #endif
 
-#ifndef _TINYWATCH_BUTTON_H_ 
+#ifndef _TINYWATCH_BUTTON_H_
 #include <tinywatch-button.h>
 #endif
 
