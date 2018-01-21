@@ -49,10 +49,7 @@ void TinyWatchSleep::setSleeping() {
 }
 
 void TinyWatchSleep::setSleepyTime(TinyScreen display, int timeToSleep) {
-  if (display.getButtons(TSButtonUpperLeft)
-    || display.getButtons(TSButtonUpperRight)
-    || display.getButtons(TSButtonLowerLeft)
-    || display.getButtons(TSButtonLowerRight)) {
+  if (TinyWatchButton::isAny(display)) {
     sleepyTime = now() + timeToSleep;
   }
 }

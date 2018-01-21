@@ -41,6 +41,14 @@ SOFTWARE.
 #include <BLEPeripheral.h>
 #endif
 
+#ifndef _TINYWATCH_VIBRATE_H_
+#include <tinywatch-vibrate.h>
+#endif
+
+#ifndef _TINYWATCH_BUTTON_H_
+#include <tinywatch-button.h>
+#endif
+
 namespace TinyWatchNotification {
   // Setup for notifications plugin.
   void setup(BLEPeripheral* existingPeripheral);
@@ -55,9 +63,6 @@ namespace TinyWatchNotification {
   // Render notification using display with custom parameters.
   void drawNotification(TinyScreen display
     , int x, int y, FONT_INFO fontDescriptor, char* customMsg);
-
-  // Vibrate on notifications
-  void vibrate();
 
   // Reset notification.
   void resetNotification(TinyScreen display);

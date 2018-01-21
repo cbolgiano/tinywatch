@@ -56,6 +56,8 @@ install:
   - unzip $PWD/libs/tinywatch-sleep.zip -d /usr/local/share/arduino/libraries
   - unzip $PWD/libs/tinywatch-notification.zip -d /usr/local/share/arduino/libraries
   - unzip $PWD/libs/tinywatch-display.zip -d /usr/local/share/arduino/libraries
+  - unzip $PWD/libs/tinywatch-vibrate.zip -d /usr/local/share/arduino/libraries
+  - unzip $PWD/libs/tinywatch-button.zip -d /usr/local/share/arduino/libraries
 
   # Install python 2.7
   - sudo apt-get install python2.7

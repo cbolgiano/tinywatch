@@ -91,7 +91,6 @@ void loop() {
   }
   // START notification plugin.
   TinyWatchNotification::drawNotification(TinyWatchDisplay::getDisplay());
-  TinyWatchNotification::vibrate();
   // END notification plugin.
 #endif
 
@@ -106,8 +105,6 @@ void loop() {
   // TODO: Make plugin to render background.
 
   // TODO: Make plugin to to render orientation.
-
-  // TODO: Make plugin to handle button presses.
 
   // TODO: Make plugin to render menu.
 

@@ -22,35 +22,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef _TINYWATCH_SLEEP_H_ // NOLINT
-#define _TINYWATCH_SLEEP_H_
+#include "tinywatch-button.h"  // NOLINT
 
-#ifndef _ARDUINO_H_
-#include <Arduino.h>
-#endif
+int TinyWatchButton::isUpperLeft(TinyScreen display) {
+  return display.getButtons(TSButtonUpperLeft);
+}
 
-#ifndef _TIMELIB_H_
-#include <TimeLib.h>
-#endif
+int TinyWatchButton::isLowerLeft(TinyScreen display) {
+  return display.getButtons(TSButtonLowerLeft);
+}
 
-#ifndef _TINYSCREEN_H_
-#include <TinyScreen.h>
-#endif
+int TinyWatchButton::isUpperRight(TinyScreen display) {
+  return display.getButtons(TSButtonUpperRight);
+}
 
-#ifndef _TINYWATCH_BUTTON_H_
-#include <tinywatch-button.h>
-#endif
+int TinyWatchButton::isLowerRight(TinyScreen display) {
+  return display.getButtons(TSButtonLowerRight);
+}
 
-namespace TinyWatchSleep {
-  // Render time using diplay.
-  void sleep(TinyScreen display);
-
-  // Sleep for the value of timeToSleep.
-  void sleep(TinyScreen display, int timeToSleep);
-
-  void setSleeping();
-
-  void setSleepyTime(TinyScreen display, int timeToSleep);
-}  // namespace TinyWatchSleep
-
-#endif  // _TINYWATCH_SLEEP_H_ NOLINT
+int TinyWatchButton::isAny(TinyScreen display) {
+  return (isUpperLeft(display)
+    || isUpperRight(display)
+    || isLowerLeft(display)
+    || isLowerRight(display));
+}

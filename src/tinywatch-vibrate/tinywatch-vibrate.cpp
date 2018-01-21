@@ -22,35 +22,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef _TINYWATCH_SLEEP_H_ // NOLINT
-#define _TINYWATCH_SLEEP_H_
+#include "tinywatch-vibrate.h"  // NOLINT
 
-#ifndef _ARDUINO_H_
-#include <Arduino.h>
-#endif
+extern int piezoPins[];
 
-#ifndef _TIMELIB_H_
-#include <TimeLib.h>
-#endif
+void TinyWatchVibrate::vibrate() {
+  // Turn piezo on.
+  digitalWrite(piezoPins[0], HIGH);
+  digitalWrite(piezoPins[1], HIGH);
+}
 
-#ifndef _TINYSCREEN_H_
-#include <TinyScreen.h>
-#endif
-
-#ifndef _TINYWATCH_BUTTON_H_
-#include <tinywatch-button.h>
-#endif
-
-namespace TinyWatchSleep {
-  // Render time using diplay.
-  void sleep(TinyScreen display);
-
-  // Sleep for the value of timeToSleep.
-  void sleep(TinyScreen display, int timeToSleep);
-
-  void setSleeping();
-
-  void setSleepyTime(TinyScreen display, int timeToSleep);
-}  // namespace TinyWatchSleep
-
-#endif  // _TINYWATCH_SLEEP_H_ NOLINT
+void TinyWatchVibrate::vibrateOff() {
+  // Turn piezo off.
+  digitalWrite(piezoPins[0], LOW);
+  digitalWrite(piezoPins[1], LOW);
+}

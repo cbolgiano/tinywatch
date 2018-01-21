@@ -22,35 +22,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef _TINYWATCH_SLEEP_H_ // NOLINT
-#define _TINYWATCH_SLEEP_H_
-
-#ifndef _ARDUINO_H_
-#include <Arduino.h>
-#endif
-
-#ifndef _TIMELIB_H_
-#include <TimeLib.h>
-#endif
+#ifndef _TINYWATCH_BUTTON_H_ //NOLINT
+#define _TINYWATCH_BUTTON_H_
 
 #ifndef _TINYSCREEN_H_
 #include <TinyScreen.h>
 #endif
 
-#ifndef _TINYWATCH_BUTTON_H_
-#include <tinywatch-button.h>
-#endif
+namespace TinyWatchButton {
+  // Returns 1 if upper left button is pressed.
+  int isUpperLeft(TinyScreen display);
 
-namespace TinyWatchSleep {
-  // Render time using diplay.
-  void sleep(TinyScreen display);
+  // Returns 1 if upper right button is pressed.
+  int isUpperRight(TinyScreen display);
 
-  // Sleep for the value of timeToSleep.
-  void sleep(TinyScreen display, int timeToSleep);
+  // Returns 1 if lower left button is pressed.
+  int isLowerLeft(TinyScreen display);
 
-  void setSleeping();
+  // Returns 1 if lower right button is pressed.
+  int isLowerRight(TinyScreen display);
 
-  void setSleepyTime(TinyScreen display, int timeToSleep);
-}  // namespace TinyWatchSleep
+  // Returns 1 if any button is pressed.
+  int isAny(TinyScreen display);
+}  // namespace TinyWatchButton
 
-#endif  // _TINYWATCH_SLEEP_H_ NOLINT
+#endif  // _TINYWATCH_BUTTON_H_ NOLINT

@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef _TINYWATCH_SLEEP_H_ // NOLINT
-#define _TINYWATCH_SLEEP_H_
+#ifndef _TINYWATCH_VIBRATE_H_ //NOLINT
+#define _TINYWATCH_VIBRATE_H_
 
 #ifndef _ARDUINO_H_
 #include <Arduino.h>
@@ -33,24 +33,10 @@ SOFTWARE.
 #include <TimeLib.h>
 #endif
 
-#ifndef _TINYSCREEN_H_
-#include <TinyScreen.h>
-#endif
+namespace TinyWatchVibrate {
+  void vibrate();
 
-#ifndef _TINYWATCH_BUTTON_H_
-#include <tinywatch-button.h>
-#endif
+  void vibrateOff();
+}
 
-namespace TinyWatchSleep {
-  // Render time using diplay.
-  void sleep(TinyScreen display);
-
-  // Sleep for the value of timeToSleep.
-  void sleep(TinyScreen display, int timeToSleep);
-
-  void setSleeping();
-
-  void setSleepyTime(TinyScreen display, int timeToSleep);
-}  // namespace TinyWatchSleep
-
-#endif  // _TINYWATCH_SLEEP_H_ NOLINT
+#endif  // _TINYWATCH_NOTIFICATION_H_ NOLINT
