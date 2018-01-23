@@ -82,6 +82,7 @@ void TinyWatchNotification::resetNotification(TinyScreen display) {
     || now() >= notifySleepTime)) {
     isNotification = 0;
     msg = "";
+    display.clearScreen();
     // Reset sleep time.
     notifySleepTime = 0;
     TinyWatchVibrate::vibrateOff();
