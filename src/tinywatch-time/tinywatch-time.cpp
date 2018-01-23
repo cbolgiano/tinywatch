@@ -26,6 +26,8 @@ SOFTWARE.
 
 extern int SCREEN_CENTER;
 
+const char* DEFAULT_STRING = "...";
+
 // Time Characteristic
 BLELongCharacteristic timeCharacteristic
   = BLELongCharacteristic("CCC1", BLEWrite);
@@ -56,7 +58,7 @@ const char* TinyWatchTime::getTimeToRender(time_t t) {
       + addZeroPrefix(second(t))
       + String(second(t))).c_str();
   } else {
-    return "";
+    return DEFAULT_STRING;
   }
 }
 
@@ -72,7 +74,7 @@ const char* TinyWatchTime::getDateToRender(time_t t) {
       + "/"
       + String(year(t))).c_str();
   } else {
-    return "";
+    return DEFAULT_STRING;
   }
 }
 
@@ -81,7 +83,7 @@ void TinyWatchTime::drawTime(TinyScreen display) {
   display.setFont(liberationSans_16ptFontInfo);
   char* timeText = const_cast<char*>(getTimeToRender(now()));
   int width = display.getPrintWidth(timeText);
-  display.setCursor(SCREEN_CENTER - (width/2), 16);
+  display.setCursor(SCREEN_CENTER - (width/2), 26);
   display.print(timeText);
 }
 
@@ -99,7 +101,7 @@ void TinyWatchTime::drawDate(TinyScreen display) {
   display.setFont(liberationSans_10ptFontInfo);
   char* dateText = const_cast<char*>(getDateToRender(now()));
   int width = display.getPrintWidth(dateText);
-  display.setCursor(SCREEN_CENTER - (width/2), 36);
+  display.setCursor(SCREEN_CENTER - (width/2), 46);
   display.print(dateText);
 }
 

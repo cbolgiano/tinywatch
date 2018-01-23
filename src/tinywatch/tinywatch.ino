@@ -19,9 +19,10 @@ The circuit:
 #include <tinywatch-display.h>
 #include <tinywatch-notification.h>
 #include <tinywatch-sleep.h>
+#include <tinywatch-battery.h>
 
 // Width of tinyscreen+'s display in pixels.
-const int SCREEN_WIDTH = 96;
+int SCREEN_WIDTH = 96;
 // Center X coordinate of tinyscreen+.
 int SCREEN_CENTER = SCREEN_WIDTH / 2;
 int piezoPins[] = { 5, 6 };
@@ -58,6 +59,10 @@ void setup() {
   TinyWatchDisplay::setup();
   // END display plugin.
 
+  // START battery plugin.
+  TinyWatchBattery::setup();
+  // END battery plugin.
+
 #ifdef _BLE_ENABLED_
   // Name of BLE device when pairing with host device.
   bLEPeripheral.setLocalName("tinywatch");
@@ -81,6 +86,10 @@ void setup() {
 void loop() {
 #ifdef _BLE_ENABLED_
   bLEPeripheral.poll();
+
+  // START battery plugin.
+  TinyWatchBattery::drawBatteryLevel(TinyWatchDisplay::getDisplay());
+  // END battery plugin.
 
   // Do not draw time and date when notification is rendered.
   if(!isNotification) {
