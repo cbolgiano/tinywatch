@@ -26,6 +26,8 @@ SOFTWARE.
 
 extern int SCREEN_CENTER;
 
+const char* DEFAULT_STRING = "...";
+
 // Time Characteristic
 BLELongCharacteristic timeCharacteristic
   = BLELongCharacteristic("CCC1", BLEWrite);
@@ -56,7 +58,7 @@ const char* TinyWatchTime::getTimeToRender(time_t t) {
       + addZeroPrefix(second(t))
       + String(second(t))).c_str();
   } else {
-    return "";
+    return DEFAULT_STRING;
   }
 }
 
@@ -72,7 +74,7 @@ const char* TinyWatchTime::getDateToRender(time_t t) {
       + "/"
       + String(year(t))).c_str();
   } else {
-    return "";
+    return DEFAULT_STRING;
   }
 }
 
