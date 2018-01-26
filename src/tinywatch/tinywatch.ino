@@ -59,10 +59,6 @@ void setup() {
   TinyWatchDisplay::setup();
   // END display plugin.
 
-  // START battery plugin.
-  TinyWatchBattery::setup();
-  // END battery plugin.
-
 #ifdef _BLE_ENABLED_
   // Name of BLE device when pairing with host device.
   bLEPeripheral.setLocalName("tinywatch");

@@ -52,7 +52,6 @@ install:
   # Install project dependencies for arduino build.
   - unzip $PWD/libs/arduino-BLEPeripheral-master.zip -d /usr/local/share/arduino/libraries
   - unzip $PWD/libs/Time-master.zip -d /usr/local/share/arduino/libraries
-  - unzip $PWD/libs/BatterySense-master.zip -d /usr/local/share/arduino/libraries
   - unzip $PWD/libs/tinywatch-time.zip -d /usr/local/share/arduino/libraries
   - unzip $PWD/libs/tinywatch-sleep.zip -d /usr/local/share/arduino/libraries
   - unzip $PWD/libs/tinywatch-notification.zip -d /usr/local/share/arduino/libraries

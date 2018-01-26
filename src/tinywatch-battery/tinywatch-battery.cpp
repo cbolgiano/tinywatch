@@ -24,31 +24,56 @@ SOFTWARE.
 
 #include "tinywatch-battery.h"  // NOLINT
 
-extern int SCREEN_WIDTH;
-
-// TinyScreen+ min voltage is 2.7V and max voltage is 5.5V.
-// The sense pin for is A4. Found in Schematic.
-// Pin 3 is used for activation. Supposed to prolong battery duration.
-Battery battery(2700, 5500, A4, 3);
-
-// Setup for battery plugin.
-void TinyWatchBattery::setup() {
-  battery.begin();
-}
+extern int SCREEN_CENTER;
 
 // Draw batter level line.
 void TinyWatchBattery::drawBatteryLevel(TinyScreen display) {
-  drawBatteryLevel(display, 0, 62, 2);
+  int width = 26;
+  drawBatteryLevel(display, SCREEN_CENTER - (width/2)
+    , 62, 2, width);
 }
 
 // Draw battery level line at location (x,y) at a specific
-// height using display. Width is defined by battery level.
+// height using display. Using internal voltage reference.
 void TinyWatchBattery::drawBatteryLevel(TinyScreen display
-  , int x, int y, int height) {
-  int batteryLevel = battery.level();
-  if (batteryLevel > SCREEN_WIDTH) {
-    batteryLevel = SCREEN_WIDTH;
-  }
-  display.drawRect(x, y, batteryLevel
-    , height, TSRectangleFilled, TS_8b_Green);
+  , int x, int y, int height, int width) {
+  int result = 0;
+
+  // START - Code found in Tinycircuits TinyScreen_SmartWatch Project
+  SYSCTRL->VREF.reg |= SYSCTRL_VREF_BGOUTEN;
+  while (ADC->STATUS.bit.SYNCBUSY == 1); // NOLINT
+  ADC->SAMPCTRL.bit.SAMPLEN = 0x1;
+  while (ADC->STATUS.bit.SYNCBUSY == 1); // NOLINT
+  // Internal bandgap input
+  ADC->INPUTCTRL.bit.MUXPOS = 0x19;
+  while (ADC->STATUS.bit.SYNCBUSY == 1); // NOLINT
+  // Enable ADC
+  ADC->CTRLA.bit.ENABLE = 0x01;
+  // Start conversion
+  while (ADC->STATUS.bit.SYNCBUSY == 1); // NOLINT
+  ADC->SWTRIG.bit.START = 1;
+  // Clear the Data Ready flag
+  ADC->INTFLAG.bit.RESRDY = 1;
+  // Start conversion again, since The first
+  // conversion after the reference is changed must not be used.
+  while (ADC->STATUS.bit.SYNCBUSY == 1); // NOLINT
+  ADC->SWTRIG.bit.START = 1;
+  // Store the value
+  // Waiting for conversion to complete
+  while ( ADC->INTFLAG.bit.RESRDY == 0 ); // NOLINT
+  uint32_t valueRead = ADC->RESULT.reg;
+  while (ADC->STATUS.bit.SYNCBUSY == 1); // NOLINT
+  // Disable ADC
+  ADC->CTRLA.bit.ENABLE = 0x00;
+  while (ADC->STATUS.bit.SYNCBUSY == 1); // NOLINT
+  SYSCTRL->VREF.reg &= ~SYSCTRL_VREF_BGOUTEN;
+
+  result = (((1100L * 1024L) / valueRead) + 5L) / 10L;
+  // END - Code found in Tinycircuits TinyScreen_SmartWatch Project
+
+  //Draw battery display.
+  display.drawRect(x, y, 30
+    , height, TSRectangleFilled
+    , (result > 325 ? TS_8b_Green : TS_8b_Red));
 }
+

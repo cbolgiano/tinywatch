@@ -29,22 +29,15 @@ SOFTWARE.
 #include <TinyScreen.h>
 #endif
 
-#ifndef _BATTERY_H_
-#include <Battery.h>
-#endif
-
 namespace TinyWatchBattery {
-
-// Setup for battery plugin.
-void setup();
 
 // Draw batter level line.
 void drawBatteryLevel(TinyScreen display);
 
 // Draw battery level line at location (x,y) at a specific
-// height using display. Width is defined by battery level.
+// height and width using display.
 void drawBatteryLevel(TinyScreen display, int x, int y
-  , int height);
+  , int height, int width);
 
 }  // namespace TinyWatchBattery
 
