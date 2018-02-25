@@ -68,7 +68,7 @@ install:
 
 script:
 
-  - platformio ci --project-conf=$PWD/platformio.ini
+#  - platformio ci --project-conf=$PWD/platformio.ini
 
   - arduino --verify --board TinyCircuits:samd:tinyscreen $PWD/src/tinywatch/tinywatch.ino
 

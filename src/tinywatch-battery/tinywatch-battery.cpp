@@ -39,6 +39,9 @@ void TinyWatchBattery::drawBatteryLevel(TinyScreen display
   , int x, int y, int height, int width) {
   int result = 0;
 
+  // Only checks for low battery due to hardware limitation:
+  // http://forum.tinycircuits.com/index.php?topic=1599.0
+
   // START - Code found in Tinycircuits TinyScreen_SmartWatch Project
   SYSCTRL->VREF.reg |= SYSCTRL_VREF_BGOUTEN;
   while (ADC->STATUS.bit.SYNCBUSY == 1); // NOLINT
@@ -76,4 +79,3 @@ void TinyWatchBattery::drawBatteryLevel(TinyScreen display
     , height, TSRectangleFilled
     , (result > 325 ? TS_8b_Green : TS_8b_Red));
 }
-
