@@ -7,7 +7,7 @@ Keep deletability in mind. Strive to write features that can be thrown away
 and rewritten in at most a weeks time. This ility encourages small focused features
 that generally compose well together with little to no coupling. If you need to rewrite
 it, destroy it and rewrite it. Worst case scenario it should only take a week. How freeing!
-Here is a great talk by Greg Young that eleberates on this ility: 
+Here is a great talk by Greg Young on this ility: 
 *[Greg Young - The art of destroying software](https://vimeo.com/108441214)*
 
 ## Style Guidelines
