@@ -10,6 +10,12 @@ it, destroy it and rewrite it. Worst case scenario it would only take a week. Ho
 Here is a great talk by Greg Young that eleberates on this ility: 
 *[Greg Young - The art of destroying software](https://vimeo.com/108441214)*
 
+## Style Guidelines
+
+1. *[Google's c++ Style Guide](https://google.github.io/styleguide/cppguide.html)*
+2. *[Arduino's Style Guide](https://www.arduino.cc/en/Reference/StyleGuide)*
+
+
 Please note we have a code of conduct, please follow it in all your interactions with the project.
 
 ## Pull Request Process
