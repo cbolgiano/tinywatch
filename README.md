@@ -1,7 +1,9 @@
 <p align="center"><img src="https://github.com/cbolgiano/tinywatch/blob/develop/assets/img/tinywatch.png" /> </p>
 
 # tinywatch [![Build Status](https://travis-ci.org/cbolgiano/tinywatch.svg?branch=develop)](https://travis-ci.org/cbolgiano/tinywatch)
-A project to create an open source smart watch that is powered by TinyCircuits TinyScreen+, TinyShield NRF8001 BLE, etc.
+An open source smart watch that is powered by TinyCircuits TinyScreen+, TinyShield NRF8001 BLE, etc.
+
+I wanted a project to help familarize myself with the intriguing world of tinkering and physical computing. I figured a smart watch would be a perfect project to exercise the ingorance of these topics out of me. In addition to learning about tinkering and physical computing this project is an exercise in exploring the idea of deletibilty. I was not know of this ility until I watched: *[Greg Young - The art of destroying software](https://vimeo.com/108441214)*.  Watch it and hopefully you will be as interested as I was when birthing this project to explore this interesting concept.
 
 ## Compatible Hardware
 
@@ -45,6 +47,8 @@ A project to create an open source smart watch that is powered by TinyCircuits T
 
 *[tinywatch-display](https://github.com/cbolgiano/tinywatch/wiki/tinywatch-display)*
 
+*[tinywatch-battery](https://github.com/cbolgiano/tinywatch/wiki/tinywatch-battery)*
+
 ## Usage
 
 ### General 
@@ -66,7 +70,7 @@ A project to create an open source smart watch that is powered by TinyCircuits T
 6. To Compile Choose ```Verify``` in Arduino IDE
 7. To Upload Choose ```Upload``` in Arduino IDE
 
-### Platformio
+### Platformio (Not Working)
 1. Install ```python2.7```
 2. Install ```pip```
 3. Install ```platformio```
