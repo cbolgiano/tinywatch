@@ -3,7 +3,7 @@
 # tinywatch [![Build Status](https://travis-ci.org/cbolgiano/tinywatch.svg?branch=develop)](https://travis-ci.org/cbolgiano/tinywatch)
 An open source smart watch that is powered by TinyCircuits TinyScreen+, TinyShield NRF8001 BLE, etc.
 
-I wanted a project to help familarize myself with the intriguing world of tinkering and physical computing. I figured a smart watch would be a perfect project to exercise the ignorance of these topics out of me. In addition to learning about tinkering and physical computing this project is an exercise in exploring the idea of deletibilty. I did not know of this ility until I watched: *[Greg Young - The art of destroying software](https://vimeo.com/108441214)*.  Watch it and hopefully you will be as interested as I was when birthing this project to explore this interesting concept.
+I wanted a project to help familarize myself with the intriguing world of tinkering and physical computing. I figured a smart watch would be a perfect project to exercise the ignorance of these topics out of me. In addition to learning about tinkering and physical computing this project will be an exercise in exploring the idea of deletability. I did not know of this ility until I watched: *[Greg Young - The art of destroying software](https://vimeo.com/108441214)*.  Watch it and hopefully you will be as interested as I was when birthing this project to explore such an interesting concept.
 
 ## Compatible Hardware
 
@@ -46,6 +46,8 @@ I wanted a project to help familarize myself with the intriguing world of tinker
 *[tinywatch-notification](https://github.com/cbolgiano/tinywatch/wiki/tinywatch-notification)*
 
 *[tinywatch-display](https://github.com/cbolgiano/tinywatch/wiki/tinywatch-display)*
+
+*[tinywatch-vibrate](https://github.com/cbolgiano/tinywatch/wiki/tinywatch-vibrate)*
 
 *[tinywatch-battery](https://github.com/cbolgiano/tinywatch/wiki/tinywatch-battery)*
 
