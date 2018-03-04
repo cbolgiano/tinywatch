@@ -65,6 +65,7 @@ I wanted a project to help familarize myself with the intriguing world of tinker
 
 ### Arduino Sketch
 1. Open ```tinywatch.ino``` in Arduino IDE
+2. Follow the *[TinyScreen+ Setup Guide](https://tinycircuits.com/blogs/learn/158833543-tinyscreen-setup)*
 2. Choose ```Sketch``` -> ```Include Library``` -> ```Add .ZIP Libraries...```
 3. Open All .ZIP in ```/tinywatch/libs/```
 4. Attach Tinyscreen+ and BLE Nordic Tinyshield Together
